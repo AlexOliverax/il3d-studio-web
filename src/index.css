@@ -1,0 +1,331 @@
+/* ============================================================
+   IL 3D Studio — Design System Global
+   Cream/off-white + preto + rosa + amarelo
+   Mobile-first
+   ============================================================ */
+
+/* ---- Google Fonts fallback (já importado no index.html) ---- */
+
+/* ---- CSS Variables ---- */
+:root {
+  /* Cores */
+  --color-bg: #FAF7F2;
+  --color-surface: #FFFFFF;
+  --color-black: #1A1A1A;
+  --color-black-mid: #2C2C2C;
+  --color-pink: #FF2D78;
+  --color-pink-hover: #E0245F;
+  --color-pink-light: #FFE4EE;
+  --color-yellow: #FFE000;
+  --color-yellow-hover: #F5D600;
+  --color-yellow-light: #FFFDE0;
+  --color-gray-light: #F0ECE5;
+  --color-gray-mid: #D4CFC7;
+  --color-text-muted: #6B6560;
+  --color-white: #FFFFFF;
+
+  /* Tipografia */
+  --font-display: 'Space Grotesk', 'Arial Black', sans-serif;
+  --font-body: 'Inter', 'Arial', sans-serif;
+
+  /* Bordas */
+  --border-width: 2.5px;
+  --border-width-thick: 3.5px;
+  --border-radius-xs: 6px;
+  --border-radius-sm: 12px;
+  --border-radius-md: 18px;
+  --border-radius-lg: 24px;
+  --border-radius-pill: 999px;
+
+  /* Sombras */
+  --shadow-bold: 4px 4px 0px var(--color-black);
+  --shadow-bold-sm: 3px 3px 0px var(--color-black);
+  --shadow-bold-lg: 6px 6px 0px var(--color-black);
+  --shadow-hover: 2px 2px 0px var(--color-black);
+
+  /* Espaçamento */
+  --section-padding: 5rem 1.25rem;
+  --section-padding-lg: 7rem 2rem;
+  --max-width: 1200px;
+
+  /* Transições */
+  --transition-fast: 120ms ease;
+  --transition-base: 200ms ease;
+
+  /* Z-index */
+  --z-header: 100;
+  --z-drawer: 200;
+  --z-overlay: 199;
+}
+
+/* ---- Reset ---- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-black);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img, svg {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+input, textarea, select {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+/* ---- Tipografia base ---- */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+p {
+  max-width: 65ch;
+}
+
+/* ---- Skip link para acessibilidade ---- */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--color-pink);
+  color: var(--color-white);
+  padding: 0.5rem 1rem;
+  font-weight: 700;
+  z-index: 999;
+  border-radius: 0 0 var(--border-radius-sm) 0;
+  transition: top var(--transition-fast);
+}
+.skip-link:focus {
+  top: 0;
+}
+
+/* ---- Focus visível global ---- */
+:focus-visible {
+  outline: 3px solid var(--color-pink);
+  outline-offset: 3px;
+  border-radius: var(--border-radius-xs);
+}
+
+/* ---- Layout helpers ---- */
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding: 0 2rem;
+  }
+}
+
+/* ---- Botão base ---- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-family: var(--font-display);
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--border-radius-pill);
+  border: var(--border-width) solid var(--color-black);
+  box-shadow: var(--shadow-bold-sm);
+  transition:
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast),
+    background-color var(--transition-fast);
+  white-space: nowrap;
+  cursor: pointer;
+  text-decoration: none;
+  user-select: none;
+}
+
+.btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: var(--shadow-hover);
+}
+
+.btn-primary {
+  background: var(--color-pink);
+  color: var(--color-white);
+}
+.btn-primary:hover {
+  background: var(--color-pink-hover);
+  transform: translate(-1px, -1px);
+  box-shadow: var(--shadow-bold);
+}
+
+.btn-secondary {
+  background: var(--color-yellow);
+  color: var(--color-black);
+}
+.btn-secondary:hover {
+  background: var(--color-yellow-hover);
+  transform: translate(-1px, -1px);
+  box-shadow: var(--shadow-bold);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--color-black);
+}
+.btn-outline:hover {
+  background: var(--color-black);
+  color: var(--color-bg);
+  transform: translate(-1px, -1px);
+  box-shadow: var(--shadow-bold);
+}
+
+.btn-ghost {
+  background: var(--color-surface);
+  color: var(--color-black);
+  border-color: var(--color-gray-mid);
+  box-shadow: var(--shadow-hover);
+}
+.btn-ghost:hover {
+  border-color: var(--color-black);
+  box-shadow: var(--shadow-bold-sm);
+}
+
+.btn-sm {
+  font-size: 0.75rem;
+  padding: 0.5rem 1rem;
+}
+
+.btn-lg {
+  font-size: 1rem;
+  padding: 1rem 2rem;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: var(--shadow-hover);
+}
+
+/* ---- Badge / Tag ---- */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--font-display);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.65rem;
+  border-radius: var(--border-radius-pill);
+  border: var(--border-width) solid currentColor;
+  white-space: nowrap;
+}
+
+.badge-available {
+  background: #E6F9EE;
+  color: #1A7A3A;
+  border-color: #1A7A3A;
+}
+
+.badge-development {
+  background: var(--color-yellow-light);
+  color: #7A6500;
+  border-color: #C8A800;
+}
+
+.badge-quote {
+  background: var(--color-pink-light);
+  color: var(--color-pink);
+  border-color: var(--color-pink);
+}
+
+.badge-concept {
+  background: var(--color-gray-light);
+  color: var(--color-text-muted);
+  border-color: var(--color-gray-mid);
+}
+
+/* ---- Decoração ---- */
+.pill-tag {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--border-radius-pill);
+  background: var(--color-black);
+  color: var(--color-bg);
+}
+
+/* ---- Overlay ---- */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(26, 26, 26, 0.55);
+  backdrop-filter: blur(2px);
+  z-index: var(--z-overlay);
+  animation: fadeIn var(--transition-base);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ---- Scrollbar customizada (webkit) ---- */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--color-bg); }
+::-webkit-scrollbar-thumb {
+  background: var(--color-gray-mid);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--color-black); }
+
+/* ---- Print ---- */
+@media print {
+  .btn, nav, .cart-drawer { display: none; }
+}

@@ -1,0 +1,179 @@
+/* ============================================================
+   ProductCard — IL 3D Studio
+   ============================================================ */
+
+.product-card {
+  background: var(--color-surface);
+  border: var(--border-width-thick) solid var(--color-black);
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-bold);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.product-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: var(--shadow-bold-lg);
+}
+
+/* Faixa lateral de status */
+.product-card--development {
+  border-left: 5px solid #C8A800;
+}
+.product-card--available {
+  border-left: 5px solid #1A7A3A;
+}
+.product-card--quote_only {
+  border-left: 5px solid var(--color-pink);
+}
+
+/* ---- Imagem ---- */
+.product-card__image-wrap {
+  position: relative;
+  background: var(--color-gray-light);
+  aspect-ratio: 4/3;
+  overflow: hidden;
+}
+
+.product-card__image-type {
+  position: absolute;
+  bottom: 0.5rem;
+  left: 0.5rem;
+  font-family: var(--font-display);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: rgba(250, 247, 242, 0.92);
+  color: var(--color-text-muted);
+  border: 1.5px solid var(--color-gray-mid);
+  border-radius: var(--border-radius-pill);
+  padding: 0.25rem 0.6rem;
+  backdrop-filter: blur(4px);
+}
+
+.product-card__custom-tag {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  font-family: var(--font-display);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  background: var(--color-yellow);
+  color: var(--color-black);
+  border: 1.5px solid var(--color-black);
+  border-radius: var(--border-radius-pill);
+  padding: 0.25rem 0.6rem;
+}
+
+/* ---- Placeholder visual ---- */
+.product-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 12%, var(--color-bg)) 0%, var(--color-gray-light) 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.product-placeholder__shape {
+  width: 80px;
+  height: 80px;
+  border-radius: var(--border-radius-md);
+  background: var(--accent, var(--color-pink));
+  border: 2.5px solid var(--color-black);
+  box-shadow: 4px 4px 0 var(--color-black);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform var(--transition-base);
+}
+
+.product-card:hover .product-placeholder__shape {
+  transform: rotate(-3deg) scale(1.05);
+}
+
+.product-placeholder__emoji {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.product-placeholder__dots {
+  display: flex;
+  gap: 0.35rem;
+}
+
+.product-placeholder__dots span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-gray-mid);
+}
+
+.product-placeholder__dots span:nth-child(2) {
+  background: var(--accent, var(--color-pink));
+  opacity: 0.7;
+}
+
+/* ---- Body ---- */
+.product-card__body {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  flex: 1;
+}
+
+.product-card__name {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--color-black);
+  line-height: 1.2;
+}
+
+.product-card__description {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  line-height: 1.55;
+  max-width: none;
+}
+
+.product-card__dev-note {
+  font-size: 0.75rem;
+  color: #7A6500;
+  background: var(--color-yellow-light);
+  border: 1.5px solid #C8A800;
+  border-radius: var(--border-radius-xs);
+  padding: 0.5rem 0.65rem;
+  line-height: 1.4;
+  max-width: none;
+}
+
+/* ---- Actions ---- */
+.product-card__actions {
+  margin-top: auto;
+  padding-top: 0.75rem;
+}
+
+.product-card__actions .btn {
+  width: 100%;
+  justify-content: center;
+}
+
+.btn.is-added {
+  background: #1A7A3A;
+  border-color: #1A7A3A;
+  color: #fff;
+}
+
+.btn.is-added:hover {
+  background: #155E2C;
+}

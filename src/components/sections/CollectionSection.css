@@ -1,0 +1,188 @@
+/* ============================================================
+   CollectionSection — IL 3D Studio
+   ============================================================ */
+
+.collection-section {
+  padding: var(--section-padding);
+}
+
+@media (min-width: 1024px) {
+  .collection-section {
+    padding: var(--section-padding-lg);
+  }
+}
+
+/* ---- Section header ---- */
+.section-header {
+  margin-bottom: 2.5rem;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--color-black);
+  margin-bottom: 1rem;
+}
+
+.section-title__accent {
+  color: var(--color-pink);
+}
+
+.section-subtitle {
+  font-size: 1rem;
+  color: var(--color-text-muted);
+  max-width: 60ch;
+  line-height: 1.6;
+}
+
+/* ---- Filtros ---- */
+.collection-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.filter-btn {
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  padding: 0.5rem 1rem;
+  border-radius: var(--border-radius-pill);
+  border: var(--border-width) solid var(--color-black);
+  background: transparent;
+  color: var(--color-black);
+  cursor: pointer;
+  transition: background var(--transition-fast), color var(--transition-fast), box-shadow var(--transition-fast);
+  box-shadow: var(--shadow-hover);
+}
+
+.filter-btn:hover {
+  background: var(--color-black);
+  color: var(--color-bg);
+}
+
+.filter-btn--active {
+  background: var(--color-black);
+  color: var(--color-bg);
+  box-shadow: var(--shadow-bold-sm);
+}
+
+/* ---- Bichos de Bolso callout ---- */
+.bichos-callout {
+  background: var(--color-black);
+  border-radius: var(--border-radius-lg);
+  border: var(--border-width-thick) solid var(--color-black);
+  box-shadow: var(--shadow-bold-lg);
+  overflow: hidden;
+  margin-bottom: 2.5rem;
+  padding: 2rem 1.5rem;
+}
+
+.bichos-callout__inner {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .bichos-callout__inner {
+    flex-direction: row;
+    align-items: center;
+    gap: 3rem;
+  }
+}
+
+.bichos-callout__text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  color: var(--color-bg);
+}
+
+.bichos-callout__text .pill-tag {
+  background: var(--color-pink);
+  color: var(--color-white);
+  width: fit-content;
+}
+
+.bichos-callout__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  font-weight: 800;
+  color: var(--color-yellow);
+  line-height: 1;
+}
+
+.bichos-callout__text p {
+  font-size: 0.875rem;
+  color: var(--color-gray-mid);
+  line-height: 1.6;
+  max-width: 45ch;
+}
+
+/* ---- Chars ---- */
+.bichos-callout__chars {
+  display: flex;
+  gap: 1rem;
+  flex-shrink: 0;
+}
+
+.bicho-char {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.bicho-char__emoji {
+  font-size: 2rem;
+  width: 52px;
+  height: 52px;
+  background: var(--char-color, var(--color-pink));
+  border: 2.5px solid var(--color-bg);
+  border-radius: var(--border-radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  box-shadow: 3px 3px 0 rgba(250, 247, 242, 0.3);
+}
+
+.bicho-char__name {
+  font-family: var(--font-display);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-gray-mid);
+}
+
+/* ---- Grid de produtos ---- */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .products-grid {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
+}
+
+/* ---- Estado vazio ---- */
+.collection-empty {
+  text-align: center;
+  padding: 4rem 1rem;
+  color: var(--color-text-muted);
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 600;
+}

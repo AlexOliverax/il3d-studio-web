@@ -1,0 +1,208 @@
+/* ============================================================
+   CustomSection — IL 3D Studio
+   ============================================================ */
+
+.custom-section {
+  padding: var(--section-padding);
+  background: var(--color-gray-light);
+  border-top: var(--border-width) solid var(--color-black);
+  border-bottom: var(--border-width) solid var(--color-black);
+}
+
+@media (min-width: 1024px) {
+  .custom-section {
+    padding: var(--section-padding-lg);
+  }
+}
+
+.custom-inner {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+@media (min-width: 1024px) {
+  .custom-inner {
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+}
+
+/* ---- Party Card ---- */
+.party-card {
+  background: var(--color-black);
+  color: var(--color-bg);
+  border: var(--border-width-thick) solid var(--color-black);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-bold-lg);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.party-card__title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--color-bg);
+}
+
+.party-card__title-accent {
+  color: var(--color-pink);
+}
+
+.party-card__desc {
+  font-size: 0.9rem;
+  color: var(--color-gray-mid);
+  line-height: 1.6;
+  max-width: none;
+}
+
+/* ---- Features ---- */
+.party-features {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.party-feature {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.875rem;
+  color: var(--color-bg);
+}
+
+.party-feature span:first-child {
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.party-cta {
+  width: fit-content;
+  gap: 0.5rem;
+}
+
+/* ---- Form Card ---- */
+.custom-form-card {
+  background: var(--color-surface);
+  border: var(--border-width-thick) solid var(--color-black);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-bold);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.custom-form-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 3vw, 1.75rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--color-black);
+}
+
+.custom-form-title span {
+  color: var(--color-pink);
+}
+
+.custom-form-desc {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  max-width: none;
+}
+
+/* ---- Form ---- */
+.custom-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+@media (max-width: 480px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.form-label {
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-black);
+}
+
+.form-required {
+  color: var(--color-pink);
+  margin-left: 0.1rem;
+}
+
+.form-input {
+  padding: 0.7rem 0.9rem;
+  border: var(--border-width) solid var(--color-black);
+  border-radius: var(--border-radius-sm);
+  background: var(--color-bg);
+  color: var(--color-black);
+  font-size: 0.9rem;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  width: 100%;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--color-pink);
+  box-shadow: 0 0 0 3px rgba(255, 45, 120, 0.15);
+}
+
+.form-input--error {
+  border-color: #C0392B;
+  background: #FFF5F5;
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.form-error {
+  font-size: 0.75rem;
+  color: #C0392B;
+  font-weight: 600;
+}
+
+.form-submit {
+  width: 100%;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.form-note {
+  font-size: 0.72rem;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+  max-width: none;
+  text-align: center;
+  font-style: italic;
+}

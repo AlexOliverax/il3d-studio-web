@@ -1,0 +1,110 @@
+/* ============================================================
+   DetailsSection — IL 3D Studio
+   ============================================================ */
+
+.details-section {
+  padding: var(--section-padding);
+  background: var(--color-bg);
+}
+
+@media (min-width: 1024px) {
+  .details-section {
+    padding: var(--section-padding-lg);
+  }
+}
+
+/* ---- Grid ---- */
+.details-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+  margin-top: 2.5rem;
+  margin-bottom: 2rem;
+}
+
+@media (min-width: 600px) {
+  .details-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .details-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* ---- Cards ---- */
+.detail-card {
+  background: var(--color-surface);
+  border: var(--border-width) solid var(--color-black);
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-bold-sm);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.detail-card__icon {
+  font-size: 1.75rem;
+  line-height: 1;
+}
+
+.detail-card__title {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-black);
+  line-height: 1.2;
+}
+
+.detail-card__body {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  max-width: none;
+}
+
+/* ---- IP Notice ---- */
+.ip-notice {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  background: var(--color-yellow-light);
+  border: var(--border-width-thick) solid var(--color-black);
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-bold-sm);
+  padding: 1.5rem;
+  margin-top: 2rem;
+}
+
+.ip-notice__icon {
+  font-size: 1.75rem;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.ip-notice__content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.ip-notice__title {
+  font-family: var(--font-display);
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--color-black);
+}
+
+.ip-notice__body {
+  font-size: 0.85rem;
+  color: var(--color-black-mid);
+  line-height: 1.6;
+  max-width: none;
+}
+
+.ip-notice__body strong {
+  color: var(--color-black);
+}

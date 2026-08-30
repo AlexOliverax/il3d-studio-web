@@ -1,0 +1,221 @@
+/* ============================================================
+   Hero Section — IL 3D Studio
+   ============================================================ */
+
+.hero {
+  position: relative;
+  padding: 4rem 0 5rem;
+  overflow: hidden;
+  min-height: calc(100svh - 64px);
+  display: flex;
+  align-items: center;
+}
+
+@media (min-width: 1024px) {
+  .hero {
+    padding: 5rem 0 6rem;
+  }
+}
+
+/* ---- Blobs decorativos ---- */
+.hero-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.18;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero-blob--pink {
+  width: 400px;
+  height: 400px;
+  background: var(--color-pink);
+  top: -100px;
+  right: -50px;
+}
+
+.hero-blob--yellow {
+  width: 300px;
+  height: 300px;
+  background: var(--color-yellow);
+  bottom: -60px;
+  left: -80px;
+}
+
+/* ---- Inner ---- */
+.hero-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  align-items: flex-start;
+}
+
+/* ---- Location ---- */
+.hero-location {
+  animation: fadeUp 0.4s ease both;
+}
+
+/* ---- Headline ---- */
+.hero-headline {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 10vw, 7rem);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  color: var(--color-black);
+  animation: fadeUp 0.5s 0.1s ease both;
+}
+
+.hero-headline__accent {
+  color: var(--color-pink);
+  -webkit-text-stroke: 2px var(--color-black);
+  paint-order: stroke fill;
+}
+
+@media (min-width: 768px) {
+  .hero-headline__accent {
+    -webkit-text-stroke: 3px var(--color-black);
+  }
+}
+
+/* ---- Subtitle ---- */
+.hero-subtitle {
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
+  color: var(--color-black-mid);
+  line-height: 1.5;
+  max-width: 50ch;
+  animation: fadeUp 0.5s 0.2s ease both;
+}
+
+.hero-br {
+  display: none;
+}
+@media (min-width: 768px) {
+  .hero-br { display: inline; }
+}
+
+/* ---- CTAs ---- */
+.hero-ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  animation: fadeUp 0.5s 0.3s ease both;
+}
+
+.hero-cta-primary {
+  box-shadow: var(--shadow-bold-lg);
+}
+
+/* ---- Trust badges ---- */
+.hero-trust {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  animation: fadeUp 0.5s 0.4s ease both;
+}
+
+.hero-trust__item {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--font-display);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  background: var(--color-gray-light);
+  border: 1.5px solid var(--color-gray-mid);
+  border-radius: var(--border-radius-pill);
+  padding: 0.35rem 0.75rem;
+}
+
+/* ---- Visual decorativo ---- */
+.hero-visual {
+  position: absolute;
+  right: -2rem;
+  bottom: 2rem;
+  z-index: 0;
+  opacity: 0.12;
+  pointer-events: none;
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .hero-visual {
+    display: block;
+    opacity: 1;
+    right: 2rem;
+    bottom: auto;
+    top: 50%;
+    transform: translateY(-50%);
+    animation: floatY 4s ease-in-out infinite;
+  }
+}
+
+@keyframes floatY {
+  0%, 100% { transform: translateY(-50%) translateY(0); }
+  50% { transform: translateY(-50%) translateY(-12px); }
+}
+
+/* ---- Card visual ---- */
+.hero-visual-card {
+  width: 280px;
+}
+
+.hero-visual-card__inner {
+  background: var(--color-surface);
+  border: var(--border-width-thick) solid var(--color-black);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-bold-lg);
+  overflow: hidden;
+  padding: 1.5rem 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.hero-3d-icon {
+  width: 160px;
+  height: 160px;
+}
+
+.hero-visual-card__label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  width: 100%;
+  text-align: center;
+}
+
+.hero-visual-card__label span:first-child {
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-black);
+}
+
+.hero-visual-card__sub {
+  font-size: 0.7rem;
+  color: var(--color-text-muted);
+}
+
+/* ---- Animações ---- */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
