@@ -30,7 +30,7 @@
 ### 1. Clone o repositório
 
 ```bash
-git clone https://github.com/SEU_USUARIO/il3d-studio-web.git
+git clone https://github.com/AlexOliverax/il3d-studio-web.git
 cd il3d-studio-web
 ```
 
