@@ -1,100 +1,98 @@
-import { useFilter } from '../../hooks/useFilter'
+import { useState } from 'react'
 import { ProductCard } from '../ui/ProductCard'
 import products from '../../data/products'
 import type { Product, FilterCategory } from '../../types'
 import { CATEGORY_LABELS } from '../../types'
+import { trackEvent } from '../../utils/analytics'
 import './CollectionSection.css'
 
 interface CollectionSectionProps {
   onAddToCart: (product: Product) => void
+  onOpenDetails: (product: Product) => void
   isInCart: (id: string) => boolean
 }
 
 const filterCategories: FilterCategory[] = [
   'ALL',
-  'BICHOS_DE_BOLSO',
   'ARTICULADOS',
-  'FIDGETS',
+  'PRESENTES_LEMBRANCINHAS',
   'PERSONALIZADOS',
-  'FUNCIONAIS',
+  'FIDGETS',
+  'UTILIDADES',
 ]
 
-export function CollectionSection({ onAddToCart, isInCart }: CollectionSectionProps) {
-  const { active, setFilter } = useFilter('ALL')
+export function CollectionSection({
+  onAddToCart,
+  onOpenDetails,
+  isInCart,
+}: CollectionSectionProps) {
+  const [activeCategory, setActiveCategory] = useState<FilterCategory>('ALL')
 
-  const filtered =
-    active === 'ALL'
-      ? products
-      : products.filter((p) => p.category === active)
+  function handleFilter(cat: FilterCategory) {
+    setActiveCategory(cat)
+    trackEvent({ name: 'category_filter', payload: { category: cat } })
+  }
+
+  // Separação estrita de produtos prontos para encomenda vs desenvolvimento
+  const orderableProducts = products.filter(
+    (p) =>
+      (p.status === 'AVAILABLE' || p.status === 'QUOTE_ONLY') &&
+      (activeCategory === 'ALL' || p.category === activeCategory)
+  )
+
+  const developmentProducts = products.filter(
+    (p) =>
+      p.status === 'DEVELOPMENT' &&
+      (activeCategory === 'ALL' || p.category === activeCategory)
+  )
 
   return (
-    <section className="collection-section" id="colecao" aria-labelledby="collection-title">
+    <section className="collection-section" id="produtos" aria-labelledby="collection-title">
       <div className="container">
-        {/* Cabeçalho */}
+        {/* Cabeçalho da Seção */}
         <div className="section-header">
+          <span className="pill-tag">CATÁLOGO EXCLUSIVO</span>
           <h2 className="section-title" id="collection-title">
-            ESCOLHA SEU<br />
-            <span className="section-title__accent">PRÓXIMO VÍCIO.</span>
+            ENCONTRE SUA<br />
+            <span className="section-title__accent">PRÓXIMA PEÇA.</span>
           </h2>
           <p className="section-subtitle">
-            Peças impressas em PLA, uma a uma. Cores, medidas, acabamento e disponibilidade
-            são confirmados no orçamento.
+            Peças impressas em PLA com acabamento artesanal. Cores, medidas e prazos
+            são combinados diretamente com você no orçamento.
           </p>
         </div>
 
-        {/* Filtros */}
+        {/* Filtros de Categoria */}
         <div
           className="collection-filters"
           role="group"
-          aria-label="Filtrar por categoria"
+          aria-label="Filtrar por categoria de produto"
         >
           {filterCategories.map((cat) => (
             <button
               key={cat}
-              className={`filter-btn${active === cat ? ' filter-btn--active' : ''}`}
-              onClick={() => setFilter(cat)}
-              aria-pressed={active === cat}
-              aria-label={`Filtrar: ${CATEGORY_LABELS[cat]}`}
+              className={`filter-btn${activeCategory === cat ? ' filter-btn--active' : ''}`}
+              onClick={() => handleFilter(cat)}
+              aria-pressed={activeCategory === cat}
             >
               {CATEGORY_LABELS[cat]}
             </button>
           ))}
         </div>
 
-        {/* Bichos de Bolso callout (quando ativo ou ALL) */}
-        {(active === 'ALL' || active === 'BICHOS_DE_BOLSO') && (
-          <div className="bichos-callout" aria-label="Coleção Bichos de Bolso">
-            <div className="bichos-callout__inner">
-              <div className="bichos-callout__text">
-                <span className="pill-tag">🇧🇷 COLEÇÃO ESPECIAL</span>
-                <h3 className="bichos-callout__title">BICHOS DE BOLSO</h3>
-                <p>
-                  Quatro conceitos inspirados em bichos brasileiros para levar no bolso.
-                  Cada personagem é uma criação original IL 3D Studio — ainda em desenvolvimento.
-                </p>
-              </div>
-              <div className="bichos-callout__chars" aria-hidden="true">
-                <BichoChar name="TICO" emoji="🦔" color="#8B5E3C" />
-                <BichoChar name="CORA" emoji="🐀" color="#7A9B5F" />
-                <BichoChar name="PINGO" emoji="🐸" color="#4CAF50" />
-                <BichoChar name="ZIGUE" emoji="🦎" color="#FF9800" />
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Grid de produtos */}
-        {filtered.length > 0 ? (
+        {/* Grid de Produtos Encomendáveis (Disponíveis e Sob Orçamento) */}
+        {orderableProducts.length > 0 ? (
           <div
             className="products-grid"
             role="list"
-            aria-label={`${filtered.length} produto${filtered.length !== 1 ? 's' : ''} encontrado${filtered.length !== 1 ? 's' : ''}`}
+            aria-label={`${orderableProducts.length} produtos disponíveis para encomenda`}
           >
-            {filtered.map((product) => (
+            {orderableProducts.map((product) => (
               <div key={product.id} role="listitem">
                 <ProductCard
                   product={product}
                   onAddToCart={onAddToCart}
+                  onOpenDetails={onOpenDetails}
                   isInCart={isInCart(product.id)}
                 />
               </div>
@@ -102,19 +100,46 @@ export function CollectionSection({ onAddToCart, isInCart }: CollectionSectionPr
           </div>
         ) : (
           <div className="collection-empty" role="status">
-            <p>Nenhum produto nesta categoria ainda.</p>
+            <p>Nenhuma peça pronta nesta categoria no momento.</p>
+          </div>
+        )}
+
+        {/* Bloco Segregado de Projetos em Desenvolvimento (Laboratório do Estúdio) */}
+        {developmentProducts.length > 0 && (
+          <div className="dev-showcase" aria-labelledby="dev-showcase-title">
+            <div className="dev-showcase__header">
+              <div className="dev-showcase__badge">
+                <span>🔬 LABORATÓRIO &amp; PROTÓTIPOS</span>
+              </div>
+              <h3 id="dev-showcase-title" className="dev-showcase__title">
+                Projetos em Fase de Validação
+              </h3>
+              <p className="dev-showcase__desc">
+                Ideias em teste de tolerância mecânica e impressão. Ainda não estão
+                disponíveis para encomenda imediata — clique em <strong>Quero ser avisado</strong> para
+                receber uma mensagem assim que o primeiro lote físico for aprovado!
+              </p>
+            </div>
+
+            <div
+              className="products-grid products-grid--development"
+              role="list"
+              aria-label="Projetos em desenvolvimento no estúdio"
+            >
+              {developmentProducts.map((product) => (
+                <div key={product.id} role="listitem">
+                  <ProductCard
+                    product={product}
+                    onAddToCart={onAddToCart}
+                    onOpenDetails={onOpenDetails}
+                    isInCart={isInCart(product.id)}
+                  />
+                </div>
+              ))}
+            </div>
           </div>
         )}
       </div>
     </section>
-  )
-}
-
-function BichoChar({ name, emoji, color }: { name: string; emoji: string; color: string }) {
-  return (
-    <div className="bicho-char" style={{ '--char-color': color } as React.CSSProperties}>
-      <span className="bicho-char__emoji" aria-hidden="true">{emoji}</span>
-      <span className="bicho-char__name">{name}</span>
-    </div>
   )
 }

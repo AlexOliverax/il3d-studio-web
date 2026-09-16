@@ -65,7 +65,7 @@
   align-items: center;
   gap: 0.4rem;
   font-family: var(--font-display);
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -87,7 +87,7 @@
 
 .footer-col__title {
   font-family: var(--font-display);
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -101,21 +101,46 @@
   gap: 0.6rem;
 }
 
-.footer-col a {
+.footer-col a,
+.footer-link-btn {
   font-size: 0.875rem;
   color: var(--color-bg);
   text-decoration: none;
+  background: transparent;
+  border: none;
+  padding: 0;
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
   transition: color var(--transition-fast);
 }
 
-.footer-col a:hover {
+.footer-col a:hover,
+.footer-link-btn:hover {
   color: var(--color-pink);
+}
+
+.footer-contact-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 }
 
 .footer-whatsapp {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
+  width: fit-content;
+}
+
+.footer-social-link {
+  font-size: 0.85rem;
+  color: var(--color-yellow) !important;
+  font-weight: 600;
+}
+
+.footer-social-link:hover {
+  text-decoration: underline;
 }
 
 /* ---- Bottom bar ---- */
@@ -145,6 +170,6 @@
 }
 
 .footer-note {
-  color: #555 !important;
+  color: #777 !important;
   font-style: italic;
 }

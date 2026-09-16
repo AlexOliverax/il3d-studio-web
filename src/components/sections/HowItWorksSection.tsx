@@ -3,33 +3,29 @@ import './HowItWorksSection.css'
 const steps = [
   {
     number: '01',
-    title: 'VOCÊ ESCOLHE A IDEIA OU UMA PEÇA DA COLEÇÃO.',
-    description:
-      'Navegue pelo catálogo, escolha um produto disponível ou traga sua própria ideia. Tudo começa por aqui.',
+    title: 'Escolha ou envie sua ideia',
+    description: 'Selecione uma peça do catálogo ou conte o que você quer criar.',
     icon: '💡',
     accent: 'var(--color-pink)',
   },
   {
     number: '02',
-    title: 'CONFIRMAMOS COR, QUANTIDADE, ACABAMENTO E PRAZO.',
-    description:
-      'Sem mistério. Combinamos todos os detalhes do pedido por WhatsApp antes de qualquer etapa de produção.',
-    icon: '💬',
+    title: 'Receba a análise',
+    description: 'Confirmamos viabilidade, tamanho, cor, quantidade, prazo e acabamento.',
+    icon: '🔍',
     accent: 'var(--color-yellow)',
   },
   {
     number: '03',
-    title: 'PRODUZIMOS CAMADA POR CAMADA.',
-    description:
-      'Cada peça é impressa individualmente em PLA, com atenção a cada detalhe. A mágica acontece aqui.',
-    icon: '🖨️',
+    title: 'Aprove o orçamento',
+    description: 'Só produzimos depois da sua aprovação e alinhamento dos detalhes.',
+    icon: '✅',
     accent: 'var(--color-pink)',
   },
   {
     number: '04',
-    title: 'COMBINAMOS RETIRADA OU ENVIO E PAGAMENTO PELO ATENDIMENTO.',
-    description:
-      'Entrega ou retirada? Decidimos juntos. O pagamento também é combinado direto no atendimento.',
+    title: 'Produção e entrega',
+    description: 'A peça é impressa no estúdio e combinamos retirada ou forma de envio.',
     icon: '📦',
     accent: 'var(--color-yellow)',
   },
@@ -37,23 +33,21 @@ const steps = [
 
 export function HowItWorksSection() {
   return (
-    <section
-      className="how-section"
-      id="como-funciona"
-      aria-labelledby="how-title"
-    >
+    <section className="how-section" id="como-funciona" aria-labelledby="how-title">
       <div className="container">
         <div className="section-header">
+          <span className="pill-tag">TRANSPARÊNCIA DO PROCESSO</span>
           <h2 className="section-title" id="how-title">
             COMO<br />
             <span className="section-title__accent">FUNCIONA</span>
           </h2>
           <p className="section-subtitle">
-            Do pedido à entrega, tudo é tratado com você diretamente.
+            Do primeiro clique à peça pronta na sua mão, tudo é transparente e tratado
+            diretamente com você pelo WhatsApp.
           </p>
         </div>
 
-        <ol className="how-steps" aria-label="Passos do processo">
+        <ol className="how-steps" aria-label="Passos para solicitar sua peça">
           {steps.map((step) => (
             <li key={step.number} className="how-step">
               <div

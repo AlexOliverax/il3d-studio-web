@@ -1,188 +1,161 @@
-/* ============================================================
-   CollectionSection — IL 3D Studio
-   ============================================================ */
-
 .collection-section {
   padding: var(--section-padding);
+  background: var(--color-bg);
+  border-bottom: var(--border-width) solid var(--color-black);
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .collection-section {
     padding: var(--section-padding-lg);
   }
 }
 
-/* ---- Section header ---- */
 .section-header {
   margin-bottom: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: flex-start;
 }
 
 .section-title {
-  font-family: var(--font-display);
-  font-size: clamp(2rem, 5vw, 3.5rem);
-  font-weight: 800;
-  line-height: 1;
-  letter-spacing: -0.03em;
+  font-size: clamp(2rem, 5vw, 3rem);
   color: var(--color-black);
-  margin-bottom: 1rem;
+  letter-spacing: -0.02em;
 }
 
 .section-title__accent {
   color: var(--color-pink);
+  background: linear-gradient(180deg, transparent 65%, var(--color-yellow-light) 65%);
 }
 
 .section-subtitle {
-  font-size: 1rem;
-  color: var(--color-text-muted);
-  max-width: 60ch;
+  font-size: 1.05rem;
+  color: var(--color-black-mid);
+  max-width: 55ch;
   line-height: 1.6;
 }
 
-/* ---- Filtros ---- */
+/* Filtros */
 .collection-filters {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  margin-bottom: 2.5rem;
+  margin-bottom: 3rem;
+  padding-bottom: 1rem;
+  border-bottom: 1.5px dashed var(--color-gray-mid);
 }
 
 .filter-btn {
   font-family: var(--font-display);
-  font-size: 0.72rem;
+  font-size: 0.8rem;
   font-weight: 700;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  padding: 0.5rem 1rem;
+  letter-spacing: 0.04em;
+  padding: 0.5rem 1.1rem;
   border-radius: var(--border-radius-pill);
   border: var(--border-width) solid var(--color-black);
-  background: transparent;
+  background: var(--color-surface);
   color: var(--color-black);
-  cursor: pointer;
-  transition: background var(--transition-fast), color var(--transition-fast), box-shadow var(--transition-fast);
   box-shadow: var(--shadow-hover);
+  cursor: pointer;
+  transition:
+    transform var(--transition-fast),
+    background-color var(--transition-fast),
+    box-shadow var(--transition-fast);
 }
 
 .filter-btn:hover {
-  background: var(--color-black);
-  color: var(--color-bg);
+  background: var(--color-pink-light);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-bold-sm);
 }
 
 .filter-btn--active {
   background: var(--color-black);
-  color: var(--color-bg);
+  color: var(--color-yellow);
   box-shadow: var(--shadow-bold-sm);
 }
 
-/* ---- Bichos de Bolso callout ---- */
-.bichos-callout {
+.filter-btn--active:hover {
   background: var(--color-black);
-  border-radius: var(--border-radius-lg);
-  border: var(--border-width-thick) solid var(--color-black);
-  box-shadow: var(--shadow-bold-lg);
-  overflow: hidden;
-  margin-bottom: 2.5rem;
-  padding: 2rem 1.5rem;
-}
-
-.bichos-callout__inner {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-@media (min-width: 768px) {
-  .bichos-callout__inner {
-    flex-direction: row;
-    align-items: center;
-    gap: 3rem;
-  }
-}
-
-.bichos-callout__text {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  color: var(--color-bg);
-}
-
-.bichos-callout__text .pill-tag {
-  background: var(--color-pink);
-  color: var(--color-white);
-  width: fit-content;
-}
-
-.bichos-callout__title {
-  font-family: var(--font-display);
-  font-size: clamp(1.5rem, 4vw, 2.5rem);
-  font-weight: 800;
   color: var(--color-yellow);
-  line-height: 1;
 }
 
-.bichos-callout__text p {
-  font-size: 0.875rem;
-  color: var(--color-gray-mid);
-  line-height: 1.6;
-  max-width: 45ch;
-}
-
-/* ---- Chars ---- */
-.bichos-callout__chars {
-  display: flex;
-  gap: 1rem;
-  flex-shrink: 0;
-}
-
-.bicho-char {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.4rem;
-}
-
-.bicho-char__emoji {
-  font-size: 2rem;
-  width: 52px;
-  height: 52px;
-  background: var(--char-color, var(--color-pink));
-  border: 2.5px solid var(--color-bg);
-  border-radius: var(--border-radius-sm);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  line-height: 1;
-  box-shadow: 3px 3px 0 rgba(250, 247, 242, 0.3);
-}
-
-.bicho-char__name {
-  font-family: var(--font-display);
-  font-size: 0.6rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--color-gray-mid);
-}
-
-/* ---- Grid de produtos ---- */
+/* Grid de Produtos */
 .products-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: 1fr;
+  gap: 2rem;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 600px) {
   .products-grid {
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
-/* ---- Estado vazio ---- */
+@media (min-width: 992px) {
+  .products-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
 .collection-empty {
+  padding: 3rem 1.5rem;
   text-align: center;
-  padding: 4rem 1rem;
-  color: var(--color-text-muted);
   font-family: var(--font-display);
-  font-size: 1rem;
-  font-weight: 600;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  background: var(--color-surface);
+  border: var(--border-width) dashed var(--color-gray-mid);
+  border-radius: var(--border-radius-sm);
+}
+
+/* Segregação de Laboratório / Protótipos */
+.dev-showcase {
+  margin-top: 5rem;
+  padding: 2.5rem 1.75rem;
+  background: repeating-linear-gradient(
+    -45deg,
+    #FFFDE0,
+    #FFFDE0 16px,
+    #FFF8C4 16px,
+    #FFF8C4 32px
+  );
+  border: var(--border-width-thick, 3.5px) solid var(--color-black);
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-bold-lg);
+}
+
+.dev-showcase__header {
+  margin-bottom: 2rem;
+  max-width: 700px;
+}
+
+.dev-showcase__badge {
+  display: inline-block;
+  background: var(--color-black);
+  color: #FFE000;
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 0.35rem 0.85rem;
+  border-radius: var(--border-radius-pill);
+  margin-bottom: 0.75rem;
+}
+
+.dev-showcase__title {
+  font-size: 1.75rem;
+  color: var(--color-black);
+  margin-bottom: 0.5rem;
+}
+
+.dev-showcase__desc {
+  font-size: 0.95rem;
+  color: var(--color-black-mid);
+  line-height: 1.6;
+}
+
+.products-grid--development {
+  opacity: 0.95;
 }

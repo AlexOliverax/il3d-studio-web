@@ -1,161 +1,162 @@
 import type { Product } from '../../types'
-import { STATUS_LABELS, IMAGE_TYPE_LABELS } from '../../types'
-import {
-  generateAvailabilityWhatsAppLink,
-  generateNotifyWhatsAppLink,
-} from '../../utils/whatsapp'
+import { STATUS_LABELS } from '../../types'
+import { generateNotifyWhatsAppLink } from '../../utils/whatsapp'
+import { OptimizedImage } from './OptimizedImage'
+import { trackEvent } from '../../utils/analytics'
 import './ProductCard.css'
 
 interface ProductCardProps {
   product: Product
   onAddToCart: (product: Product) => void
+  onOpenDetails: (product: Product) => void
   isInCart: boolean
 }
 
-export function ProductCard({ product, onAddToCart, isInCart }: ProductCardProps) {
-  const { name, description, image, status, customizable, developmentNote } = product
+export function ProductCard({
+  product,
+  onAddToCart,
+  onOpenDetails,
+  isInCart,
+}: ProductCardProps) {
+  const {
+    name,
+    shortDescription,
+    image,
+    status,
+    customizable,
+    availableColors,
+    approximateDimensions,
+    developmentNote,
+  } = product
 
-  const imageLabel = IMAGE_TYPE_LABELS[image.type]
-  const statusLabel = STATUS_LABELS[status]
+  const isReal = image.type === 'REAL_PRODUCT'
+  const isDevelopment = status === 'DEVELOPMENT'
+  const isOrderable = status === 'AVAILABLE' || status === 'QUOTE_ONLY'
+
+  function handleAdd(e: React.MouseEvent) {
+    e.stopPropagation()
+    onAddToCart(product)
+    trackEvent({ name: 'add_to_quote', payload: { productId: product.id, productName: product.name } })
+  }
+
+  function handleCardClick() {
+    onOpenDetails(product)
+    trackEvent({
+      name: 'product_view',
+      payload: { productId: product.id, productName: product.name, category: product.category },
+    })
+  }
 
   return (
     <article
       className={`product-card product-card--${status.toLowerCase()}`}
       aria-label={`Produto: ${name}`}
+      onClick={handleCardClick}
     >
-      {/* Imagem */}
+      {/* Imagem com OptimizedImage */}
       <div className="product-card__image-wrap">
-        <ProductPlaceholder product={product} />
-        {imageLabel && (
-          <span className="product-card__image-type" aria-label={imageLabel}>
-            🎨 {imageLabel}
-          </span>
-        )}
-        {customizable && (
-          <span className="product-card__custom-tag" aria-label="Produto personalizável">
-            ✏️ Personalizável
-          </span>
-        )}
+        <OptimizedImage
+          src={image.src}
+          alt={image.alt}
+          width={image.width || 800}
+          height={image.height || 600}
+          type={image.type}
+          aspectRatio="4/3"
+        />
+
+        {/* Badges superiores */}
+        <div className="product-card__badges">
+          {isReal ? (
+            <span className="card-badge card-badge--real" title="Fotografia real da peça física produzida no estúdio">
+              ● FOTO REAL
+            </span>
+          ) : (
+            <span className="card-badge card-badge--concept">
+              ◐ CONCEITO
+            </span>
+          )}
+
+          {customizable && (
+            <span className="card-badge card-badge--custom">
+              ✏️ Personalizável
+            </span>
+          )}
+        </div>
       </div>
 
-      {/* Conteúdo */}
+      {/* Conteúdo do card */}
       <div className="product-card__body">
-        {/* Status badge */}
-        <StatusBadge status={status} label={statusLabel} />
+        <div className="product-card__header-row">
+          <span className={`status-tag status-tag--${status.toLowerCase()}`}>
+            {STATUS_LABELS[status]}
+          </span>
+          {approximateDimensions && (
+            <span className="product-card__dim" title="Tamanho aproximado">
+              📏 {approximateDimensions}
+            </span>
+          )}
+        </div>
 
-        {/* Nome */}
         <h3 className="product-card__name">{name}</h3>
 
-        {/* Descrição */}
-        <p className="product-card__description">{description}</p>
+        <p className="product-card__description">
+          {shortDescription || product.description}
+        </p>
 
-        {/* Nota de desenvolvimento */}
-        {status === 'DEVELOPMENT' && developmentNote && (
+        {/* Cores disponíveis prévias */}
+        {availableColors && availableColors.length > 0 && (
+          <div className="product-card__colors" aria-label="Cores disponíveis">
+            <span className="colors-label">Cores:</span>
+            <span className="colors-list">{availableColors.slice(0, 3).join(', ')}{availableColors.length > 3 ? '...' : ''}</span>
+          </div>
+        )}
+
+        {/* Nota de desenvolvimento se aplicável */}
+        {isDevelopment && developmentNote && (
           <p className="product-card__dev-note">
             <span aria-hidden="true">🔧</span> {developmentNote}
           </p>
         )}
 
         {/* Ações */}
-        <div className="product-card__actions">
-          {status === 'AVAILABLE' && (
+        <div className="product-card__actions" onClick={(e) => e.stopPropagation()}>
+          {isOrderable && (
             <button
-              className={`btn btn-primary btn-sm${isInCart ? ' is-added' : ''}`}
-              onClick={() => onAddToCart(product)}
-              aria-label={isInCart ? `${name} já está no pedido` : `Adicionar ${name} ao pedido`}
+              className={`btn btn-primary btn-sm product-card__btn-add${isInCart ? ' is-added' : ''}`}
+              onClick={handleAdd}
+              aria-label={isInCart ? `${name} já adicionado ao orçamento` : `Adicionar ${name} ao orçamento`}
             >
-              {isInCart ? '✓ NO PEDIDO' : 'ADICIONAR AO PEDIDO'}
+              {isInCart ? '✓ NO ORÇAMENTO' : status === 'AVAILABLE' ? 'ADICIONAR AO PEDIDO' : 'ADICIONAR AO ORÇAMENTO'}
             </button>
           )}
 
-          {status === 'QUOTE_ONLY' && (
-            <a
-              href={generateAvailabilityWhatsAppLink(name)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn btn-secondary btn-sm"
-              aria-label={`Consultar disponibilidade de ${name} via WhatsApp`}
-            >
-              <WhatsAppIcon />
-              CONSULTAR DISPONIBILIDADE
-            </a>
-          )}
-
-          {status === 'DEVELOPMENT' && (
+          {isDevelopment && (
             <a
               href={generateNotifyWhatsAppLink(name)}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn btn-outline btn-sm"
-              aria-label={`Ser avisado quando ${name} estiver disponível`}
+              className="btn btn-outline btn-sm product-card__btn-notify"
+              aria-label={`Ser avisado no WhatsApp quando ${name} estiver disponível`}
+              onClick={() =>
+                trackEvent({
+                  name: 'whatsapp_click',
+                  payload: { origin: 'Desenvolvimento - Notificar', target: name },
+                })
+              }
             >
               🔔 QUERO SER AVISADO
             </a>
           )}
+
+          <button
+            className="btn btn-ghost btn-sm product-card__btn-details"
+            onClick={handleCardClick}
+            aria-label={`Ver detalhes de ${name}`}
+          >
+            DETALHES
+          </button>
         </div>
       </div>
     </article>
-  )
-}
-
-// ---- Placeholder visual do produto ----
-function ProductPlaceholder({ product }: { product: Product }) {
-  const color = product.accentColor ?? '#FF2D78'
-
-  // Emojis por categoria
-  const categoryEmojis: Record<string, string> = {
-    BICHOS_DE_BOLSO: '🐾',
-    ARTICULADOS: '🦾',
-    FIDGETS: '🔄',
-    PERSONALIZADOS: '✨',
-    FUNCIONAIS: '⚙️',
-  }
-
-  const emoji = categoryEmojis[product.category] ?? '🔹'
-
-  return (
-    <div
-      className="product-placeholder"
-      style={{ '--accent': color } as React.CSSProperties}
-      role="img"
-      aria-label={product.image.alt}
-    >
-      <div className="product-placeholder__shape">
-        <span className="product-placeholder__emoji" aria-hidden="true">{emoji}</span>
-      </div>
-      <div className="product-placeholder__dots" aria-hidden="true">
-        <span /><span /><span />
-      </div>
-    </div>
-  )
-}
-
-// ---- Badge de status ----
-function StatusBadge({ status, label }: { status: string; label: string }) {
-  const classMap: Record<string, string> = {
-    AVAILABLE: 'badge badge-available',
-    DEVELOPMENT: 'badge badge-development',
-    QUOTE_ONLY: 'badge badge-quote',
-  }
-
-  const dotMap: Record<string, string> = {
-    AVAILABLE: '●',
-    DEVELOPMENT: '◐',
-    QUOTE_ONLY: '○',
-  }
-
-  return (
-    <span className={classMap[status] ?? 'badge'} aria-label={`Status: ${label}`}>
-      <span aria-hidden="true">{dotMap[status]}</span>
-      {label}
-    </span>
-  )
-}
-
-function WhatsAppIcon() {
-  return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-    </svg>
   )
 }

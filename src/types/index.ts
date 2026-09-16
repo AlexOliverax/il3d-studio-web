@@ -5,23 +5,25 @@
 export type ProductStatus = 'AVAILABLE' | 'DEVELOPMENT' | 'QUOTE_ONLY'
 
 export type ProductCategory =
-  | 'BICHOS_DE_BOLSO'
   | 'ARTICULADOS'
-  | 'FIDGETS'
+  | 'PRESENTES_LEMBRANCINHAS'
   | 'PERSONALIZADOS'
-  | 'FUNCIONAIS'
+  | 'FIDGETS'
+  | 'UTILIDADES'
 
 export type ImageType = 'CONCEPT' | 'PROTOTYPE' | 'REAL_PRODUCT'
 
 export type LicenseStatus =
-  | 'ORIGINAL'          // criação própria do IL 3D Studio
-  | 'LICENSED'          // com licença comercial verificada
-  | 'PENDING_LICENSE'   // aguardando validação de licença
+  | 'ORIGINAL' // criação original/modelagem própria IL 3D Studio
+  | 'LICENSED' // modelo de terceiro com licença comercial confirmada
+  | 'PENDING_LICENSE' // sob auditoria de licença antes de comercialização
 
 export interface ProductImage {
   src: string
   alt: string
   type: ImageType
+  width?: number
+  height?: number
 }
 
 export interface Product {
@@ -29,18 +31,27 @@ export interface Product {
   slug: string
   name: string
   category: ProductCategory
+  shortDescription: string
   description: string
   image: ProductImage
+  gallery?: ProductImage[]
   status: ProductStatus
   customizable: boolean
+  availableColors: string[]
+  approximateDimensions?: string
+  material?: string
   tags: string[]
   developmentNote?: string
   licenseStatus: LicenseStatus
-  accentColor?: string // cor de destaque do card
+  sourceUrl?: string
+  creator?: string
+  commercialLicense?: boolean | string
+  licenseVerifiedAt?: string
+  accentColor?: string
 }
 
 // ============================================================
-// Tipos do carrinho (Meu Pedido)
+// Tipos do carrinho (Meu Orçamento)
 // ============================================================
 
 export interface CartItem {
@@ -67,6 +78,7 @@ export interface CustomRequestForm {
   idea: string
   color: string
   quantity: string
+  approximateDimensions: string
   deadline: string
 }
 
@@ -77,22 +89,22 @@ export interface CustomRequestForm {
 export type FilterCategory = 'ALL' | ProductCategory
 
 export const CATEGORY_LABELS: Record<FilterCategory, string> = {
-  ALL: 'TUDO',
-  BICHOS_DE_BOLSO: 'BICHOS DE BOLSO',
-  ARTICULADOS: 'ARTICULADOS',
-  FIDGETS: 'FIDGETS',
-  PERSONALIZADOS: 'PERSONALIZADOS',
-  FUNCIONAIS: 'FUNCIONAIS',
+  ALL: 'Todos',
+  ARTICULADOS: 'Articulados',
+  PRESENTES_LEMBRANCINHAS: 'Presentes e lembrancinhas',
+  PERSONALIZADOS: 'Personalizados',
+  FIDGETS: 'Fidgets',
+  UTILIDADES: 'Utilidades',
 }
 
 export const STATUS_LABELS: Record<ProductStatus, string> = {
   AVAILABLE: 'DISPONÍVEL',
-  DEVELOPMENT: 'EM DESENVOLVIMENTO',
   QUOTE_ONLY: 'SOB ORÇAMENTO',
+  DEVELOPMENT: 'EM DESENVOLVIMENTO',
 }
 
 export const IMAGE_TYPE_LABELS: Record<ImageType, string | null> = {
-  CONCEPT: 'Imagem conceitual',
-  PROTOTYPE: 'Protótipo',
-  REAL_PRODUCT: null,
+  REAL_PRODUCT: 'FOTO REAL',
+  PROTOTYPE: 'Protótipo físico',
+  CONCEPT: 'Ilustração conceitual',
 }

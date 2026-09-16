@@ -1,6 +1,8 @@
-import { useEffect, useState, useRef } from 'react'
+import { useState } from 'react'
 import type { CartItem } from '../../types'
 import { generateCartWhatsAppLink } from '../../utils/whatsapp'
+import { useFocusTrap } from '../../hooks/useFocusTrap'
+import { trackEvent } from '../../utils/analytics'
 import './CartDrawer.css'
 
 interface CartDrawerProps {
@@ -25,29 +27,8 @@ export function CartDrawer({
   const [customerName, setCustomerName] = useState('')
   const [globalNotes, setGlobalNotes] = useState('')
   const [nameError, setNameError] = useState(false)
-  const drawerRef = useRef<HTMLDivElement>(null)
-  const closeRef = useRef<HTMLButtonElement>(null)
 
-  // ESC para fechar
-  useEffect(() => {
-    if (!isOpen) return
-    const handler = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose()
-    }
-    document.addEventListener('keydown', handler)
-    return () => document.removeEventListener('keydown', handler)
-  }, [isOpen, onClose])
-
-  // Foca no botão fechar ao abrir
-  useEffect(() => {
-    if (isOpen) {
-      setTimeout(() => closeRef.current?.focus(), 50)
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = ''
-    }
-    return () => { document.body.style.overflow = '' }
-  }, [isOpen])
+  const drawerRef = useFocusTrap<HTMLDivElement>({ isOpen, onClose })
 
   function handleSendOrder() {
     if (!customerName.trim()) {
@@ -55,11 +36,24 @@ export function CartDrawer({
       return
     }
     setNameError(false)
+
+    trackEvent({
+      name: 'quote_whatsapp_submit',
+      payload: { itemCount: items.reduce((s, i) => s + i.quantity, 0) },
+    })
+
     const link = generateCartWhatsAppLink(items, customerName, globalNotes)
     window.open(link, '_blank', 'noopener,noreferrer')
   }
 
+  function handleRemove(productId: string) {
+    onRemove(productId)
+    trackEvent({ name: 'remove_from_quote', payload: { productId } })
+  }
+
   if (!isOpen && items.length === 0) return null
+
+  const totalQuantity = items.reduce((s, i) => s + i.quantity, 0)
 
   return (
     <>
@@ -78,84 +72,98 @@ export function CartDrawer({
         className={`cart-drawer${isOpen ? ' cart-drawer--open' : ''}`}
         role="dialog"
         aria-modal="true"
-        aria-label="Meu Pedido"
+        aria-label="Meu Orçamento"
         aria-hidden={!isOpen}
       >
         {/* Header */}
         <div className="cart-drawer__header">
           <div className="cart-drawer__title-wrap">
-            <h2 className="cart-drawer__title">MEU PEDIDO</h2>
+            <h2 className="cart-drawer__title">MEU ORÇAMENTO</h2>
             {items.length > 0 && (
-              <span className="cart-badge cart-drawer__badge" aria-label={`${items.reduce((s, i) => s + i.quantity, 0)} itens`}>
-                {items.reduce((s, i) => s + i.quantity, 0)}
+              <span
+                className="cart-badge cart-drawer__badge"
+                aria-label={`${totalQuantity} itens`}
+              >
+                {totalQuantity}
               </span>
             )}
           </div>
           <button
-            ref={closeRef}
             className="cart-drawer__close"
             onClick={onClose}
-            aria-label="Fechar carrinho"
+            aria-label="Fechar orçamento"
           >
             <CloseIcon />
           </button>
         </div>
 
-        {/* Aviso cotação */}
+        {/* Aviso Cotação Oficial */}
         <div className="cart-quote-notice" role="note">
-          <span aria-hidden="true">💬</span>
-          <p>Este é um pedido de <strong>orçamento</strong>, não uma compra. Preços e prazos são combinados no atendimento.</p>
+          <span className="cart-quote-notice__icon" aria-hidden="true">💬</span>
+          <p>
+            Você <strong>ainda não está comprando</strong>. Envie os itens e a IL 3D Studio confirma
+            disponibilidade, personalização, prazo e valor final pelo WhatsApp.
+          </p>
         </div>
 
         {/* Conteúdo */}
         {items.length === 0 ? (
           <div className="cart-empty">
-            <span className="cart-empty__icon" aria-hidden="true">🛒</span>
-            <p className="cart-empty__text">Seu pedido está vazio.</p>
-            <p className="cart-empty__sub">Adicione produtos da coleção!</p>
+            <span className="cart-empty__icon" aria-hidden="true">🛍️</span>
+            <p className="cart-empty__text">Seu orçamento está vazio.</p>
+            <p className="cart-empty__sub">Adicione peças do catálogo para solicitar!</p>
             <button className="btn btn-primary" onClick={onClose}>
-              VER COLEÇÃO
+              VER PRODUTOS
             </button>
           </div>
         ) : (
           <div className="cart-drawer__body">
             {/* Lista de itens */}
-            <ul className="cart-items" aria-label="Itens do pedido">
+            <ul className="cart-items" aria-label="Itens do orçamento">
               {items.map((item) => (
                 <li key={item.product.id} className="cart-item">
                   <div className="cart-item__info">
-                    <span className="cart-item__emoji" aria-hidden="true">
-                      {categoryEmojis[item.product.category] ?? '🔹'}
+                    <span className="cart-item__tag-icon" aria-hidden="true">
+                      {item.product.image.type === 'REAL_PRODUCT' ? '●' : '◐'}
                     </span>
                     <div className="cart-item__details">
                       <p className="cart-item__name">{item.product.name}</p>
-                      <p className="cart-item__cat">{categoryLabel(item.product.category)}</p>
+                      <span className="cart-item__category">
+                        {item.product.category.replace('_', ' ')}
+                      </span>
                     </div>
                     <button
                       className="cart-item__remove"
-                      onClick={() => onRemove(item.product.id)}
-                      aria-label={`Remover ${item.product.name} do pedido`}
+                      onClick={() => handleRemove(item.product.id)}
+                      aria-label={`Remover ${item.product.name} do orçamento`}
                     >
                       <TrashIcon />
                     </button>
                   </div>
 
                   {/* Quantidade */}
-                  <div className="cart-item__qty">
-                    <button
-                      className="qty-btn"
-                      onClick={() => onUpdateQuantity(item.product.id, item.quantity - 1)}
-                      aria-label="Diminuir quantidade"
-                      disabled={item.quantity <= 1}
-                    >−</button>
-                    <span className="qty-value" aria-label={`Quantidade: ${item.quantity}`}>
-                      {item.quantity}
-                    </span>
-                    <button
-                      className="qty-btn"
-                      onClick={() => onUpdateQuantity(item.product.id, item.quantity + 1)}
-                      aria-label="Aumentar quantidade"
-                    >+</button>
+                  <div className="cart-item__qty-row">
+                    <span className="cart-item__qty-label">Quantidade:</span>
+                    <div className="cart-item__qty-controls">
+                      <button
+                        className="qty-btn"
+                        onClick={() => onUpdateQuantity(item.product.id, item.quantity - 1)}
+                        aria-label="Diminuir quantidade"
+                        disabled={item.quantity <= 1}
+                      >
+                        −
+                      </button>
+                      <span className="qty-value" aria-label={`Quantidade: ${item.quantity}`}>
+                        {item.quantity}
+                      </span>
+                      <button
+                        className="qty-btn"
+                        onClick={() => onUpdateQuantity(item.product.id, item.quantity + 1)}
+                        aria-label="Aumentar quantidade"
+                      >
+                        +
+                      </button>
+                    </div>
                   </div>
 
                   {/* Cor */}
@@ -170,7 +178,7 @@ export function CartDrawer({
                       id={`color-${item.product.id}`}
                       type="text"
                       className="form-input"
-                      placeholder="Ex: rosa, azul marinho..."
+                      placeholder="Ex: Rosa choque, preto fosco, amarelo..."
                       value={item.desiredColor ?? ''}
                       onChange={(e) => onUpdateColor(item.product.id, e.target.value)}
                     />
@@ -182,13 +190,13 @@ export function CartDrawer({
                       className="cart-item__field-label"
                       htmlFor={`notes-${item.product.id}`}
                     >
-                      Observações (opcional)
+                      Observações / Detalhes adicionais (opcional)
                     </label>
                     <input
                       id={`notes-${item.product.id}`}
                       type="text"
                       className="form-input"
-                      placeholder="Tamanho, acabamento, texto..."
+                      placeholder="Tamanho específico, gravação de nome..."
                       value={item.notes ?? ''}
                       onChange={(e) => onUpdateNotes(item.product.id, e.target.value)}
                     />
@@ -197,7 +205,7 @@ export function CartDrawer({
               ))}
             </ul>
 
-            {/* Nome e notas globais */}
+            {/* Resumo e dados do solicitante */}
             <div className="cart-summary">
               <div className="form-field">
                 <label className="form-label" htmlFor="cart-name">
@@ -207,29 +215,34 @@ export function CartDrawer({
                   id="cart-name"
                   type="text"
                   className={`form-input${nameError ? ' form-input--error' : ''}`}
-                  placeholder="Como posso te chamar?"
+                  placeholder="Como posso te chamar no WhatsApp?"
                   value={customerName}
-                  onChange={(e) => { setCustomerName(e.target.value); if (e.target.value.trim()) setNameError(false) }}
+                  onChange={(e) => {
+                    setCustomerName(e.target.value)
+                    if (e.target.value.trim()) setNameError(false)
+                  }}
                   autoComplete="given-name"
                   aria-required="true"
                   aria-invalid={nameError}
                 />
                 {nameError && (
-                  <span className="form-error" role="alert">Por favor, informe seu nome.</span>
+                  <span className="form-error" role="alert">
+                    Por favor, informe seu nome para o atendimento.
+                  </span>
                 )}
               </div>
 
               <div className="form-field">
                 <label className="form-label" htmlFor="cart-notes">
-                  Observações gerais
+                  Observações gerais do pedido
                 </label>
                 <textarea
                   id="cart-notes"
                   className="form-input form-textarea"
-                  placeholder="Prazo, evento especial, dúvidas..."
+                  placeholder="Prazo desejado, evento, dúvidas sobre frete ou retirada..."
                   value={globalNotes}
                   onChange={(e) => setGlobalNotes(e.target.value)}
-                  rows={3}
+                  rows={2}
                 />
               </div>
             </div>
@@ -241,10 +254,10 @@ export function CartDrawer({
                 onClick={handleSendOrder}
               >
                 <WhatsAppIcon />
-                ENVIAR PEDIDO VIA WHATSAPP
+                SOLICITAR ORÇAMENTO NO WHATSAPP
               </button>
               <p className="cart-send-note">
-                Você será redirecionado ao WhatsApp com o pedido já formatado.
+                Sua lista de peças será enviada pronta para o atendimento da IL 3D Studio.
               </p>
             </div>
           </div>
@@ -254,29 +267,11 @@ export function CartDrawer({
   )
 }
 
-const categoryEmojis: Record<string, string> = {
-  BICHOS_DE_BOLSO: '🐾',
-  ARTICULADOS: '🦾',
-  FIDGETS: '🔄',
-  PERSONALIZADOS: '✨',
-  FUNCIONAIS: '⚙️',
-}
-
-function categoryLabel(cat: string): string {
-  const map: Record<string, string> = {
-    BICHOS_DE_BOLSO: 'Bichos de Bolso',
-    ARTICULADOS: 'Articulado',
-    FIDGETS: 'Fidget',
-    PERSONALIZADOS: 'Personalizado',
-    FUNCIONAIS: 'Funcional',
-  }
-  return map[cat] ?? cat
-}
-
 function CloseIcon() {
   return (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true">
-      <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+      <line x1="18" y1="6" x2="6" y2="18" />
+      <line x1="6" y1="6" x2="18" y2="18" />
     </svg>
   )
 }
@@ -284,7 +279,11 @@ function CloseIcon() {
 function TrashIcon() {
   return (
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <polyline points="3 6 5 6 21 6" /><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6" /><path d="M10 11v6" /><path d="M14 11v6" /><path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2" />
+      <polyline points="3 6 5 6 21 6" />
+      <path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6" />
+      <path d="M10 11v6" />
+      <path d="M14 11v6" />
+      <path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2" />
     </svg>
   )
 }

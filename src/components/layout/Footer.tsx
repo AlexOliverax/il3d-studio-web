@@ -1,13 +1,24 @@
-import { generatePartyWhatsAppLink } from '../../utils/whatsapp'
+import { SITE_CONFIG } from '../../config/site'
+import { generateGeneralWhatsAppLink } from '../../utils/whatsapp'
+import { trackEvent } from '../../utils/analytics'
+import type { PolicyModalType } from '../ui/PolicyModal'
 import './Footer.css'
 
-export function Footer() {
+interface FooterProps {
+  onOpenPolicy: (type: PolicyModalType) => void
+}
+
+export function Footer({ onOpenPolicy }: FooterProps) {
   const year = new Date().getFullYear()
+
+  function handleWhatsAppClick() {
+    trackEvent({ name: 'whatsapp_click', payload: { origin: 'Footer - WhatsApp' } })
+  }
 
   return (
     <footer className="site-footer" role="contentinfo">
       <div className="container footer-inner">
-        {/* Brand block */}
+        {/* Brand Block */}
         <div className="footer-brand">
           <p className="footer-logo">
             <span className="footer-logo__il">IL</span>
@@ -18,51 +29,83 @@ export function Footer() {
           </p>
           <p className="footer-location">
             <LocationIcon />
-            Impresso em São Paulo — SP
+            {SITE_CONFIG.location.display}
           </p>
         </div>
 
-        {/* Links */}
+        {/* Navegação e Links */}
         <nav className="footer-nav" aria-label="Links do rodapé">
           <div className="footer-col">
-            <h3 className="footer-col__title">Produtos</h3>
+            <h3 className="footer-col__title">Navegação</h3>
             <ul>
-              <li><a href="#colecao">Coleção completa</a></li>
-              <li><a href="#colecao">Bichos de Bolso</a></li>
-              <li><a href="#colecao">Articulados</a></li>
-              <li><a href="#colecao">Fidgets</a></li>
-              <li><a href="#personalizados">Personalizados</a></li>
+              <li><a href="#produtos">Produtos e Coleção</a></li>
+              <li><a href="#personalizados">Peças Personalizadas</a></li>
+              <li><a href="#como-funciona">Como Funciona</a></li>
+              <li><a href="#sobre">Sobre a Oficina</a></li>
+              <li><a href="#duvidas">Dúvidas Frequentes</a></li>
             </ul>
           </div>
+
           <div className="footer-col">
-            <h3 className="footer-col__title">Informações</h3>
+            <h3 className="footer-col__title">Transparência</h3>
             <ul>
-              <li><a href="#como-funciona">Como funciona</a></li>
-              <li><a href="#personalizados">Festa & Cor</a></li>
-              <li><a href="#detalhes">Detalhes &amp; Transparência</a></li>
+              <li>
+                <button
+                  className="footer-link-btn"
+                  onClick={() => onOpenPolicy('privacy')}
+                >
+                  Política de Privacidade
+                </button>
+              </li>
+              <li>
+                <button
+                  className="footer-link-btn"
+                  onClick={() => onOpenPolicy('terms')}
+                >
+                  Termos Básicos de Encomenda
+                </button>
+              </li>
+              <li>
+                <a href="#sobre">Produção &amp; Licenciamento</a>
+              </li>
             </ul>
           </div>
+
           <div className="footer-col">
             <h3 className="footer-col__title">Atendimento</h3>
-            <a
-              href={generatePartyWhatsAppLink()}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn btn-secondary btn-sm footer-whatsapp"
-            >
-              <WhatsAppIcon />
-              WhatsApp
-            </a>
+            <div className="footer-contact-actions">
+              <a
+                href={generateGeneralWhatsAppLink()}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-secondary btn-sm footer-whatsapp"
+                onClick={handleWhatsAppClick}
+                aria-label="Iniciar conversa no WhatsApp da IL 3D Studio"
+              >
+                <WhatsAppIcon />
+                {SITE_CONFIG.whatsapp.displayNumber}
+              </a>
+
+              <a
+                href={SITE_CONFIG.social.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="footer-social-link"
+                aria-label="Instagram do IL 3D Studio"
+              >
+                📸 Instagram Oficial
+              </a>
+            </div>
           </div>
         </nav>
       </div>
 
-      {/* Bottom bar */}
+      {/* Bottom Bar */}
       <div className="footer-bottom">
         <div className="container footer-bottom-inner">
           <p>© {year} IL 3D Studio. Todos os direitos reservados.</p>
           <p className="footer-note">
-            Modelos de terceiros só entram no catálogo quando a licença comercial permite.
+            Modelos de terceiros só entram no catálogo com licença comercial verificada.
           </p>
         </div>
       </div>

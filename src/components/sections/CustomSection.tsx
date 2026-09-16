@@ -1,6 +1,10 @@
 import { useState } from 'react'
 import type { CustomRequestForm } from '../../types'
-import { generateCustomRequestWhatsAppLink, generatePartyWhatsAppLink } from '../../utils/whatsapp'
+import {
+  generateCustomRequestWhatsAppLink,
+  generatePartyWhatsAppLink,
+} from '../../utils/whatsapp'
+import { trackEvent } from '../../utils/analytics'
 import './CustomSection.css'
 
 const initialForm: CustomRequestForm = {
@@ -8,6 +12,7 @@ const initialForm: CustomRequestForm = {
   idea: '',
   color: '',
   quantity: '',
+  approximateDimensions: '',
   deadline: '',
 }
 
@@ -15,20 +20,34 @@ export function CustomSection() {
   const [form, setForm] = useState<CustomRequestForm>(initialForm)
   const [touched, setTouched] = useState<Partial<Record<keyof CustomRequestForm, boolean>>>({})
 
-  function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
+  function handleChange(
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) {
     const { name, value } = e.target
     setForm((prev) => ({ ...prev, [name]: value }))
   }
 
-  function handleBlur(e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
+  function handleBlur(e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) {
     setTouched((prev) => ({ ...prev, [e.target.name]: true }))
   }
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    setTouched({ name: true, idea: true, color: true, quantity: true, deadline: true })
+    setTouched({
+      name: true,
+      idea: true,
+      color: true,
+      quantity: true,
+      approximateDimensions: true,
+      deadline: true,
+    })
 
     if (!form.name.trim() || !form.idea.trim()) return
+
+    trackEvent({
+      name: 'custom_request_submit',
+      payload: { hasColor: !!form.color.trim(), hasQty: !!form.quantity.trim() },
+    })
 
     const link = generateCustomRequestWhatsAppLink(form)
     window.open(link, '_blank', 'noopener,noreferrer')
@@ -40,28 +59,28 @@ export function CustomSection() {
   return (
     <section className="custom-section" id="personalizados" aria-labelledby="custom-title">
       <div className="container custom-inner">
-        {/* Festa & Cor card */}
+        {/* Bloco Festa & Lembrancinhas */}
         <div className="party-card">
           <div className="party-card__badge">
-            <span className="pill-tag">🎉 FESTA &amp; COR</span>
+            <span className="pill-tag">🎉 EVENTOS &amp; LEMBRANCINHAS</span>
           </div>
-          <h2 className="party-card__title" id="custom-title">
+          <h2 className="party-card__title">
             FESTA &amp;<br />
-            <span className="party-card__title-accent">COR</span>
+            <span className="party-card__title-accent">EVENTOS</span>
           </h2>
           <p className="party-card__desc">
-            Lembrancinhas e itens temáticos impressos em 3D para o seu evento. 
-            Fazemos chaveiros com nomes, tags de mochila, enfeites de mesa, 
-            topos de bolo e decorações personalizadas.
+            Lembrancinhas, brindes e itens temáticos impressos em 3D para aniversários,
+            casamentos ou eventos corporativos em São Paulo. Fazemos chaveiros com nomes,
+            tags de mochila, centros de mesa e decorações personalizadas.
           </p>
 
-          <ul className="party-features" aria-label="O que podemos fazer">
+          <ul className="party-features" aria-label="O que podemos produzir para seu evento">
             {[
-              { icon: '🔑', text: 'Chaveiros com nomes e apelidos' },
-              { icon: '🎒', text: 'Tags de mochila personalizadas' },
-              { icon: '🎂', text: 'Lembrancinhas de festa e aniversário' },
-              { icon: '🏆', text: 'Peças decorativas temáticas' },
-              { icon: '🎁', text: 'Presentes personalizados únicos' },
+              { icon: '🔑', text: 'Chaveiros com nomes, iniciais e logos' },
+              { icon: '🎒', text: 'Tags de mochila e identificadores duráveis' },
+              { icon: '🎂', text: 'Topos de bolo e enfeites temáticos exclusivos' },
+              { icon: '🏆', text: 'Troféus e lembranças personalizadas' },
+              { icon: '🎁', text: 'Brindes criativos em quantidade sob demanda' },
             ].map((item) => (
               <li key={item.text} className="party-feature">
                 <span aria-hidden="true">{item.icon}</span>
@@ -75,29 +94,36 @@ export function CustomSection() {
             target="_blank"
             rel="noopener noreferrer"
             className="btn btn-primary btn-lg party-cta"
-            aria-label="Pedir orçamento para festa via WhatsApp"
+            aria-label="Pedir orçamento para festas e lembrancinhas via WhatsApp"
+            onClick={() =>
+              trackEvent({
+                name: 'whatsapp_click',
+                payload: { origin: 'Festa e Lembrancinhas - CTA' },
+              })
+            }
           >
             <WhatsAppIcon />
             PEDIR ORÇAMENTO PARA FESTA
           </a>
         </div>
 
-        {/* Formulário de ideia */}
+        {/* Formulário de Ideia Personalizada */}
         <div className="custom-form-card">
-          <h2 className="custom-form-title">
-            MANDA A IDEIA.<br />
-            <span>A GENTE VÊ SE ELA MEXE.</span>
+          <span className="pill-tag">PROJETOS ESPECIAIS</span>
+          <h2 className="custom-form-title" id="custom-title">
+            TEM UMA IDEIA?<br />
+            <span className="custom-form-title__accent">A GENTE TRANSFORMA EM 3D.</span>
           </h2>
           <p className="custom-form-desc">
-            Tem algo em mente? Conta pra gente. Nós avaliamos a viabilidade de impressão
-            e entraremos em contato pelo WhatsApp.
+            Conte o que você quer produzir. Analisamos a viabilidade técnica, acabamento
+            e tempo de máquina, e retornamos com o orçamento pelo WhatsApp.
           </p>
 
           <form
             className="custom-form"
             onSubmit={handleSubmit}
             noValidate
-            aria-label="Formulário de pedido personalizado"
+            aria-label="Formulário de solicitação de projeto personalizado"
           >
             {/* Nome */}
             <div className="form-field">
@@ -109,7 +135,7 @@ export function CustomSection() {
                 name="name"
                 type="text"
                 className={`form-input${nameError ? ' form-input--error' : ''}`}
-                placeholder="Como posso te chamar?"
+                placeholder="Como prefere ser chamado(a)?"
                 value={form.name}
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -129,13 +155,13 @@ export function CustomSection() {
             {/* Ideia */}
             <div className="form-field">
               <label htmlFor="custom-idea" className="form-label">
-                O que você quer criar <span aria-label="obrigatório" className="form-required">*</span>
+                Descrição da ideia <span aria-label="obrigatório" className="form-required">*</span>
               </label>
               <textarea
                 id="custom-idea"
                 name="idea"
                 className={`form-input form-textarea${ideaError ? ' form-input--error' : ''}`}
-                placeholder="Descreva sua ideia: formato, tamanho, uso..."
+                placeholder="Descreva a peça: o que é, formato, utilidade, inspiração..."
                 value={form.idea}
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -143,53 +169,78 @@ export function CustomSection() {
                 aria-required="true"
                 aria-invalid={ideaError}
                 aria-describedby={ideaError ? 'idea-error' : undefined}
-                rows={4}
+                rows={3}
               />
               {ideaError && (
                 <span id="idea-error" className="form-error" role="alert">
-                  Conta pra gente o que você quer criar!
+                  Por favor, descreva brevemente a ideia ou peça que deseja imprimir.
                 </span>
               )}
             </div>
 
-            {/* Cor */}
-            <div className="form-field">
-              <label htmlFor="custom-color" className="form-label">Cor desejada</label>
-              <input
-                id="custom-color"
-                name="color"
-                type="text"
-                className="form-input"
-                placeholder="Ex: rosa, preto fosco, azul turquesa..."
-                value={form.color}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
-            </div>
-
-            {/* Quantidade e Prazo */}
+            {/* Linha 1: Cor & Quantidade */}
             <div className="form-row">
               <div className="form-field">
-                <label htmlFor="custom-qty" className="form-label">Quantidade</label>
+                <label htmlFor="custom-color" className="form-label">
+                  Cor desejada
+                </label>
+                <input
+                  id="custom-color"
+                  name="color"
+                  type="text"
+                  className="form-input"
+                  placeholder="Ex: Rosa, preto fosco, bicolor..."
+                  value={form.color}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                />
+              </div>
+
+              <div className="form-field">
+                <label htmlFor="custom-qty" className="form-label">
+                  Quantidade
+                </label>
                 <input
                   id="custom-qty"
                   name="quantity"
                   type="text"
                   className="form-input"
-                  placeholder="Ex: 1, 10, 50..."
+                  placeholder="Ex: 1 un, 10 un, 50 un..."
                   value={form.quantity}
                   onChange={handleChange}
                   onBlur={handleBlur}
                 />
               </div>
+            </div>
+
+            {/* Linha 2: Tamanho Aproximado & Prazo */}
+            <div className="form-row">
               <div className="form-field">
-                <label htmlFor="custom-deadline" className="form-label">Prazo desejado</label>
+                <label htmlFor="custom-dim" className="form-label">
+                  Tamanho aproximado
+                </label>
+                <input
+                  id="custom-dim"
+                  name="approximateDimensions"
+                  type="text"
+                  className="form-input"
+                  placeholder="Ex: 10 cm, tamanho de bolso, etc."
+                  value={form.approximateDimensions}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                />
+              </div>
+
+              <div className="form-field">
+                <label htmlFor="custom-deadline" className="form-label">
+                  Prazo desejado
+                </label>
                 <input
                   id="custom-deadline"
                   name="deadline"
                   type="text"
                   className="form-input"
-                  placeholder="Ex: 2 semanas, sem pressa..."
+                  placeholder="Ex: Para próxima semana, sem pressa..."
                   value={form.deadline}
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -197,14 +248,24 @@ export function CustomSection() {
               </div>
             </div>
 
+            {/* Alerta de Segurança / Envio de Arquivos STL/3MF/Fotos */}
+            <div className="file-upload-notice" role="note">
+              <span className="file-upload-notice__icon" aria-hidden="true">📎</span>
+              <p>
+                <strong>Possui arquivo 3D ou foto?</strong> Você poderá anexar seus arquivos
+                (STL, 3MF, PNG ou fotos de referência) diretamente na conversa do WhatsApp
+                após clicar no botão abaixo.
+              </p>
+            </div>
+
             <button type="submit" className="btn btn-primary btn-lg form-submit">
               <WhatsAppIcon />
-              ENVIAR VIA WHATSAPP
+              ENVIAR IDEIA VIA WHATSAPP
             </button>
 
             <p className="form-note">
-              Ao clicar, você será redirecionado ao WhatsApp com a mensagem já preenchida.
-              Não coletamos dados no servidor.
+              Ao clicar, você será direcionado ao WhatsApp com todos os campos estruturados.
+              Nenhum dado pessoal é armazenado no servidor.
             </p>
           </form>
         </div>

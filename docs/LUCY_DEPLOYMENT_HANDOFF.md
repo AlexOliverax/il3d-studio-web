@@ -103,15 +103,20 @@ dist/
 
 No `Caddyfile` existente, aponte a raiz do site para a pasta `dist/`:
 
-```
+```caddy
 il3dstudio.com.br {
+    redir https://www.il3dstudio.com.br{uri} permanent
+}
+
+www.il3dstudio.com.br {
     root * /opt/il3d-studio-web/dist
     file_server
     try_files {path} /index.html
 }
 ```
 
-> A diretiva `try_files {path} /index.html` garante que o React Router (se usado no futuro) e reloads de página funcionem corretamente.
+> A diretiva `try_files {path} /index.html` garante que reloads de página funcionem corretamente, e o redirecionamento permanente unifica a autoridade de SEO no domínio canônico `www.il3dstudio.com.br`.
+
 
 Recarregar o Caddy:
 

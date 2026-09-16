@@ -1,0 +1,16 @@
+{
+  "name": "IL 3D Studio",
+  "short_name": "IL 3D",
+  "description": "Impressão 3D criativa e personalizada sob demanda em São Paulo",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FAF7F2",
+  "theme_color": "#FF2D78",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
