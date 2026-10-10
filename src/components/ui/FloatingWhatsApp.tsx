@@ -2,7 +2,7 @@ import { generateFloatingWhatsAppLink } from '../../utils/whatsapp'
 import { trackEvent } from '../../utils/analytics'
 import './FloatingWhatsApp.css'
 
-export function FloatingWhatsApp() {
+export function FloatingWhatsApp({ raised = false }: { raised?: boolean }) {
   function handleClick() {
     trackEvent({
       name: 'whatsapp_click',
@@ -11,7 +11,7 @@ export function FloatingWhatsApp() {
   }
 
   return (
-    <aside aria-label="Atendimento rápido por WhatsApp" className="floating-whatsapp-container">
+    <aside aria-label="Atendimento rápido por WhatsApp" className={`floating-whatsapp-container${raised ? ' floating-whatsapp-container--raised' : ''}`}>
       <a
         href={generateFloatingWhatsAppLink()}
         target="_blank"

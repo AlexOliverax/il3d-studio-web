@@ -159,3 +159,14 @@
 .products-grid--development {
   opacity: 0.95;
 }
+
+.collection-featured { display: grid; gap: 2.5rem; align-items: center; }
+.collection-featured > * { min-width: 0; }
+.collection-intro { display: flex; flex-direction: column; gap: 1.25rem; }
+.collection-intro h3 { font-size: clamp(1.75rem, 4vw, 2.5rem); }
+.collection-intro p { color: var(--color-black-mid); }
+.collection-intro .btn { align-self: flex-start; }
+.collection-featured .optimized-image { object-fit: contain; background: var(--color-bg); }
+@media (min-width: 768px) { .collection-featured { grid-template-columns: 1fr 1fr; } }
+
+.collection-featured > [role="listitem"] { max-width: 370px; width: 100%; justify-self: center; }

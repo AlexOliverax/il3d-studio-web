@@ -13,8 +13,8 @@
   --color-surface: #FFFFFF;
   --color-black: #1A1A1A;
   --color-black-mid: #2C2C2C;
-  --color-pink: #FF2D78;
-  --color-pink-hover: #E0245F;
+  --color-pink: #CB1752;
+  --color-pink-hover: #AE1143;
   --color-pink-light: #FFE4EE;
   --color-yellow: #FFE000;
   --color-yellow-hover: #F5D600;
@@ -394,3 +394,18 @@ p {
   }
 }
 
+
+section[id] { scroll-margin-top: 80px; }
+@media (max-width: 480px) {
+  :root { --section-padding: 3.5rem 0; }
+  .header-inner { gap: .5rem; }
+  .header-actions { gap: .5rem; }
+  .header-cart-btn > span:not(.cart-badge) { display: none; }
+  .header-cart-btn { min-width: 44px; min-height: 44px; }
+  .header-hamburger { width: 44px; height: 44px; }
+  .hero-trust { grid-template-columns: 1fr; }
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+  .header-whatsapp-btn { display: none; }
+  .header-nav__link { padding-inline: .45rem; }
+}

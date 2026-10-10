@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useFocusTrap } from '../../hooks/useFocusTrap'
 import { SITE_CONFIG } from '../../config/site'
 import { generateGeneralWhatsAppLink } from '../../utils/whatsapp'
 import { trackEvent } from '../../utils/analytics'
@@ -19,29 +20,21 @@ export function Header({ cartCount, onCartOpen }: HeaderProps) {
     return () => window.removeEventListener('scroll', handler)
   }, [])
 
-  // Fecha menu ao pressionar ESC
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setMenuOpen(false)
-    }
-    document.addEventListener('keydown', onKey)
-    return () => document.removeEventListener('keydown', onKey)
-  }, [])
+  const headerRef = useFocusTrap<HTMLElement>({ isOpen: menuOpen, onClose: () => setMenuOpen(false) })
 
-  // Bloqueia scroll do body quando menu mobile aberto
   useEffect(() => {
-    document.body.style.overflow = menuOpen ? 'hidden' : ''
-    return () => {
-      document.body.style.overflow = ''
-    }
-  }, [menuOpen])
+    const breakpoint = window.matchMedia('(min-width: 992px)')
+    const closeOnDesktop = () => { if (breakpoint.matches) setMenuOpen(false) }
+    breakpoint.addEventListener('change', closeOnDesktop)
+    return () => breakpoint.removeEventListener('change', closeOnDesktop)
+  }, [])
 
   function handleWhatsAppClick() {
     trackEvent({ name: 'whatsapp_click', payload: { origin: 'Header - WhatsApp' } })
   }
 
   return (
-    <header className={`site-header${scrolled ? ' site-header--scrolled' : ''}`} role="banner">
+    <header ref={headerRef} className={`site-header${scrolled ? ' site-header--scrolled' : ''}`} role="banner">
       <div className="container header-inner">
         {/* Logo */}
         <a href="/" className="header-logo" aria-label="IL 3D Studio — Página inicial">
@@ -116,8 +109,6 @@ export function Header({ cartCount, onCartOpen }: HeaderProps) {
         <div
           className="mobile-menu"
           id="mobile-menu"
-          role="dialog"
-          aria-modal="true"
           aria-label="Menu de navegação mobile"
         >
           <nav aria-label="Navegação mobile">

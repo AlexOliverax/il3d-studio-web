@@ -67,6 +67,7 @@ export function OptimizedImage({
         height={height}
         loading={priority ? 'eager' : 'lazy'}
         decoding="async"
+        fetchPriority={priority ? 'high' : 'auto'}
         onLoad={() => setIsLoaded(true)}
         onError={() => setHasError(true)}
         className="optimized-image"

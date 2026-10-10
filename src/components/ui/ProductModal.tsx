@@ -60,7 +60,7 @@ export function ProductModal({
               height={product.image.height || 600}
               type={product.image.type}
               priority={true}
-              aspectRatio="4/3"
+              aspectRatio={product.category === 'HUEFORGE' ? '1043/1536' : '4/3'}
               className="product-modal__img"
             />
             <div className="product-modal__badges">
@@ -129,7 +129,9 @@ export function ProductModal({
                 <span className="spec-value">
                   {product.licenseStatus === 'ORIGINAL'
                     ? '✨ Criação Original do IL 3D Studio'
-                    : `Licença comercial autorizada (${product.creator || 'Terceiro'})`}
+                    : product.licenseStatus === 'LICENSED'
+                      ? `Modelo de ${product.creator || 'terceiro'} com autorização comercial`
+                      : 'Autorização comercial em verificação'}
                 </span>
               </div>
             </div>

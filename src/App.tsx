@@ -7,7 +7,6 @@ import { HeroSection } from './components/sections/HeroSection'
 import { CollectionSection } from './components/sections/CollectionSection'
 import { HowItWorksSection } from './components/sections/HowItWorksSection'
 import { CustomSection } from './components/sections/CustomSection'
-import { SocialProofSection } from './components/sections/SocialProofSection'
 import { AboutSection } from './components/sections/AboutSection'
 import { FaqSection } from './components/sections/FaqSection'
 import { CartDrawer } from './components/cart/CartDrawer'
@@ -35,6 +34,7 @@ function App() {
 
   const handleAddToCart = useCallback(
     (product: Product) => {
+      setSelectedProduct(null)
       addProduct(product)
       setCartOpen(true)
     },
@@ -66,13 +66,13 @@ function App() {
 
       {/* Conteúdo principal */}
       <main id="main-content" tabIndex={-1}>
-        {/* 1. Hero com nova cópia, sem robô SVG e com vitrine de peças reais */}
+        {/* Coleção confirmada pelo estúdio */}
         <HeroSection
           onCatalogClick={() => scrollToSection('produtos')}
           onCustomClick={() => scrollToSection('personalizados')}
         />
 
-        {/* 2. Catálogo completo e segregação de protótipos */}
+        {/* Orçamento da coleção */}
         <CollectionSection
           onAddToCart={handleAddToCart}
           onOpenDetails={handleOpenDetails}
@@ -85,13 +85,10 @@ function App() {
         {/* 4. Como funciona em 4 etapas */}
         <HowItWorksSection />
 
-        {/* 5. Galeria de peças reais e bastidores do estúdio */}
-        <SocialProofSection />
-
         {/* 6. Sobre a oficina e equipamentos (Bambu Lab A1, AMS) */}
         <AboutSection />
 
-        {/* 7. FAQ Estruturado com 9 perguntas */}
+        {/* Perguntas frequentes e dados estruturados */}
         <FaqSection />
       </main>
 
@@ -126,7 +123,7 @@ function App() {
       />
 
       {/* Botão Flutuante Discreto WhatsApp */}
-      <FloatingWhatsApp />
+      <FloatingWhatsApp raised={totalItems > 0} />
 
       {/* Barra Sticky Mobile quando houver itens no orçamento */}
       {totalItems > 0 && !cartOpen && (

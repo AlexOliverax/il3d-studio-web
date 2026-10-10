@@ -5,6 +5,7 @@
 export type ProductStatus = 'AVAILABLE' | 'DEVELOPMENT' | 'QUOTE_ONLY'
 
 export type ProductCategory =
+  | 'HUEFORGE'
   | 'ARTICULADOS'
   | 'PRESENTES_LEMBRANCINHAS'
   | 'PERSONALIZADOS'
@@ -90,6 +91,7 @@ export type FilterCategory = 'ALL' | ProductCategory
 
 export const CATEGORY_LABELS: Record<FilterCategory, string> = {
   ALL: 'Todos',
+  HUEFORGE: 'Arte em HueForge',
   ARTICULADOS: 'Articulados',
   PRESENTES_LEMBRANCINHAS: 'Presentes e lembrancinhas',
   PERSONALIZADOS: 'Personalizados',

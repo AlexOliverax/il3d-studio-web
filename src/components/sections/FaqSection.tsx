@@ -17,8 +17,18 @@ export function FaqSection() {
     }
   }
 
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqList.map(({ question, answer }) => ({
+      '@type': 'Question', name: question,
+      acceptedAnswer: { '@type': 'Answer', text: answer },
+    })),
+  }
+
   return (
     <section className="faq-section" id="duvidas" aria-labelledby="faq-title">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, '\\u003c') }} />
       <div className="container">
         <div className="section-header">
           <span className="pill-tag">DÚVIDAS FREQUENTES</span>

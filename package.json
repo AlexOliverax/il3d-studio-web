@@ -2,13 +2,14 @@
   "name": "il3d-studio-web",
   "private": true,
   "version": "1.0.0",
-  "description": "Site comercial oficial do IL 3D Studio — impressão 3D criativa, personalizada e feita sob demanda.",
+  "description": "Site comercial oficial do IL 3D Studio \u2014 impress\u00e3o 3D criativa, personalizada e feita sob demanda.",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "node scripts/test.mjs"
   },
   "dependencies": {
     "react": "^18.3.1",

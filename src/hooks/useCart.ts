@@ -1,61 +1,11 @@
 import { useReducer, useEffect } from 'react'
-import type { CartItem, CartAction, Product } from '../types'
+import type { CartItem, Product } from '../types'
 
-const STORAGE_KEY = 'il3d_cart'
-
-function cartReducer(state: CartItem[], action: CartAction): CartItem[] {
-  switch (action.type) {
-    case 'ADD': {
-      const existing = state.find((item) => item.product.id === action.product.id)
-      if (existing) {
-        return state.map((item) =>
-          item.product.id === action.product.id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
-        )
-      }
-      return [...state, { product: action.product, quantity: 1 }]
-    }
-
-    case 'REMOVE':
-      return state.filter((item) => item.product.id !== action.productId)
-
-    case 'UPDATE_QTY':
-      return state.map((item) =>
-        item.product.id === action.productId
-          ? { ...item, quantity: Math.max(1, action.quantity) }
-          : item
-      )
-
-    case 'UPDATE_COLOR':
-      return state.map((item) =>
-        item.product.id === action.productId
-          ? { ...item, desiredColor: action.color }
-          : item
-      )
-
-    case 'UPDATE_NOTES':
-      return state.map((item) =>
-        item.product.id === action.productId
-          ? { ...item, notes: action.notes }
-          : item
-      )
-
-    case 'CLEAR':
-      return []
-
-    default:
-      return state
-  }
-}
+import { cartReducer, restoreCart, STORAGE_KEY } from '../utils/cartState'
 
 function loadFromStorage(): CartItem[] {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY)
-    return raw ? (JSON.parse(raw) as CartItem[]) : []
-  } catch {
-    return []
-  }
+  try { return restoreCart(localStorage.getItem(STORAGE_KEY)) }
+  catch { return [] }
 }
 
 export function useCart() {
@@ -63,7 +13,8 @@ export function useCart() {
 
   // Persiste no localStorage sempre que o carrinho mudar
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(items))
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(items)) }
+    catch { /* Quotes still work when browser storage is unavailable. */ }
   }, [items])
 
   const totalItems = items.reduce((sum, item) => sum + item.quantity, 0)
