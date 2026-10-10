@@ -3,8 +3,9 @@ import { SITE_CONFIG } from '../config/site'
 
 function getWhatsAppNumber(): string {
   const envNumber = import.meta.env.VITE_IL3D_WHATSAPP_NUMBER as string | undefined
-  if (envNumber && envNumber.trim() !== '' && envNumber !== '5511999999999') {
-    return envNumber.trim().replace(/\D/g, '')
+  const digits = envNumber?.replace(/\D/g, '') ?? ''
+  if (/^55[1-9]\d{9,10}$/.test(digits) && digits !== '5511999999999') {
+    return digits
   }
   return SITE_CONFIG.whatsapp.defaultNumber
 }

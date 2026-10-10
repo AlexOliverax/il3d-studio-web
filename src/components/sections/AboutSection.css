@@ -141,3 +141,7 @@
   background: var(--color-bg);
   border-top: var(--border-width) solid var(--color-black);
 }
+
+.about-brand-card { border: var(--border-width) solid var(--color-black); border-radius: var(--border-radius-lg); background: var(--color-yellow-light); box-shadow: var(--shadow-bold); padding: 3rem 1.5rem; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+.about-brand-monogram { font-family: var(--font-display); color: var(--color-pink); font-size: 8rem; line-height: 1; font-weight: 800; }
+.about-brand-card > strong { letter-spacing: .25em; }

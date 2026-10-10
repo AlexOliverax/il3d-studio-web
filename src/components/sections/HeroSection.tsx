@@ -1,6 +1,5 @@
 import { SITE_CONFIG } from '../../config/site'
 import { OptimizedImage } from '../ui/OptimizedImage'
-import { trackEvent } from '../../utils/analytics'
 import './HeroSection.css'
 
 interface HeroSectionProps {
@@ -11,12 +10,10 @@ interface HeroSectionProps {
 export function HeroSection({ onCatalogClick, onCustomClick }: HeroSectionProps) {
   function handleCatalog() {
     onCatalogClick()
-    trackEvent({ name: 'whatsapp_click', payload: { origin: 'Hero - Ver Produtos', target: 'Catalog' } })
   }
 
   function handleCustom() {
     onCustomClick()
-    trackEvent({ name: 'whatsapp_click', payload: { origin: 'Hero - Peça Personalizada', target: 'Custom' } })
   }
 
   return (
@@ -34,14 +31,14 @@ export function HeroSection({ onCatalogClick, onCustomClick }: HeroSectionProps)
 
           {/* Headline principal */}
           <h1 className="hero-headline">
-            IDEIAS QUE VIRAM PEÇAS.<br />
-            <span className="hero-headline__accent">IMPRESSÃO 3D DO SEU JEITO.</span>
+            ARTE, FÉ E IDEIAS.<br />
+            <span className="hero-headline__accent">CAMADA POR CAMADA.</span>
           </h1>
 
           {/* Subtítulo */}
           <p className="hero-subtitle">
-            Presentes, lembrancinhas, articulados, peças úteis e projetos personalizados
-            produzidos sob demanda com acabamento de verdade.
+            Conheça nossa coleção cristã em HueForge e conte sua ideia de impressão 3D.
+            Peças feitas sob demanda em São Paulo, com atendimento direto pelo WhatsApp.
           </p>
 
           {/* CTAs */}
@@ -50,14 +47,14 @@ export function HeroSection({ onCatalogClick, onCustomClick }: HeroSectionProps)
               className="btn btn-primary btn-lg hero-cta-primary"
               onClick={handleCatalog}
             >
-              VER PRODUTOS
+              CONHECER A COLEÇÃO
               <ArrowIcon />
             </button>
             <button
               className="btn btn-secondary btn-lg hero-cta-secondary"
               onClick={handleCustom}
             >
-              PEDIR PEÇA PERSONALIZADA
+              PEDIR ORÇAMENTO
             </button>
           </div>
 
@@ -76,28 +73,28 @@ export function HeroSection({ onCatalogClick, onCustomClick }: HeroSectionProps)
         <div className="hero-visual" aria-label="Vitrine de produtos do IL 3D Studio">
           <div className="hero-showcase-card">
             <div className="hero-showcase-card__badge">
-              <span>● ESTÚDIO SÃO PAULO</span>
+              <span>COLEÇÃO CRISTÃ • HUEFORGE</span>
             </div>
             
             <div className="hero-showcase-card__image-container">
               <OptimizedImage
-                src="/images/hero-showcase.webp"
-                alt="Composição de peças reais impressas em 3D pelo IL 3D Studio: polvo articulado, chaveiro personalizado e suporte funcional"
-                width={800}
-                height={600}
+                src="/images/hueforge-cristao.jpg"
+                alt="Painel cristão em HueForge da IL 3D Studio, com Jesus e cenas de sua vida"
+                width={1043}
+                height={1536}
                 type="REAL_PRODUCT"
                 priority={true}
-                aspectRatio="4/3"
+                aspectRatio="1043/1536"
                 className="hero-showcase-img"
               />
             </div>
 
             <div className="hero-showcase-card__footer">
               <div className="showcase-detail">
-                <span className="showcase-detail__title">Produção Sob Demanda</span>
-                <span className="showcase-detail__sub">Bambu Lab A1 • Peças em PLA de alta fidelidade</span>
+                <span className="showcase-detail__title">Arte para decorar e presentear</span>
+                <span className="showcase-detail__sub">Coleção própria da IL 3D Studio</span>
               </div>
-              <span className="showcase-tag">100% PERSONALIZÁVEL</span>
+              <span className="showcase-tag">CONSULTE VALORES</span>
             </div>
           </div>
         </div>

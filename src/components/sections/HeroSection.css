@@ -209,3 +209,14 @@
   box-shadow: 1.5px 1.5px 0 var(--color-black);
   white-space: nowrap;
 }
+
+.hero-showcase-card { max-width: 370px; }
+.hero-showcase-img .optimized-image { object-fit: contain; }
+.hero-showcase-card__badge { position: static; border-radius: 0; padding: .75rem 1rem; }
+.hero-showcase-card__footer { flex-wrap: wrap; }
+.hero-visual { min-width: 0; }
+@media (max-width: 480px) {
+  .hero { padding-top: 2.5rem; }
+  .hero-headline { font-size: clamp(2rem, 9vw, 2.6rem); }
+  .hero-ctas .btn { width: 100%; }
+}

@@ -51,7 +51,7 @@ export function CartDrawer({
     trackEvent({ name: 'remove_from_quote', payload: { productId } })
   }
 
-  if (!isOpen && items.length === 0) return null
+  if (!isOpen) return null
 
   const totalQuantity = items.reduce((s, i) => s + i.quantity, 0)
 
@@ -178,7 +178,7 @@ export function CartDrawer({
                       id={`color-${item.product.id}`}
                       type="text"
                       className="form-input"
-                      placeholder="Ex: Rosa choque, preto fosco, amarelo..."
+                      placeholder="Consulte as opções da coleção"
                       value={item.desiredColor ?? ''}
                       onChange={(e) => onUpdateColor(item.product.id, e.target.value)}
                     />
@@ -196,7 +196,7 @@ export function CartDrawer({
                       id={`notes-${item.product.id}`}
                       type="text"
                       className="form-input"
-                      placeholder="Tamanho específico, gravação de nome..."
+                      placeholder="Obra desejada, tamanho ou outras dúvidas..."
                       value={item.notes ?? ''}
                       onChange={(e) => onUpdateNotes(item.product.id, e.target.value)}
                     />

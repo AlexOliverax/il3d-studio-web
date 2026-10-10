@@ -104,7 +104,7 @@ export function PolicyModal({ type, isOpen, onClose }: PolicyModalProps) {
 
         <div className="policy-modal__footer">
           <button className="btn btn-primary" onClick={onClose}>
-            ENTENDI E CONCORDO
+            FECHAR
           </button>
         </div>
       </div>

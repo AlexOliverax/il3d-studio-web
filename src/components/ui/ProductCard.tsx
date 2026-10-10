@@ -61,7 +61,7 @@ export function ProductCard({
           width={image.width || 800}
           height={image.height || 600}
           type={image.type}
-          aspectRatio="4/3"
+          aspectRatio={product.category === 'HUEFORGE' ? '1043/1536' : '4/3'}
         />
 
         {/* Badges superiores */}

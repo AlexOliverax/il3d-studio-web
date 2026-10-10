@@ -70,15 +70,14 @@ export function CustomSection() {
           </h2>
           <p className="party-card__desc">
             Lembrancinhas, brindes e itens temáticos impressos em 3D para aniversários,
-            casamentos ou eventos corporativos em São Paulo. Fazemos chaveiros com nomes,
-            tags de mochila, centros de mesa e decorações personalizadas.
+            casamentos ou eventos corporativos em São Paulo. Envie seu tema, quantidade e data desejada. Avaliamos o projeto e as opções de produção.
           </p>
 
-          <ul className="party-features" aria-label="O que podemos produzir para seu evento">
+          <ul className="party-features" aria-label="Ideias que podemos avaliar para seu evento">
             {[
               { icon: '🔑', text: 'Chaveiros com nomes, iniciais e logos' },
               { icon: '🎒', text: 'Tags de mochila e identificadores duráveis' },
-              { icon: '🎂', text: 'Topos de bolo e enfeites temáticos exclusivos' },
+              { icon: '🎂', text: 'Enfeites e decoração temática' },
               { icon: '🏆', text: 'Troféus e lembranças personalizadas' },
               { icon: '🎁', text: 'Brindes criativos em quantidade sob demanda' },
             ].map((item) => (
@@ -115,8 +114,7 @@ export function CustomSection() {
             <span className="custom-form-title__accent">A GENTE TRANSFORMA EM 3D.</span>
           </h2>
           <p className="custom-form-desc">
-            Conte o que você quer produzir. Analisamos a viabilidade técnica, acabamento
-            e tempo de máquina, e retornamos com o orçamento pelo WhatsApp.
+            Conte o que você quer produzir. Avaliamos o formato, tamanho e acabamento e combinamos o orçamento pelo WhatsApp.
           </p>
 
           <form

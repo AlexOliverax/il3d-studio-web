@@ -12,6 +12,8 @@ export function useFocusTrap<T extends HTMLElement = HTMLDivElement>({
   returnFocusRef,
 }: UseFocusTrapOptions) {
   const containerRef = useRef<T>(null)
+  const onCloseRef = useRef(onClose)
+  useEffect(() => { onCloseRef.current = onClose }, [onClose])
   const previousActiveElementRef = useRef<HTMLElement | null>(null)
 
   useEffect(() => {
@@ -24,13 +26,16 @@ export function useFocusTrap<T extends HTMLElement = HTMLDivElement>({
     const container = containerRef.current
     if (!container) return
 
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+
     // Busca elementos focáveis
     const focusableSelector =
-      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
 
     // Foca no primeiro elemento focável ou no próprio container
     const setInitialFocus = () => {
-      const focusable = container.querySelectorAll<HTMLElement>(focusableSelector)
+      const focusable = Array.from(container.querySelectorAll<HTMLElement>(focusableSelector)).filter(el => el.getClientRects().length > 0)
       if (focusable.length > 0) {
         focusable[0].focus()
       } else {
@@ -43,7 +48,7 @@ export function useFocusTrap<T extends HTMLElement = HTMLDivElement>({
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         e.preventDefault()
-        onClose()
+        onCloseRef.current()
         return
       }
 
@@ -51,7 +56,7 @@ export function useFocusTrap<T extends HTMLElement = HTMLDivElement>({
 
       const focusableElements = Array.from(
         container.querySelectorAll<HTMLElement>(focusableSelector)
-      ).filter((el) => !el.hasAttribute('disabled') && el.getAttribute('aria-hidden') !== 'true')
+      ).filter((el) => el.getClientRects().length > 0 && el.getAttribute('aria-hidden') !== 'true')
 
       if (focusableElements.length === 0) {
         e.preventDefault()
@@ -77,6 +82,7 @@ export function useFocusTrap<T extends HTMLElement = HTMLDivElement>({
     document.addEventListener('keydown', handleKeyDown)
 
     return () => {
+      document.body.style.overflow = previousOverflow
       clearTimeout(timer)
       document.removeEventListener('keydown', handleKeyDown)
 
@@ -86,7 +92,7 @@ export function useFocusTrap<T extends HTMLElement = HTMLDivElement>({
         restoreTarget.focus()
       }
     }
-  }, [isOpen, onClose, returnFocusRef])
+  }, [isOpen, returnFocusRef])
 
   return containerRef
 }

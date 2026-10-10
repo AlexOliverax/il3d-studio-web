@@ -86,15 +86,7 @@ export function Footer({ onOpenPolicy }: FooterProps) {
                 {SITE_CONFIG.whatsapp.displayNumber}
               </a>
 
-              <a
-                href={SITE_CONFIG.social.instagram}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="footer-social-link"
-                aria-label="Instagram do IL 3D Studio"
-              >
-                📸 Instagram Oficial
-              </a>
+
             </div>
           </div>
         </nav>
@@ -105,7 +97,7 @@ export function Footer({ onOpenPolicy }: FooterProps) {
         <div className="container footer-bottom-inner">
           <p>© {year} IL 3D Studio. Todos os direitos reservados.</p>
           <p className="footer-note">
-            Modelos de terceiros só entram no catálogo com licença comercial verificada.
+            Produção sob demanda. Valores e prazos confirmados no orçamento.
           </p>
         </div>
       </div>
