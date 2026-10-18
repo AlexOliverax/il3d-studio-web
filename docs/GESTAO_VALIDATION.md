@@ -38,8 +38,8 @@ imutáveis; banco não sobrescrito por init; nenhum usuário padrão criado.
   em mudança separada com regressões; não expor servidor Vite de desenvolvimento.
 - Não houve pentest independente, teste de carga, verificação em Safari/Firefox,
   teste de HTTPS/reverse proxy ou restore de backup. Não declarar pronto para produção.
-- CI foi adicionado para testes do backend, navegador e vitrine; resultados remotos
-  devem ser conferidos no PR, não inferidos a partir desta validação local.
+- CI de backend, navegador e vitrine aprovado no commit inicial `bd3d8d6`: [execução GitHub Actions](https://github.com/AlexOliverax/il3d-studio-web/actions/runs/39113843891).
+  Conferir também os checks do HEAD atual no PR após revisões de documentação.
 - UI de imagens aceita referências HTTPS e lista URLs; upload/preview fica para próxima fase.
 - Sem MFA, recuperação de senha, lotes, ordens de produção, publicação pública ou
   integração real de agentes nesta primeira versão.

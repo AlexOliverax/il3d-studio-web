@@ -89,7 +89,7 @@ impostos, taxas, mão de obra ou perdas; documentar esses critérios antes de op
 2. Modelo transacional, autenticação, API e aprovação — implementado.
 3. Painel privado, cadastros, calculadora, estoque, rascunhos e auditoria — implementado.
 4. Testes de autorização, replay, corrida, rollback, cálculo e fluxo de navegador — ver relatório.
-5. Validação de Alex: UX, conceitos de custo, unidades, contas e operações.
+5. Validação do responsável: UX, conceitos de custo, unidades, contas e operações.
 6. Somente após aprovação: staging HTTPS privado, provisionamento de credenciais,
    backup/restore, MFA/recuperação de conta, política de rede, monitoramento, revisão de
    segurança e reconciliação do catálogo. Deploy/publicação/dados reais permanecem fora do escopo autorizado.

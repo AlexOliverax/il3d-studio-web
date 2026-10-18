@@ -20,7 +20,7 @@ def app(tmp_path):
     db.executescript((Path(__file__).parents[1] / 'schema.sql').read_text())
     for name in ['AdminTesteA', 'AdminTesteB']:
         db.execute('INSERT INTO users(id,name,password_hash) VALUES(?,?,?)', (name.lower(), name, generate_password_hash(PASSWORD)))
-    db.execute('INSERT INTO agents(id,name,token_hash,expires) VALUES(?,?,?,?)', ('lucy', 'Lucy', digest('test-agent'), int(time.time())+3600))
+    db.execute('INSERT INTO agents(id,name,token_hash,expires) VALUES(?,?,?,?)', ('agent-test', 'AgenteTeste', digest('test-agent'), int(time.time())+3600))
     db.close()
     return create_app({'DATABASE':path,'TESTING':True,'ORIGIN':ORIGIN,'COOKIE_SECURE':False})
 
@@ -112,7 +112,7 @@ def test_agents_can_request_but_never_confirm(app, client):
     assert decide(a,op,'reject').status_code == 403
     assert decide(client,op).status_code == 200
     event = client.get('/api/audit').json['items'][0]
-    assert event['requester'] == 'agent:lucy' and event['approver'] == 'admin:admintestea'
+    assert event['requester'] == 'agent:agent-test' and event['approver'] == 'admin:admintestea'
 
 
 def test_admintesteb_is_authorized(app, client):
@@ -269,7 +269,7 @@ def test_agent_cannot_claim_admin_or_publish(client):
 def test_pagination_and_no_raw_credentials(client):
     identities = client.get('/api/identities').json['items']
     assert all(set(item) == {'actor', 'name'} for item in identities)
-    assert {item['name'] for item in identities} == {'AdminTesteA','AdminTesteB','Lucy'}
+    assert {item['name'] for item in identities} == {'AdminTesteA','AdminTesteB','AgenteTeste'}
     assert client.get('/api/filaments?offset=-1').status_code == 400
     assert client.get('/api/filaments?offset=x').status_code == 400
     for resource in ['users','sessions','agents']:
