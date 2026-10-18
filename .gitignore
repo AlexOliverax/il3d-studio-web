@@ -29,3 +29,11 @@ yarn-error.log*
 # Misc
 *.pem
 .cache/
+
+# Private management development/runtime data
+.venv-gestao/
+management/instance/
+__pycache__/
+.pytest_cache/
+*.sqlite3
+*.sqlite3-*

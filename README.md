@@ -45,3 +45,10 @@ coleção; não implica que todas as obras estão disponíveis ou com o mesmo pr
 
 O domínio atual usa Caddy no servidor da Lucy. Atualizar o GitHub não publica
 sozinho os arquivos no servidor. Consulte `docs/LUCY_DEPLOYMENT_HANDOFF.md`.
+
+## Módulo privado Gestão (desenvolvimento)
+
+A primeira versão isolada está em [management/](management/README.md).
+Não faz parte do build público, não publica produtos e não se conecta a dados reais.
+Veja a [análise e arquitetura](docs/GESTAO_ARCHITECTURE.md) e o
+[contrato para agentes/Hermes](docs/GESTAO_HERMES_API.md).
