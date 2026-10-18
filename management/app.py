@@ -7,7 +7,7 @@ import time
 import uuid
 from contextlib import contextmanager
 from datetime import datetime, timezone
-from decimal import Decimal, ROUND_HALF_UP
+from decimal import Decimal, ROUND_HALF_UP, ROUND_CEILING
 from pathlib import Path
 from urllib.parse import urlparse
 
@@ -17,6 +17,19 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 KINDS = {'filament.create', 'filament.update', 'stock.receive', 'stock.consume',
          'stock.adjust', 'product.save', 'product.archive', 'catalog.prepare'}
+
+
+AGENT_SCOPES = {'inventory:read', 'products:read', 'operations:read',
+                'pricing:calculate', 'operations:request'}
+
+
+def agent_scope(method, path):
+    if method == 'GET':
+        return {'/api/me': 'identity:self', '/api/filaments': 'inventory:read',
+                '/api/products': 'products:read', '/api/operations': 'operations:read'}.get(path)
+    if method == 'POST':
+        return {'/api/calculate': 'pricing:calculate', '/api/operations': 'operations:request'}.get(path)
+    return None
 
 
 def canonical(value):
@@ -102,37 +115,81 @@ def validate(kind, p):
     return p
 
 
+def decimal_hours(value):
+    require(type(value) in (str, int, float), 'Horas inválidas')
+    try:
+        hours = Decimal(str(value))
+    except Exception:
+        raise Problem('Horas inválidas') from None
+    require(hours.is_finite() and 0 <= hours <= 100000, 'Horas inválidas')
+    return hours
+
+
 def calculate(data, db):
     fields(data, ['materials', 'hours', 'power_w', 'energy_cents_kwh',
-                  'maintenance_cents_hour', 'packaging_cents', 'sale_cents'])
+                  'maintenance_cents_hour', 'packaging_cents', 'sale_cents'],
+           ['labor_hours', 'labor_cents_hour', 'tax_bps', 'sales_fee_bps',
+            'fixed_fee_cents', 'loss_bps', 'target_margin_bps', 'basis', 'basis_note'])
+    basis = data.get('basis', 'estimate')
+    require(basis in ('estimate', 'actual_inputs'), 'Base de cálculo inválida')
+    if basis == 'actual_inputs':
+        string(data.get('basis_note'), 1000)
+        require(data.get('loss_bps', 0) == 0,
+                'Em custos informados como reais, inclua perdas nos gramas medidos; não aplique perda estimada')
+    elif 'basis_note' in data:
+        string(data['basis_note'], 1000)
     require(isinstance(data['materials'], list) and len(data['materials']) <= 100, 'Materiais inválidos')
     material_cost = Decimal(0)
+    material_ids = set()
     for entry in data['materials']:
         fields(entry, ['filament_id', 'grams'])
         string(entry['filament_id'])
         integer(entry['grams'], 1)
+        require(entry['filament_id'] not in material_ids, 'Material duplicado')
+        material_ids.add(entry['filament_id'])
         row = db.execute('SELECT * FROM filaments WHERE id=?', (entry['filament_id'],)).fetchone()
         require(row is not None, 'Filamento não encontrado', 404)
         material_cost += Decimal(row['price_cents']) * entry['grams'] / row['spool_weight_g']
-    require(type(data['hours']) in (str, int, float), 'Horas inválidas')
-    try:
-        hours = Decimal(str(data['hours']))
-    except Exception:
-        raise Problem('Horas inválidas') from None
-    require(hours.is_finite() and 0 <= hours <= 100000, 'Horas inválidas')
+    hours = decimal_hours(data['hours'])
+    labor_hours = decimal_hours(data.get('labor_hours', '0'))
     for key in ('power_w', 'energy_cents_kwh', 'maintenance_cents_hour', 'packaging_cents', 'sale_cents'):
         integer(data[key])
+    for key in ('labor_cents_hour', 'fixed_fee_cents'):
+        integer(data.get(key, 0))
+    for key in ('tax_bps', 'sales_fee_bps', 'loss_bps', 'target_margin_bps'):
+        integer(data.get(key, 0), 0, 10000)
+    tax, fee, target = [data.get(k, 0) for k in ('tax_bps', 'sales_fee_bps', 'target_margin_bps')]
+    require(tax + fee + target < 10000, 'Impostos + taxas + margem devem somar menos de 100%')
     cents = lambda x: int(x.quantize(Decimal('1'), rounding=ROUND_HALF_UP))
     result = {'filament_cents': cents(material_cost),
+              'loss_cents': cents(material_cost * data.get('loss_bps', 0) / 10000),
               'energy_cents': cents(hours * data['power_w'] * data['energy_cents_kwh'] / 1000),
               'maintenance_cents': cents(hours * data['maintenance_cents_hour']),
-              'packaging_cents': data['packaging_cents']}
-    result['total_cents'] = sum(result.values())
+              'labor_cents': cents(labor_hours * data.get('labor_cents_hour', 0)),
+              'packaging_cents': data['packaging_cents'],
+              'fixed_fee_cents': data.get('fixed_fee_cents', 0)}
+    base = sum(result.values())
+    result['base_cents'] = base
+    def variable_cost(sale):
+        return cents(Decimal(sale) * tax / 10000) + cents(Decimal(sale) * fee / 10000)
+    result['tax_cents'] = cents(Decimal(data['sale_cents']) * tax / 10000)
+    result['sales_fee_cents'] = cents(Decimal(data['sale_cents']) * fee / 10000)
+    result['total_cents'] = base + result['tax_cents'] + result['sales_fee_cents']
     result['sale_cents'] = data['sale_cents']
     result['profit_cents'] = data['sale_cents'] - result['total_cents']
     result['margin_percent'] = (str((Decimal(result['profit_cents']) * 100 / data['sale_cents'])
                                       .quantize(Decimal('.01'), rounding=ROUND_HALF_UP))
                                 if data['sale_cents'] else None)
+    # Each percentage is rounded separately. Add a rounding buffer to guarantee
+    # the requested margin even near a discontinuity, not just algebraically.
+    denominator = Decimal(10000 - tax - fee - target)
+    suggested = int((Decimal(base) * 10000 / denominator).to_integral_value(rounding=ROUND_CEILING))
+    if Decimal(suggested - base - variable_cost(suggested)) * 10000 < Decimal(suggested) * target:
+        suggested = int((Decimal(base + 1) * 10000 / denominator).to_integral_value(rounding=ROUND_CEILING))
+    require(max(base, result['total_cents'], suggested) <= 1_000_000_000, 'Custo ou preço sugerido excede o limite da simulação')
+    result.update(suggested_sale_cents=suggested, target_margin_bps=target,
+                  basis=basis, basis_note=data.get('basis_note', ''), persisted=False,
+                  cost_notice='Simulação não contabilizada; preço do filamento usa cadastro atual, não custo histórico de lote.')
     return result
 
 
@@ -254,6 +311,9 @@ def create_app(config=None):
                                (digest(auth[7:]), int(time.time()))).fetchone()
             require(row is not None, 'Credencial inválida', 401)
             g.actor, g.role = 'agent:' + row['id'], 'agent'
+            g.scopes = set(json.loads(row['scopes']))
+            scope = agent_scope(request.method, request.path)
+            require(scope is not None and (scope == 'identity:self' or scope in g.scopes), 'Escopo não autorizado', 403)
         else:
             row = db().execute('SELECT s.*,u.name FROM sessions s JOIN users u ON u.id=s.user_id WHERE s.token_hash=? AND s.expires>? AND u.active=1',
                                (digest(request.cookies.get('gestao_session', '')), int(time.time()))).fetchone()
@@ -340,7 +400,10 @@ def create_app(config=None):
         except ValueError:
             raise Problem('Offset inválido') from None
         require(0 <= offset <= 1000000, 'Offset inválido')
-        rows = db().execute(f'SELECT * FROM {resource} ORDER BY rowid DESC LIMIT 100 OFFSET ?', (offset,)).fetchall()
+        if g.role == 'agent' and resource == 'operations':
+            rows = db().execute('SELECT * FROM operations WHERE requester=? ORDER BY rowid DESC LIMIT 100 OFFSET ?', (g.actor, offset)).fetchall()
+        else:
+            rows = db().execute(f'SELECT * FROM {resource} ORDER BY rowid DESC LIMIT 100 OFFSET ?', (offset,)).fetchall()
         return jsonify(items=[dict(row) for row in rows], next_offset=offset + 100 if len(rows) == 100 else None)
 
     @app.post('/api/calculate')

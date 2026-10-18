@@ -41,7 +41,7 @@ e [transações SQLite](https://www.sqlite.org/lang_transaction.html).
 3. Browser: origem exata e CSRF para escritas; login também verifica Origin.
    Rate limit persistente para falhas de senha por conta e IP (10/15 minutos).
 4. Agentes recebem tokens próprios, armazenados por hash, válidos por 90 dias e
-   revogáveis. Todos têm somente leitura e solicitação; nenhum endpoint de aprovação
+   revogáveis. Permissões são individuais: leitura por recurso e solicitação opcional; nenhum endpoint de aprovação
    aceita Bearer. Tokens de agentes jamais devem conter senhas de administradores.
 5. TODA alteração de cadastro, financeira, estoque ou status é uma solicitação
    imutável com hash, identidade derivada da autenticação, chave idempotente e prazo
@@ -80,8 +80,7 @@ energia = horas × W / 1000 × tarifa;
 manutenção = horas × custo/hora; embalagem é fixa por simulação.
 Cada componente arredondado para centavos (half-up); total soma componentes.
 Lucro = venda − total; margem = lucro / venda × 100, nula se venda zero.
-Custos são estimativas, não movimentações financeiras. Não inclui automaticamente
-impostos, taxas, mão de obra ou perdas; documentar esses critérios antes de operar.
+Custos são estimativas, não movimentações financeiras. A revisão funcional implementa mão de obra, impostos, taxas, perdas e margem alvo configuráveis; ver `GESTAO_PRICING.md` para fórmulas e limites.
 
 ## Plano e limites de entrega
 
@@ -94,6 +93,6 @@ impostos, taxas, mão de obra ou perdas; documentar esses critérios antes de op
    backup/restore, MFA/recuperação de conta, política de rede, monitoramento, revisão de
    segurança e reconciliação do catálogo. Deploy/publicação/dados reais permanecem fora do escopo autorizado.
 
-Não há MFA, upload de imagem, lotes de filamento, ordens de produção ou conector vivo
+Adaptadores server-side preparados estão em `management/integrations`, com scopes por token e testes. Não há MFA, upload de imagem, lotes de filamento, ordens de produção ou conector vivo
 para Hermes/ChatGPT nesta v1. A API documentada está preparada para integração, não
 há agentes configurados, contas reais criadas ou chamadas externas de negócio.

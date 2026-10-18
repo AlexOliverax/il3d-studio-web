@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 from werkzeug.security import generate_password_hash
-from management.app import connect, create_app, digest
+from management.app import AGENT_SCOPES, connect, create_app, digest
 
 ORIGIN = 'http://localhost'
 PASSWORD = 'test-only-password-123'
@@ -20,7 +20,7 @@ def app(tmp_path):
     db.executescript((Path(__file__).parents[1] / 'schema.sql').read_text())
     for name in ['AdminTesteA', 'AdminTesteB']:
         db.execute('INSERT INTO users(id,name,password_hash) VALUES(?,?,?)', (name.lower(), name, generate_password_hash(PASSWORD)))
-    db.execute('INSERT INTO agents(id,name,token_hash,expires) VALUES(?,?,?,?)', ('agent-test', 'AgenteTeste', digest('test-agent'), int(time.time())+3600))
+    db.execute('INSERT INTO agents(id,name,token_hash,expires,scopes) VALUES(?,?,?,?,?)', ('agent-test', 'AgenteTeste', digest('test-agent'), int(time.time())+3600,json.dumps(sorted(AGENT_SCOPES))))
     db.close()
     return create_app({'DATABASE':path,'TESTING':True,'ORIGIN':ORIGIN,'COOKIE_SECURE':False})
 
@@ -216,7 +216,7 @@ def test_calculator_rounding_margin_zero_and_negative_profit(client):
     body = {'materials':[{'filament_id':f['id'],'grams':100}],'hours':'2.5','power_w':200,
             'energy_cents_kwh':100,'maintenance_cents_hour':100,'packaging_cents':200,'sale_cents':3000}
     r = client.post('/api/calculate',json=body)
-    assert r.json == {'filament_cents':1000,'energy_cents':50,'maintenance_cents':250,'packaging_cents':200,
+    assert {k:r.json[k] for k in ('filament_cents','energy_cents','maintenance_cents','packaging_cents','total_cents','sale_cents','profit_cents','margin_percent')} == {'filament_cents':1000,'energy_cents':50,'maintenance_cents':250,'packaging_cents':200,
                       'total_cents':1500,'sale_cents':3000,'profit_cents':1500,'margin_percent':'50.00'}
     body['sale_cents'] = 0
     r = client.post('/api/calculate',json=body)

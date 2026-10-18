@@ -133,7 +133,16 @@ O token de agente é mostrado uma vez no terminal: guardar no cofre, nunca em me
 Git, frontend ou query string. CLI opera como administrador do sistema e registra auditoria.
 Banco criado com modo 0600. Não há recuperação de senha via HTTP; procedimento seguro
 precisa ser definido antes de operação real. Não há migração automática de dados existentes:
-`init` recusa sobrescrever arquivo. Versão do schema: `PRAGMA user_version=1`.
+`init` recusa sobrescrever arquivo. Versão do schema: `PRAGMA user_version=2` (scopes por agente). Banco v1 exige revisão de migração; não há migração automática.
 
 Ver [arquitetura](../docs/GESTAO_ARCHITECTURE.md), [integração Hermes](../docs/GESTAO_HERMES_API.md)
 e [relatório de validação](../docs/GESTAO_VALIDATION.md).
+
+## Revisão funcional do PR #2
+
+- [Precificação ampliada](../docs/GESTAO_PRICING.md)
+- [Adaptadores restritos](../docs/GESTAO_ADAPTERS.md)
+- [Kit de homologação desligado](staging/README.md)
+- [Reconciliação do catálogo — diagnóstico](../docs/GESTAO_CATALOG_RECONCILIATION.md)
+- [Plano de segurança verificável](../docs/GESTAO_SECURITY_PLAN.md)
+- [Roteiro e capturas para validação humana](../docs/GESTAO_HUMAN_VALIDATION.md)

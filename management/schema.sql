@@ -1,7 +1,7 @@
 PRAGMA foreign_keys=ON;
 CREATE TABLE IF NOT EXISTS users (id TEXT PRIMARY KEY, name TEXT NOT NULL UNIQUE, password_hash TEXT NOT NULL, active INTEGER NOT NULL DEFAULT 1);
 CREATE TABLE IF NOT EXISTS sessions (token_hash TEXT PRIMARY KEY, user_id TEXT NOT NULL REFERENCES users(id), csrf TEXT NOT NULL, expires INTEGER NOT NULL);
-CREATE TABLE IF NOT EXISTS agents (id TEXT PRIMARY KEY, name TEXT NOT NULL UNIQUE, token_hash TEXT NOT NULL UNIQUE, active INTEGER NOT NULL DEFAULT 1, expires INTEGER NOT NULL);
+CREATE TABLE IF NOT EXISTS agents (id TEXT PRIMARY KEY, name TEXT NOT NULL UNIQUE, token_hash TEXT NOT NULL UNIQUE, active INTEGER NOT NULL DEFAULT 1, expires INTEGER NOT NULL, scopes TEXT NOT NULL DEFAULT '[]');
 CREATE TABLE IF NOT EXISTS attempts (bucket TEXT NOT NULL, at INTEGER NOT NULL);
 CREATE INDEX IF NOT EXISTS attempts_lookup ON attempts(bucket, at);
 CREATE TABLE IF NOT EXISTS filaments (id TEXT PRIMARY KEY, name TEXT NOT NULL, material TEXT NOT NULL, color TEXT NOT NULL, spool_weight_g INTEGER NOT NULL CHECK(spool_weight_g>0), price_cents INTEGER NOT NULL CHECK(price_cents>=0), quantity_g INTEGER NOT NULL DEFAULT 0 CHECK(quantity_g>=0), version INTEGER NOT NULL DEFAULT 1);
@@ -14,4 +14,4 @@ CREATE TRIGGER IF NOT EXISTS audit_no_delete BEFORE DELETE ON audit BEGIN SELECT
 CREATE TRIGGER IF NOT EXISTS movement_no_update BEFORE UPDATE ON movements BEGIN SELECT RAISE(ABORT,'movements are append only'); END;
 CREATE TRIGGER IF NOT EXISTS movement_no_delete BEFORE DELETE ON movements BEGIN SELECT RAISE(ABORT,'movements are append only'); END;
 CREATE TRIGGER IF NOT EXISTS operation_immutable BEFORE UPDATE OF requester,idempotency_key,kind,payload,digest,created_at,expires ON operations BEGIN SELECT RAISE(ABORT,'immutable operation'); END;
-PRAGMA user_version=1;
+PRAGMA user_version=2;

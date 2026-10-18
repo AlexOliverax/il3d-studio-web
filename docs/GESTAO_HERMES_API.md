@@ -9,7 +9,7 @@ privado e restrição de rede. Não habilitar CORS para origens arbitrárias.
 
 Um token individual por agente/integração, criado pela CLI e guardado em cofre.
 Enviar `Authorization: Bearer <token>`; validade de 90 dias, revogação local imediata.
-Escopo fixo da v1: leitura dos dados administrativos e criação de solicitações.
+Scopes individuais na revisão v2: leitura por recurso e criação de solicitações opcional; ver `GESTAO_ADAPTERS.md`.
 Não forneça credenciais a agentes sem necessidade de acesso a custos/estoque/auditoria.
 Nunca passe cookie, senha ou CSRF de administrador para agentes/modelos.
 Usuário/role/aprovador/executor são derivados no servidor; não são campos aceitos.
@@ -23,9 +23,10 @@ público, URL externa ou integração viva é criado automaticamente por esta br
 | Método | Caminho | Efeito |
 |---|---|---|
 | GET | `/me` | Identidade e papel |
-| GET | `/identities` | Nomes privados para resolver identidades da auditoria (sem credenciais) |
+| GET | `/identities` | Somente administradores; agentes não acessam |
 | GET | `/filaments`, `/products` | Cadastros privados |
-| GET | `/operations`, `/movements`, `/audit` | Pedidos e rastreabilidade |
+| GET | `/operations` | Agente vê apenas seus próprios pedidos, com scope |
+| GET | `/movements`, `/audit` | Somente administradores |
 | POST | `/calculate` | Simulação, sem persistência |
 | POST | `/operations` | Solicitação pendente, sem alterar dados |
 | POST | `/operations/{id}/approve` ou `/reject` | **Só sessão humana** + Origin + CSRF + senha |
@@ -79,6 +80,9 @@ Solicitações expiram em 24h. Após conflito de versão, ler o registro e solic
 operação com nova chave; não reaprovar silenciosamente um conteúdo atualizado.
 
 ## Calculadora
+
+Campos adicionais e regras em [Precificação](GESTAO_PRICING.md): mão de obra, impostos,
+taxas, perdas, margem alvo e origem estimada/medida. Nenhuma contabilização automática.
 
 ```json
 {

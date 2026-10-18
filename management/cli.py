@@ -1,5 +1,6 @@
 """Local administration only. No default credentials and no secrets in arguments."""
 import argparse
+import json
 import getpass
 import os
 import secrets
@@ -7,7 +8,7 @@ import time
 import uuid
 from pathlib import Path
 from werkzeug.security import generate_password_hash
-from management.app import audit, connect, create_app, digest, transaction
+from management.app import AGENT_SCOPES, audit, connect, create_app, digest, transaction
 
 
 def main():
@@ -15,6 +16,7 @@ def main():
     parser.add_argument('command', choices=['init', 'admin', 'agent', 'revoke-agent', 'disable-admin', 'serve'])
     parser.add_argument('--database', required=True)
     parser.add_argument('--name')
+    parser.add_argument('--scope', action='append', choices=sorted(AGENT_SCOPES))
     parser.add_argument('--port', type=int, default=8787)
     args = parser.parse_args()
     path = Path(args.database).resolve()
@@ -48,8 +50,8 @@ def main():
                        (str(uuid.uuid4()), args.name, generate_password_hash(password)))
         elif args.command == 'agent':
             token = secrets.token_urlsafe(48)
-            db.execute('INSERT INTO agents(id,name,token_hash,expires) VALUES(?,?,?,?)',
-                       (str(uuid.uuid4()), args.name, digest(token), int(time.time()) + 90 * 86400))
+            db.execute('INSERT INTO agents(id,name,token_hash,expires,scopes) VALUES(?,?,?,?,?)',
+                       (str(uuid.uuid4()), args.name, digest(token), int(time.time()) + 90 * 86400, json.dumps(args.scope or ['inventory:read','products:read'])))
         elif args.command == 'revoke-agent':
             db.execute('UPDATE agents SET active=0 WHERE name=?', (args.name,))
         elif args.command == 'disable-admin':

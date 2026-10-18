@@ -1,0 +1,44 @@
+name: il3d-gestao-validation
+services:
+  app:
+    profiles: [approved-staging]
+    build:
+      context: ../..
+      dockerfile: management/staging/Dockerfile
+    user: "${GESTAO_UID:-1000}:${GESTAO_GID:-1000}"
+    environment:
+      GESTAO_DATABASE: /data/gestao.sqlite3
+      GESTAO_ORIGIN: "https://${GESTAO_STAGE_HOST:-gestao.test}:9443"
+    volumes:
+      - type: bind
+        source: "${GESTAO_STAGE_DATA:?private synthetic data directory required}"
+        target: /data
+    read_only: true
+    tmpfs: [/tmp]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    networks: [private]
+    restart: "no"
+  proxy:
+    profiles: [approved-staging]
+    image: caddy:2.10.2-alpine
+    environment:
+      GESTAO_STAGE_HOST: "${GESTAO_STAGE_HOST:-gestao.test}"
+    ports:
+      - "${GESTAO_BIND_IP:-127.0.0.1}:9443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - tls_data:/data
+      - tls_config:/config
+    depends_on: [app]
+    read_only: true
+    tmpfs: [/tmp]
+    security_opt: [no-new-privileges:true]
+    networks: [private]
+    restart: "no"
+networks:
+  private:
+    internal: true
+volumes:
+  tls_data:
+  tls_config:

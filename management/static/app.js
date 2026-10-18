@@ -132,9 +132,11 @@ bind('#product',async d => {
   await propose('product.save',payload);
 });
 bind('#calculator',async d => {
-  const result = await api('calculate',{materials:materials($('#calc-materials')),hours:d.hours,power_w:Number(d.power_w),energy_cents_kwh:cents(d.energy),maintenance_cents_hour:cents(d.maintenance),packaging_cents:cents(d.packaging),sale_cents:cents(d.sale)});
+  const result = await api('calculate',{materials:materials($('#calc-materials')),hours:d.hours,power_w:Number(d.power_w),energy_cents_kwh:cents(d.energy),maintenance_cents_hour:cents(d.maintenance),packaging_cents:cents(d.packaging),sale_cents:cents(d.sale),labor_hours:d.labor_hours,labor_cents_hour:cents(d.labor),tax_bps:cents(d.tax),sales_fee_bps:cents(d.fee),fixed_fee_cents:cents(d.fixed_fee),loss_bps:cents(d.loss),target_margin_bps:cents(d.target_margin),basis:d.basis,...(d.basis_note ? {basis_note:d.basis_note} : {})});
   const box = $('#calc-result'); box.replaceChildren();
-  for(const [key,label] of Object.entries({filament_cents:'Filamento',energy_cents:'Energia',maintenance_cents:'Manutenção',packaging_cents:'Embalagem',total_cents:'Custo total',sale_cents:'Venda',profit_cents:'Lucro'})) box.append(element('p',`${label}: ${money(result[key])}`));
+  for(const [key,label] of Object.entries({filament_cents:'Filamento',loss_cents:'Perdas de material',labor_cents:'Mão de obra',tax_cents:'Impostos',sales_fee_cents:'Taxa percentual de venda',fixed_fee_cents:'Taxa fixa de venda',suggested_sale_cents:'Venda sugerida para a margem desejada',energy_cents:'Energia',maintenance_cents:'Manutenção',packaging_cents:'Embalagem',total_cents:'Custo total',sale_cents:'Venda',profit_cents:'Lucro'})) box.append(element('p',`${label}: ${money(result[key])}`));
+  box.append(element('p', result.basis === 'estimate' ? 'Base: estimativa.' : 'Base: valores medidos informados, não contabilizados.'));
+  box.append(element('p',result.cost_notice));
   box.append(element('p',`Margem: ${result.margin_percent === null ? 'indefinida (venda zero)' : result.margin_percent+'%'}`));
 });
 bind('#confirm',async d => {
