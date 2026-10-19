@@ -1,0 +1,41 @@
+# Explicit opt-in, synthetic data only. Host HTTPS proxy is configured separately.
+name: il3d-gestao-browser-validation
+services:
+  app:
+    profiles: [approved-browser-test]
+    build:
+      context: ../..
+      dockerfile: management/staging/Dockerfile
+    user: "${GESTAO_UID:-1000}:${GESTAO_GID:-1000}"
+    environment:
+      HOME: /tmp
+      GESTAO_DATABASE: /data/gestao.sqlite3
+      GESTAO_ORIGIN: "https://${GESTAO_BROWSER_HOST:?approved hostname required}"
+      GESTAO_REQUIRE_MFA: "1"
+      GESTAO_TOTP_FILE: /run/gestao-mfa.json
+    volumes:
+      - "${GESTAO_STAGE_DATA:?synthetic data directory required}:/data"
+      - "${GESTAO_MFA_FILE:?private MFA provisioning required}:/run/gestao-mfa.json:ro"
+    read_only: true
+    tmpfs: [/tmp]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    networks: [private]
+    restart: "no"
+  relay:
+    profiles: [approved-browser-test]
+    image: caddy:2.10.2-alpine
+    command: ["caddy", "reverse-proxy", "--from", ":8080", "--to", "app:8000"]
+    ports: ["127.0.0.1:8793:8080"]
+    read_only: true
+    tmpfs: [/tmp, /data, /config]
+    cap_drop: [ALL]
+    cap_add: [NET_BIND_SERVICE]
+    security_opt: [no-new-privileges:true]
+    networks: [private, ingress]
+    restart: "no"
+    depends_on: [app]
+networks:
+  ingress: {}
+  private:
+    internal: true

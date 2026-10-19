@@ -12,6 +12,7 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 from flask import Flask, g, jsonify, render_template, request
+from management.mfa import load_secrets, matching_step
 from werkzeug.exceptions import HTTPException
 from werkzeug.security import check_password_hash, generate_password_hash
 
@@ -266,6 +267,16 @@ def create_app(config=None):
     if config:
         app.config.update(config)
 
+    mfa_path = os.environ.get('GESTAO_TOTP_FILE')
+    if mfa_path:
+        app.config['TOTP_SECRETS'] = load_secrets(mfa_path)
+    if os.environ.get('GESTAO_REQUIRE_MFA') == '1' and not app.config.get('TOTP_SECRETS'):
+        raise ValueError('MFA required but not provisioned')
+    if app.config.get('TOTP_SECRETS'):
+        setup_db = connect(app.config['DATABASE'])
+        setup_db.execute('CREATE TABLE IF NOT EXISTS mfa_steps(user_id TEXT PRIMARY KEY, step INTEGER NOT NULL)')
+        setup_db.close()
+
     def db():
         if 'db' not in g:
             g.db = connect(app.config['DATABASE'])
@@ -325,7 +336,7 @@ def create_app(config=None):
     def admin():
         require(g.role == 'admin', 'Somente administrador humano pode confirmar', 403)
 
-    def password_check(name, password):
+    def password_check(name, password, clear_attempts=True):
         require(isinstance(name, str) and isinstance(password, str) and len(name) <= 200 and len(password) <= 1024,
                 'Credenciais inválidas', 401)
         stamp = int(time.time())
@@ -341,15 +352,16 @@ def create_app(config=None):
         # Always perform a password KDF, including unknown users.
         valid = check_password_hash(user['password_hash'] if user else app.config['DUMMY_HASH'], password)
         require(user is not None and valid, 'Credenciais inválidas', 401)
-        with transaction(db()):
-            db().executemany('DELETE FROM attempts WHERE bucket=?', [(bucket,) for bucket in buckets])
+        if clear_attempts:
+            with transaction(db()):
+                db().executemany('DELETE FROM attempts WHERE bucket=?', [(bucket,) for bucket in buckets])
         return user
 
     app.config['DUMMY_HASH'] = generate_password_hash(secrets.token_urlsafe(32))
 
     @app.get('/')
     def index():
-        return render_template('index.html')
+        return render_template('index.html', mfa_required=bool(app.config.get('TOTP_SECRETS')))
 
     @app.get('/assets/<name>')
     def asset(name):
@@ -360,10 +372,22 @@ def create_app(config=None):
     @app.post('/api/login')
     def login():
         require(request.headers.get('Origin') == app.config['ORIGIN'], 'Origem inválida', 403)
-        fields(request.json, ['name', 'password'])
-        user = password_check(request.json['name'], request.json['password'])
+        fields(request.json, ['name', 'password'], ['otp'])
+        mfa = app.config.get('TOTP_SECRETS')
+        user = password_check(request.json['name'], request.json['password'], clear_attempts=not mfa)
+        step = None
+        if mfa:
+            secret = mfa.get(user['name'])
+            require(secret is not None, 'Credenciais inválidas', 401)
+            step = matching_step(secret, request.json.get('otp'), time.time())
+            require(step is not None, 'Credenciais inválidas', 401)
         token, csrf = secrets.token_urlsafe(32), secrets.token_urlsafe(32)
         with transaction(db()):
+            if mfa:
+                previous = db().execute('SELECT step FROM mfa_steps WHERE user_id=?', (user['id'],)).fetchone()
+                require(previous is None or step > previous['step'], 'Código já utilizado; aguarde o próximo', 401)
+                db().execute('INSERT INTO mfa_steps VALUES(?,?) ON CONFLICT(user_id) DO UPDATE SET step=excluded.step', (user['id'], step))
+                db().executemany('DELETE FROM attempts WHERE bucket=?', [('user:' + digest(user['name']),), ('ip:' + (request.remote_addr or ''),)])
             db().execute('DELETE FROM sessions WHERE expires<? OR token_hash=?',
                          (int(time.time()), digest(request.cookies.get('gestao_session', ''))))
             db().execute('INSERT INTO sessions VALUES(?,?,?,?)', (digest(token), user['id'], csrf, int(time.time()) + 28800))
