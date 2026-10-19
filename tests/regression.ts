@@ -48,3 +48,34 @@ const faq = renderToStaticMarkup(React.createElement(FaqSection))
 const structured = JSON.parse(faq.match(/<script[^>]*>(.*?)<\/script>/)![1])
 assert.deepEqual(structured.mainEntity.map((q: { acceptedAnswer: { text: string } }) => q.acceptedAnswer.text), faqList.map(q => q.answer))
 console.log('Passed: cart recovery, quantities, WhatsApp encoding, assets, hidden drawers, license labels and FAQ consistency.')
+
+// Catalog navigation and product presentation.
+const { filterCatalog, catalogCollections, CATALOG_PAGE_SIZE } = await import('../src/utils/catalog')
+const { CollectionSection } = await import('../src/components/sections/CollectionSection')
+const { ProductCard } = await import('../src/components/ui/ProductCard')
+assert.equal(new Set(products.map(p => p.id)).size, products.length)
+for (const p of products) {
+  for (const image of p.gallery ?? []) assert(existsSync(`public${image.src}`), `Missing gallery image: ${image.src}`)
+}
+for (const collection of catalogCollections) {
+  assert(existsSync(`public${collection.image}`))
+  assert(filterCatalog(products, collection.id).length > 0)
+}
+assert.deepEqual(filterCatalog(products, 'natal', 'arvore'), filterCatalog(products, 'natal', 'árvore'), 'Search ignores accents')
+assert.equal(filterCatalog(products, 'hueforge', 'casinha').length, 0, 'Search respects collection')
+assert.equal(filterCatalog(products, 'todos', 'inexistente-xyz').length, 0)
+const ornaments = products.filter(p => p.id.startsWith('natal-biscoito-'))
+assert.equal(ornaments.length, 6)
+assert(ornaments.every(p => p.status === 'QUOTE_ONLY' && p.licenseStatus === 'ORIGINAL' && p.image.type === 'DIGITAL_RENDER'))
+const catalog = renderToStaticMarkup(React.createElement(CollectionSection, { onAddToCart: noop, onOpenDetails: noop, isInCart: () => false }))
+assert.equal((catalog.match(/class="product-card product-card--/g) ?? []).length, CATALOG_PAGE_SIZE, 'Only one page of products renders')
+assert(catalog.includes('Buscar nesta coleção') && catalog.includes('Próxima'))
+const developmentProduct = { ...ornaments[0], status: 'DEVELOPMENT' as const, developmentNote: 'Encaixe precisa de teste' }
+for (const markup of [
+  renderToStaticMarkup(React.createElement(ProductCard, { product: developmentProduct, onAddToCart: noop, onOpenDetails: noop, isInCart: false })),
+  renderToStaticMarkup(React.createElement(ProductModal, { product: developmentProduct, isOpen: true, onClose: noop, onAddToCart: noop, isInCart: false })),
+]) {
+  assert(!/CONCEITO|EM DESENVOLVIMENTO|Encaixe precisa de teste|Fase de Laboratório|FOTO REAL/.test(markup))
+  assert(markup.includes('CONSULTAR DISPONIBILIDADE'))
+}
+console.log('Passed: catalog collections, accent-insensitive search, pagination, six ornaments, gallery assets and commercial presentation.')
