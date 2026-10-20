@@ -30,3 +30,9 @@ No celular: abrir cada coleção, buscar “árvore”, limpar busca sem resulta
 Build de produção concluído. Suíte de regressão passou, incluindo coleções, busca sem acentos, limite de seis itens, imagens/GIFs, apresentação comercial e fluxo de orçamento. O runner padrão tentou criar symlink e falhou com EPERM no Windows; a mesma suíte foi executada com saída temporária dentro do checkout, para resolver as dependências sem symlink. Não foi alterado o runner versionado.
 
 Prévia em Chrome: busca, estado vazio, categorias, paginação e inclusão no orçamento conferidos. Largura de 390 px conferida sem overflow horizontal de conteúdo. Corrigido também o mínimo da grade do formulário existente e a quebra dos botões em telas estreitas.
+
+## Complemento — projeto Bambu Studio recebido
+
+Material e cores dos seis enfeites atualizados no catálogo: PETG, amarelo e branco. Medidas nominais calculadas a partir dos vértices e das escalas salvas na montagem, incluindo argola: altura próxima de 8 cm e espessura próxima de 5 mm. Floco: largura 7,26 cm; demais seis cadastrados: largura próxima de 5,67 cm. Projeto com nove modelos; os três adicionais não entraram automaticamente no catálogo.
+
+Evidências e medidas em bolachas-3mf/medidas.json, com prévias das duas placas. Sem G-code e sem consumo/tempo total completos salvos: não foram inventadas estimativas de custo. Build de produção aprovado após a inclusão das medidas. Ainda faltam dados de venda para publicar no Mercado Livre.

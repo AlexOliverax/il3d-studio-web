@@ -28,7 +28,9 @@ export const products: Product[] = [
     ],
     "status": "QUOTE_ONLY",
     "customizable": false,
-    "availableColors": [],
+    "material": "PETG",
+    "approximateDimensions": "5,67 × 8,00 × 0,50 cm (largura × altura × espessura)",
+    "availableColors": ["Amarelo + Branco"],
     "tags": [
       "natal",
       "enfeite",
@@ -64,7 +66,9 @@ export const products: Product[] = [
     ],
     "status": "QUOTE_ONLY",
     "customizable": false,
-    "availableColors": [],
+    "material": "PETG",
+    "approximateDimensions": "7,26 × 8,00 × 0,50 cm (largura × altura × espessura)",
+    "availableColors": ["Amarelo + Branco"],
     "tags": [
       "natal",
       "enfeite",
@@ -100,7 +104,9 @@ export const products: Product[] = [
     ],
     "status": "QUOTE_ONLY",
     "customizable": false,
-    "availableColors": [],
+    "material": "PETG",
+    "approximateDimensions": "5,67 × 8,00 × 0,50 cm (largura × altura × espessura)",
+    "availableColors": ["Amarelo + Branco"],
     "tags": [
       "natal",
       "enfeite",
@@ -136,7 +142,9 @@ export const products: Product[] = [
     ],
     "status": "QUOTE_ONLY",
     "customizable": false,
-    "availableColors": [],
+    "material": "PETG",
+    "approximateDimensions": "5,67 × 8,00 × 0,50 cm (largura × altura × espessura)",
+    "availableColors": ["Amarelo + Branco"],
     "tags": [
       "natal",
       "enfeite",
@@ -172,7 +180,9 @@ export const products: Product[] = [
     ],
     "status": "QUOTE_ONLY",
     "customizable": false,
-    "availableColors": [],
+    "material": "PETG",
+    "approximateDimensions": "5,67 × 8,00 × 0,50 cm (largura × altura × espessura)",
+    "availableColors": ["Amarelo + Branco"],
     "tags": [
       "natal",
       "enfeite",
@@ -208,7 +218,9 @@ export const products: Product[] = [
     ],
     "status": "QUOTE_ONLY",
     "customizable": false,
-    "availableColors": [],
+    "material": "PETG",
+    "approximateDimensions": "5,67 × 8,00 × 0,50 cm (largura × altura × espessura)",
+    "availableColors": ["Amarelo + Branco"],
     "tags": [
       "natal",
       "enfeite",
@@ -236,7 +248,7 @@ export const products: Product[] = [
     "status": "DEVELOPMENT",
     "customizable": false,
     "availableColors": [],
-    "approximateDimensions": "Ø 7 cm · altura 7,8 cm",
+      "approximateDimensions": "Ø 7 cm · altura 7,8 cm",
     "tags": [
       "natal",
       "bolas do mundo",
@@ -265,7 +277,7 @@ export const products: Product[] = [
     "status": "DEVELOPMENT",
     "customizable": false,
     "availableColors": [],
-    "approximateDimensions": "Ø 7 cm · altura 7,8 cm",
+      "approximateDimensions": "Ø 7 cm · altura 7,8 cm",
     "tags": [
       "natal",
       "bolas do mundo",
@@ -294,7 +306,7 @@ export const products: Product[] = [
     "status": "DEVELOPMENT",
     "customizable": false,
     "availableColors": [],
-    "approximateDimensions": "Ø 7 cm · altura 7,8 cm",
+      "approximateDimensions": "Ø 7 cm · altura 7,8 cm",
     "tags": [
       "natal",
       "bolas do mundo",
@@ -323,7 +335,7 @@ export const products: Product[] = [
     "status": "DEVELOPMENT",
     "customizable": false,
     "availableColors": [],
-    "approximateDimensions": "Ø 7 cm · altura 7,8 cm",
+      "approximateDimensions": "Ø 7 cm · altura 7,8 cm",
     "tags": [
       "natal",
       "bolas do mundo",
@@ -352,7 +364,7 @@ export const products: Product[] = [
     "status": "DEVELOPMENT",
     "customizable": false,
     "availableColors": [],
-    "approximateDimensions": "Ø 7 cm · altura 7,8 cm",
+      "approximateDimensions": "Ø 7 cm · altura 7,8 cm",
     "tags": [
       "natal",
       "bolas do mundo",
@@ -381,7 +393,7 @@ export const products: Product[] = [
     "status": "DEVELOPMENT",
     "customizable": false,
     "availableColors": [],
-    "approximateDimensions": "Ø 7 cm · altura 7,8 cm",
+      "approximateDimensions": "Ø 7 cm · altura 7,8 cm",
     "tags": [
       "natal",
       "bolas do mundo",
@@ -433,7 +445,7 @@ export const products: Product[] = [
       "width": 1200,
       "height": 900
     },
-    "approximateDimensions": "Ø 6,8 cm · altura 10 cm",
+      "approximateDimensions": "Ø 6,8 cm · altura 10 cm",
     "tags": [
       "natal",
       "árvore",
@@ -469,7 +481,7 @@ export const products: Product[] = [
         "height": 900
       }
     ],
-    "approximateDimensions": "13 × 8 × 11 cm",
+      "approximateDimensions": "13 × 8 × 11 cm",
     "tags": [
       "professora",
       "nome",
@@ -496,7 +508,7 @@ export const products: Product[] = [
       "width": 1200,
       "height": 900
     },
-    "approximateDimensions": "Placa 17 × 7,5 cm",
+      "approximateDimensions": "Placa 17 × 7,5 cm",
     "tags": [
       "professora",
       "placa",
@@ -523,7 +535,7 @@ export const products: Product[] = [
       "width": 1200,
       "height": 900
     },
-    "approximateDimensions": "Ø 7 cm · altura 8,05 cm",
+      "approximateDimensions": "Ø 7 cm · altura 8,05 cm",
     "tags": [
       "medalha",
       "futsal",
@@ -594,7 +606,7 @@ export const products: Product[] = [
         "height": 900
       }
     ],
-    "approximateDimensions": "5,2 × 5,9 × 0,7 cm",
+      "approximateDimensions": "5,2 × 5,9 × 0,7 cm",
     "tags": [
       "chaveiro",
       "giratório",

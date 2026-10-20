@@ -1,6 +1,6 @@
 # Enfeites de Natal — Mercado Livre
 
-Textos preparados; nenhum anúncio publicado. Autoria e impressão confirmadas pelo proprietário em 19/10/2026. Aguardando .3mf para conferir medidas, material e consumo. Preço, quantidade para venda e opção avulso/kit pendentes.
+Textos preparados; nenhum anúncio publicado. Autoria e impressão confirmadas pelo proprietário em 19/10/2026. Projeto .3mf recebido e conferido: PETG, amarelo e branco. As medidas nominais estão abaixo; consumo e tempo total não foram salvos no arquivo. Preço, quantidade para venda e opção avulso/kit pendentes.
 
 ## Títulos
 
@@ -19,9 +19,9 @@ Criação autoral do IL 3D Studio, produzida pelo próprio estúdio em impressã
 
 Modelo: [modelo escolhido].
 Conteúdo: 1 enfeite do modelo escolhido.
-Material: [confirmar no .3mf].
-Medidas: [conferir no .3mf e na peça].
-Cor: [confirmar filamentos].
+Material: PETG.
+Medidas: usar a linha correspondente na tabela abaixo (aproximadas, incluindo argola).
+Cor: amarelo e branco, conforme configuração salva no projeto.
 
 Confirmar se acompanha fio antes de incluir esse acessório na descrição. Não presumir estoque a partir de uma amostra impressa.
 
@@ -31,4 +31,19 @@ public/images/natal-biscoitos/: PNG frente/lateral/verso e GIF por modelo. Image
 
 ## Para concluir
 
-Conferir .3mf, preço, estoque, avulso/kit, inclusão de fio, peso/dimensões da embalagem e prazo de despacho. Selecionar categoria, atributos e modalidade no fluxo da conta Mercado Livre. Não foram presumidas tarifas nem medidas. Completar estes campos antes de copiar/publicar a descrição.
+Definir preço, estoque, avulso/kit, inclusão de fio, peso/dimensões da embalagem e prazo de despacho. Para custos, obter fatiamento completo com consumo, purga e tempo total. Selecionar categoria, atributos e modalidade no fluxo da conta Mercado Livre. Não foram presumidas tarifas nem medidas. Completar estes campos antes de copiar/publicar a descrição.
+
+## Medidas nominais extraídas do projeto
+
+Largura × altura × espessura, incluindo a argola; medidas arredondadas para anúncio.
+
+| Modelo | Medidas aproximadas | Objeto 3MF |
+|---|---|---|
+| casinha | 5,67 × 8,00 × 0,50 cm | 8 |
+| floco-de-neve | 7,26 × 8,00 × 0,50 cm | 4 |
+| papai-noel | 5,67 × 8,00 × 0,50 cm | 14 |
+| biscoitinha | 5,67 × 8,00 × 0,50 cm | 12 |
+| meia | 5,67 × 8,00 × 0,50 cm | 6 |
+| arvore | 5,67 × 8,00 × 0,50 cm | 16 |
+
+O projeto contém nove modelos em duas placas. Além dos seis já cadastrados, há boneco de biscoito, luva e boneco de neve. Esses três não foram adicionados automaticamente ao catálogo. Configuração salva: Bambu Lab A1, bico 0,4 mm, camada 0,2 mm, preenchimento 15%, duas paredes e alisamento das superfícies superiores. As configurações não comprovam consumo real, tempo de impressão ou inspeção física. Medidas calculadas dos vértices com a escala salva na montagem; não são medidas da embalagem nem conferência com paquímetro.
