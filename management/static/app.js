@@ -65,7 +65,7 @@ async function all(resource) {
   return items;
 }
 async function refresh() {
-  const names = ['filaments','products','operations','movements','audit','identities'];
+  const names = ['filaments','products','product-drafts','operations','movements','audit','identities'];
   const values = await Promise.all(names.map(all)); state = Object.fromEntries(names.map((n,i) => [n,values[i]]));
   render();
 }
@@ -84,6 +84,16 @@ function render() {
     if(p.status !== 'archived') {
       action(c, 'Solicitar aprovação de catálogo', () => propose('catalog.prepare',{id:p.id,expected_version:p.version}));
       action(c, 'Solicitar arquivamento', () => propose('product.archive',{id:p.id,expected_version:p.version}));
+    }
+  }
+  for(const p of (state['product-drafts'] || [])) {
+    const c = card($('#product-list'), `${p.name} · Rascunho incompleto`, p.description);
+    c.append(element('p', `${p.material} · ${p.colors.join(' / ')} · ${p.dimensions_cm.width} × ${p.dimensions_cm.height} × ${p.dimensions_cm.thickness} cm (aproximadas, com argola)`));
+    c.append(element('p', 'Custo: pendente · Preço: pendente · Estoque: não informado'));
+    c.append(element('p', `Pendências: ${p.pending.join('; ')}`));
+    for(const media of p.media) {
+      const a = element('a', `Mídia ilustrativa (${media.type})`);
+      if(media.url.startsWith('https://')) { a.href=media.url; a.target='_blank'; a.rel='noopener noreferrer'; c.append(a,element('br','')); }
     }
   }
   $('#operation-list').replaceChildren();

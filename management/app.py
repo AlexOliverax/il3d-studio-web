@@ -27,7 +27,7 @@ AGENT_SCOPES = {'inventory:read', 'products:read', 'operations:read',
 def agent_scope(method, path):
     if method == 'GET':
         return {'/api/me': 'identity:self', '/api/filaments': 'inventory:read',
-                '/api/products': 'products:read', '/api/operations': 'operations:read'}.get(path)
+                '/api/products': 'products:read', '/api/product-drafts': 'products:read', '/api/operations': 'operations:read'}.get(path)
     if method == 'POST':
         return {'/api/marketplaces/ml/preview': 'pricing:calculate', '/api/calculate': 'pricing:calculate', '/api/operations': 'operations:request'}.get(path)
     return None
@@ -415,6 +415,15 @@ def create_app(config=None):
         agents = [{'actor': 'agent:' + row['id'], 'name': row['name']}
                   for row in db().execute('SELECT id,name FROM agents')]
         return jsonify(items=people + agents, next_offset=None)
+
+    @app.get('/api/product-drafts')
+    def product_drafts():
+        # Owner-provided intake, separate from priced products and stock.
+        path = app.config.get('PRODUCT_DRAFTS_FILE') or os.environ.get('GESTAO_PRODUCT_DRAFTS_FILE')
+        if not path:
+            return jsonify(items=[], next_offset=None)
+        data = json.loads(Path(path).read_text())
+        return jsonify(items=data['items'], next_offset=None)
 
     @app.get('/api/<resource>')
     def listing(resource):

@@ -11,10 +11,12 @@ services:
       HOME: /tmp
       GESTAO_DATABASE: /data/gestao.sqlite3
       GESTAO_ORIGIN: "https://${GESTAO_BROWSER_HOST:?approved hostname required}"
+      GESTAO_PRODUCT_DRAFTS_FILE: /run/product-drafts.json
       GESTAO_REQUIRE_MFA: "1"
       GESTAO_TOTP_FILE: /run/gestao-mfa.json
     volumes:
       - "${GESTAO_STAGE_DATA:?synthetic data directory required}:/data"
+      - "${GESTAO_DRAFTS_FILE:?private draft registry required}:/run/product-drafts.json:ro"
       - "${GESTAO_MFA_FILE:?private MFA provisioning required}:/run/gestao-mfa.json:ro"
     read_only: true
     tmpfs: [/tmp]

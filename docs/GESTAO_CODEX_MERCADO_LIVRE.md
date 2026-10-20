@@ -98,3 +98,18 @@ nenhuma alteração financeira, exclusão, baixa ou anúncio externo.
 Prévia não modifica o dump do banco; frete aumenta custo/preço sugerido; ausência
 de taxas e frete negativo são rejeitados; autenticação/scopes aplicados; adaptador
 não permite `publish`. Somente dados fictícios e transporte de teste local.
+
+## Cadastros incompletos do proprietário
+
+`GET /api/product-drafts` (scope `products:read`) e ferramenta
+`list_product_drafts` retornam a ficha inicial quando custo/preço/estoque ainda
+são desconhecidos. Valores desconhecidos são JSON `null`, jamais zero.
+Esses registros ficam em arquivo privado separado do banco de demonstração,
+montado read-only via `GESTAO_DRAFTS_FILE` no profile de navegador.
+Não há endpoint de escrita nem promoção automática para produto precificado.
+A Gestão mostra esses rascunhos na aba Produtos; não oferece publicação para eles.
+Dados de origem, dimensões aproximadas, mídias ilustrativas e pendências são
+preservados. Não usar as dimensões do modelo como dimensões da embalagem.
+Até confirmação de custos, formato de venda, acessórios e quantidade, não
+inferir preço, frete ou disponibilidade. Consultar também `/products` para
+registros precificados; não confundir os produtos fictícios com esses cadastros.
