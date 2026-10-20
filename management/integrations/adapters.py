@@ -11,7 +11,7 @@ from urllib.error import HTTPError, URLError
 from urllib.parse import urlparse
 from urllib.request import HTTPRedirectHandler, Request, build_opener
 
-PROFILES = {'marico', 'hermes', 'lucy', 'chatgpt'}
+PROFILES = {'marico', 'hermes', 'lucy', 'chatgpt', 'codex'}
 READ_TOOLS = {'list_filaments':'filaments', 'list_products':'products', 'list_requests':'operations'}
 
 
@@ -77,6 +77,8 @@ class AgentAdapter:
             if type(offset) is not int or not 0 <= offset <= 1_000_000:
                 raise ValueError('Offset inválido')
             return self._transport('GET', '/' + READ_TOOLS[tool] + '?offset=' + str(offset), None, headers)
+        if tool == 'preview_ml_listing':
+            return self._transport('POST', '/marketplaces/ml/preview', arguments, headers)
         if tool == 'estimate_cost':
             return self._transport('POST', '/calculate', arguments, headers)
         if tool == 'request_operation':
@@ -105,9 +107,18 @@ def tools_manifest():
     result.append({'type':'function','function':{'name':'estimate_cost','description':'Simulação, não contabiliza nem altera preços ou estoque.',
         'parameters':{'type':'object','properties':{
             'materials':{'type':'array','items':{'type':'object','properties':{'filament_id':{'type':'string'},'grams':{'type':'integer','minimum':1}},'required':['filament_id','grams'],'additionalProperties':False}},
-            'hours':{'type':'string'}, **{key:{'type':'integer','minimum':0} for key in ('power_w','energy_cents_kwh','maintenance_cents_hour','packaging_cents','sale_cents','labor_cents_hour','tax_bps','sales_fee_bps','fixed_fee_cents','loss_bps','target_margin_bps')},
+            'hours':{'type':'string'}, **{key:{'type':'integer','minimum':0} for key in ('power_w','energy_cents_kwh','maintenance_cents_hour','packaging_cents','sale_cents','labor_cents_hour','tax_bps','sales_fee_bps','fixed_fee_cents','shipping_cents','loss_bps','target_margin_bps')},
             'labor_hours':{'type':'string'},'basis':{'type':'string','enum':['estimate','actual_inputs']},'basis_note':{'type':'string'}},
         'required':['materials','hours','power_w','energy_cents_kwh','maintenance_cents_hour','packaging_cents','sale_cents'],'additionalProperties':False}}})
+    cost_schema = next(x['function']['parameters'] for x in result if x['function']['name'] == 'estimate_cost')
+    result.append({'type':'function','function':{'name':'preview_ml_listing',
+        'description':'Simula preço e rascunho interno do Mercado Livre; taxas informadas, não verificadas. Não publica.',
+        'parameters':{'type':'object','properties':{
+            'title':{'type':'string'}, 'description':{'type':'string'},
+            'category_id':{'type':'string'}, 'listing_type_id':{'type':'string'},
+            'fee_source_note':{'type':'string'}, 'costs':cost_schema},
+            'required':['title','description','category_id','listing_type_id','fee_source_note','costs'],
+            'additionalProperties':False}}})
     result.append({'type':'function','function':{'name':'request_operation','description':'Cria pedido pendente. Exige aprovação humana no painel; nunca declarar executado sem observar status.',
         'parameters':{'type':'object','properties':{'kind':{'type':'string','enum':['filament.create','filament.update','stock.receive','stock.consume','stock.adjust','product.save','product.archive','catalog.prepare']},
         'payload':{'type':'object'},'idempotency_key':{'type':'string','description':'ID estável da intenção, preservado em retries'}},

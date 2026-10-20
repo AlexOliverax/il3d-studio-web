@@ -29,7 +29,7 @@ def agent_scope(method, path):
         return {'/api/me': 'identity:self', '/api/filaments': 'inventory:read',
                 '/api/products': 'products:read', '/api/operations': 'operations:read'}.get(path)
     if method == 'POST':
-        return {'/api/calculate': 'pricing:calculate', '/api/operations': 'operations:request'}.get(path)
+        return {'/api/marketplaces/ml/preview': 'pricing:calculate', '/api/calculate': 'pricing:calculate', '/api/operations': 'operations:request'}.get(path)
     return None
 
 
@@ -130,7 +130,7 @@ def calculate(data, db):
     fields(data, ['materials', 'hours', 'power_w', 'energy_cents_kwh',
                   'maintenance_cents_hour', 'packaging_cents', 'sale_cents'],
            ['labor_hours', 'labor_cents_hour', 'tax_bps', 'sales_fee_bps',
-            'fixed_fee_cents', 'loss_bps', 'target_margin_bps', 'basis', 'basis_note'])
+            'fixed_fee_cents', 'shipping_cents', 'loss_bps', 'target_margin_bps', 'basis', 'basis_note'])
     basis = data.get('basis', 'estimate')
     require(basis in ('estimate', 'actual_inputs'), 'Base de cálculo inválida')
     if basis == 'actual_inputs':
@@ -155,7 +155,7 @@ def calculate(data, db):
     labor_hours = decimal_hours(data.get('labor_hours', '0'))
     for key in ('power_w', 'energy_cents_kwh', 'maintenance_cents_hour', 'packaging_cents', 'sale_cents'):
         integer(data[key])
-    for key in ('labor_cents_hour', 'fixed_fee_cents'):
+    for key in ('labor_cents_hour', 'fixed_fee_cents', 'shipping_cents'):
         integer(data.get(key, 0))
     for key in ('tax_bps', 'sales_fee_bps', 'loss_bps', 'target_margin_bps'):
         integer(data.get(key, 0), 0, 10000)
@@ -168,7 +168,8 @@ def calculate(data, db):
               'maintenance_cents': cents(hours * data['maintenance_cents_hour']),
               'labor_cents': cents(labor_hours * data.get('labor_cents_hour', 0)),
               'packaging_cents': data['packaging_cents'],
-              'fixed_fee_cents': data.get('fixed_fee_cents', 0)}
+              'fixed_fee_cents': data.get('fixed_fee_cents', 0),
+              'shipping_cents': data.get('shipping_cents', 0)}
     base = sum(result.values())
     result['base_cents'] = base
     def variable_cost(sale):
@@ -429,6 +430,11 @@ def create_app(config=None):
         else:
             rows = db().execute(f'SELECT * FROM {resource} ORDER BY rowid DESC LIMIT 100 OFFSET ?', (offset,)).fetchall()
         return jsonify(items=[dict(row) for row in rows], next_offset=offset + 100 if len(rows) == 100 else None)
+
+    @app.post('/api/marketplaces/ml/preview')
+    def ml_preview():
+        from management.marketplace import preview
+        return jsonify(preview(request.json, db()))
 
     @app.post('/api/calculate')
     def calculator():

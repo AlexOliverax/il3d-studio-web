@@ -52,7 +52,7 @@ def test_backend_scopes_enforced_and_own_operations_only(app,client):
 
 def test_private_tokens_not_in_tools_or_errors(tmp_path,monkeypatch):
     token_file = tmp_path/'token'; token_file.write_text('synthetic-secret'); token_file.chmod(0o600)
-    for profile in ('marico','hermes','lucy','chatgpt'):
+    for profile in ('marico','hermes','lucy','chatgpt','codex'):
         monkeypatch.setenv('GESTAO_'+profile.upper()+'_TOKEN_FILE',str(token_file))
         monkeypatch.setenv('GESTAO_'+profile.upper()+'_API_URL','https://gestao.invalid/api')
         assert AgentAdapter.from_environment(profile)
@@ -85,7 +85,7 @@ def test_host_owns_idempotency_key(monkeypatch):
         dispatch('lucy','request_operation',{**args,'idempotency_key':'model-key'},intent_id='host-record-1')
     for fmt in ('responses','chat_completions'):
         schemas = model_tools(fmt)
-        assert len(schemas) == 5
+        assert len(schemas) == 6
         assert 'idempotency_key' not in json.dumps(schemas)
 
 
