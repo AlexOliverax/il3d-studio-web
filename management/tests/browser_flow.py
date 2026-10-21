@@ -101,3 +101,31 @@ def test_browser_flow(app, tmp_path, width):
         server.shutdown()
         thread.join(timeout=5)
         server.server_close()
+
+@pytest.mark.parametrize('width', [390, 1280])
+def test_physical_inventory_panel(app, width):
+    from management.app import connect
+    from management.physical_inventory import register_batch
+    from management.tests.test_physical_inventory import item
+    db = connect(app.config['DATABASE'])
+    register_batch(db, [item()], 'browser-test', 'test-admin')
+    db.close()
+    server = make_server('127.0.0.1', 0, app, threaded=True)
+    origin = f'http://127.0.0.1:{server.server_port}'
+    app.config['ORIGIN'] = origin
+    Thread(target=server.serve_forever, daemon=True).start()
+    try:
+        with sync_playwright() as p:
+            browser = p.chromium.launch(headless=True, executable_path=os.environ.get('BROWSER_EXECUTABLE'))
+            page = browser.new_page(viewport={'width':width,'height':900})
+            page.goto(origin)
+            page.locator('#login [name=name]').fill('AdminTesteA')
+            page.locator('#login [name=password]').fill(PASSWORD)
+            page.get_by_role('button',name='Entrar',exact=True).click()
+            expect(page.locator('#physical-inventory-list')).to_contain_text('TEST01')
+            expect(page.locator('#physical-inventory-list')).to_contain_text('líquido: Pendente')
+            expect(page.locator('#physical-inventory-list')).to_contain_text('aguardando revisão')
+            assert page.evaluate('document.documentElement.scrollWidth <= innerWidth')
+            browser.close()
+    finally:
+        server.shutdown()

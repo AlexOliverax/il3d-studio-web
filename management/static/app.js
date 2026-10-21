@@ -21,7 +21,7 @@ function signedIn(value) {
   $('#login-panel').hidden = value; $('#workspace').hidden = !value; $('#logout').hidden = !value;
   if (!value) {
     csrf = ''; state = {};
-    for (const id of ['filament-list','product-list','operation-list','movement-list','audit-list','calc-result','calc-materials','product-materials']) $('#'+id).replaceChildren();
+    for (const id of ['physical-inventory-list','filament-list','product-list','operation-list','movement-list','audit-list','calc-result','calc-materials','product-materials']) $('#'+id).replaceChildren();
     for (const form of document.querySelectorAll('#workspace form')) form.reset();
   }
 }
@@ -65,11 +65,18 @@ async function all(resource) {
   return items;
 }
 async function refresh() {
-  const names = ['filaments','products','product-drafts','operations','movements','audit','identities'];
+  const names = ['physical-inventory','filaments','products','product-drafts','operations','movements','audit','identities'];
   const values = await Promise.all(names.map(all)); state = Object.fromEntries(names.map((n,i) => [n,values[i]]));
   render();
 }
 function render() {
+  $('#physical-inventory-list').replaceChildren();
+  const weight = v => v === null ? 'Pendente' : `${v} g`;
+  const cost = v => v === null ? 'Pendente' : money(v);
+  for (const i of (state['physical-inventory'] || [])) {
+    card($('#physical-inventory-list'), `${i.inventory_id} · ${i.material} · ${i.color}`,
+      `${i.category} · marca: ${i.brand || 'Não confirmada'} · diâmetro: ${i.diameter_mm ?? 'Pendente'} mm · unidades: ${i.quantity_units} · nominal: ${weight(i.nominal_weight_g)} · bruto: ${weight(i.gross_weight_g)} · tara: ${weight(i.tare_weight_g)} · líquido: ${weight(i.net_weight_g)} · ${i.net_status} · aquisição: ${cost(i.acquisition_cost_cents)} · reposição: ${cost(i.replacement_value_cents)} · aguardando revisão. ${i.observation}`);
+  }
   $('#filament-list').replaceChildren();
   for(const f of state.filaments) card($('#filament-list'), `${f.name} · ${f.material} · ${f.color}`, `${f.quantity_g} g disponíveis · rolo ${f.spool_weight_g} g · ${money(f.price_cents)} · versão ${f.version}`);
   if(!state.filaments.length) $('#filament-list').append(element('p','Nenhum filamento cadastrado.'));

@@ -12,7 +12,7 @@ from urllib.parse import urlparse
 from urllib.request import HTTPRedirectHandler, Request, build_opener
 
 PROFILES = {'marico', 'hermes', 'lucy', 'chatgpt', 'codex'}
-READ_TOOLS = {'list_filaments':'filaments', 'list_products':'products', 'list_product_drafts':'product-drafts', 'list_requests':'operations'}
+READ_TOOLS = {'list_physical_inventory':'physical-inventory', 'list_filaments':'filaments', 'list_products':'products', 'list_product_drafts':'product-drafts', 'list_requests':'operations'}
 
 
 class AdapterError(Exception):

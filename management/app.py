@@ -26,7 +26,7 @@ AGENT_SCOPES = {'inventory:read', 'products:read', 'operations:read',
 
 def agent_scope(method, path):
     if method == 'GET':
-        return {'/api/me': 'identity:self', '/api/filaments': 'inventory:read',
+        return {'/api/me': 'identity:self', '/api/filaments': 'inventory:read', '/api/physical-inventory': 'inventory:read',
                 '/api/products': 'products:read', '/api/product-drafts': 'products:read', '/api/operations': 'operations:read'}.get(path)
     if method == 'POST':
         return {'/api/marketplaces/ml/preview': 'pricing:calculate', '/api/calculate': 'pricing:calculate', '/api/operations': 'operations:request'}.get(path)
@@ -415,6 +415,11 @@ def create_app(config=None):
         agents = [{'actor': 'agent:' + row['id'], 'name': row['name']}
                   for row in db().execute('SELECT id,name FROM agents')]
         return jsonify(items=people + agents, next_offset=None)
+
+    @app.get('/api/physical-inventory')
+    def physical_inventory():
+        from management.physical_inventory import listing
+        return jsonify(items=listing(db()), next_offset=None)
 
     @app.get('/api/product-drafts')
     def product_drafts():
