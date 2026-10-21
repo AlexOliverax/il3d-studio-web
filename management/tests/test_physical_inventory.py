@@ -40,3 +40,20 @@ def test_auth_scope_and_no_web_writes(app):
     assert c.post('/api/physical-inventory',json=item()).status_code==403
     db=connect(app.config['DATABASE']);db.execute("UPDATE agents SET scopes='[]'")
     assert c.get('/api/physical-inventory').status_code==403
+
+
+def test_owner_confirmation_preserves_unknown_and_is_idempotent(app):
+    from management.physical_inventory import confirm_physical_stock
+    db=connect(app.config['DATABASE'])
+    measured=dict(item('TEST02'),gross_weight_g=None,net_weight_g=17,net_status='measured')
+    register_batch(db,[item(),measured],'test-task','test-admin')
+    with pytest.raises(Problem):confirm_physical_stock(db,['TEST01','missing'],'test-owner')
+    assert listing(db)[0]['stock_status']=='pending_review'
+    assert confirm_physical_stock(db,['TEST01','TEST02'],'test-owner')==['TEST01','TEST02']
+    assert confirm_physical_stock(db,['TEST01','TEST02'],'test-owner')==[]
+    rows=listing(db)
+    assert rows[0]['available_units']==1 and rows[0]['available_net_weight_g'] is None
+    assert rows[1]['available_net_weight_g']==17
+    assert all(i['review_status']=='confirmed' for i in rows)
+    assert db.execute('SELECT COUNT(*) FROM operations').fetchone()[0]==0
+    assert db.execute("SELECT COUNT(*) FROM audit WHERE approver='test-owner'").fetchone()[0]==2

@@ -26,3 +26,16 @@ O operador autorizado importa itens normalizados via `management.physical_invent
    contábil até implementação e aprovação explícita de um fluxo de estoque.
 
 Esta migração não promove a homologação a produção e não altera timers de encerramento.
+
+## Confirmação explícita de disponibilidade física
+
+O operador pode usar `confirm_physical_stock(db, ids, authorization)` somente após autorização
+explícita do proprietário. A confirmação é registrada em tabela aditiva separada e auditada por ID;
+repetição é no-op e um ID inexistente cancela todo o lote. Não há endpoint agente de confirmação.
+A API passa a informar `review_status=confirmed`, `stock_status=available_physical`,
+`available_units` e `available_net_weight_g`. O último permanece nulo quando a tara é desconhecida.
+`weight_pending=true` não significa indisponibilidade física; significa que não se pode usar peso bruto
+como saldo consumível em gramas. A confirmação não aprova outras operações pendentes e não integra
+estes registros automaticamente no ledger legado `/api/filaments` ou na calculadora por filament_id.
+Consumir ou ajustar esse inventário exige um fluxo adicional com aprovação e controle de versão;
+não subtrair saldos localmente no agente.

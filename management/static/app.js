@@ -75,7 +75,7 @@ function render() {
   const cost = v => v === null ? 'Pendente' : money(v);
   for (const i of (state['physical-inventory'] || [])) {
     card($('#physical-inventory-list'), `${i.inventory_id} · ${i.material} · ${i.color}`,
-      `${i.category} · marca: ${i.brand || 'Não confirmada'} · diâmetro: ${i.diameter_mm ?? 'Pendente'} mm · unidades: ${i.quantity_units} · nominal: ${weight(i.nominal_weight_g)} · bruto: ${weight(i.gross_weight_g)} · tara: ${weight(i.tare_weight_g)} · líquido: ${weight(i.net_weight_g)} · ${i.net_status} · aquisição: ${cost(i.acquisition_cost_cents)} · reposição: ${cost(i.replacement_value_cents)} · aguardando revisão. ${i.observation}`);
+      `${i.category} · marca: ${i.brand || 'Não confirmada'} · diâmetro: ${i.diameter_mm ?? 'Pendente'} mm · unidades: ${i.quantity_units} · nominal: ${weight(i.nominal_weight_g)} · bruto: ${weight(i.gross_weight_g)} · tara: ${weight(i.tare_weight_g)} · líquido: ${weight(i.net_weight_g)} · ${i.net_status} · aquisição: ${cost(i.acquisition_cost_cents)} · reposição: ${cost(i.replacement_value_cents)} · ${i.stock_status === 'available_physical' ? 'Disponível fisicamente' : 'aguardando revisão'}. ${i.observation}`);
   }
   $('#filament-list').replaceChildren();
   for(const f of state.filaments) card($('#filament-list'), `${f.name} · ${f.material} · ${f.color}`, `${f.quantity_g} g disponíveis · rolo ${f.spool_weight_g} g · ${money(f.price_cents)} · versão ${f.version}`);

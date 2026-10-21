@@ -63,6 +63,44 @@ def register_batch(db, items, source_task, authorized_by):
 def listing(db):
     if not db.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='physical_inventory'").fetchone():
         return []
-    return [{**json.loads(row['payload']), 'source_task':row['source_task'],
-             'review_status':row['review_status'], 'created_at':row['created_at']}
+    confirmations = {}
+    if db.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='physical_inventory_confirmations'").fetchone():
+        confirmations = {row['inventory_id']: dict(row) for row in db.execute('SELECT * FROM physical_inventory_confirmations')}
+    return [{**json.loads(row['payload']), **availability(row, confirmations), 'source_task':row['source_task'],
+             'created_at':row['created_at']}
             for row in db.execute('SELECT * FROM physical_inventory ORDER BY inventory_id')]
+
+
+def availability(row, confirmations):
+    data = json.loads(row['payload'])
+    confirmed = row['inventory_id'] in confirmations
+    return {'review_status': 'confirmed' if confirmed else row['review_status'],
+            'stock_status': 'available_physical' if confirmed else 'pending_review',
+            'available_units': data['quantity_units'] if confirmed else None,
+            'available_net_weight_g': data['net_weight_g'] if confirmed else None,
+            'weight_pending': data['net_weight_g'] is None,
+            'confirmation': confirmations.get(row['inventory_id'])}
+
+
+def confirm_physical_stock(db, ids, authorization):
+    """Explicit owner confirmation only; preserves unknown weights and other operations."""
+    string(authorization)
+    require(isinstance(ids, list) and len(ids) > 0 and len(ids) == len(set(ids)), 'IDs inválidos')
+    changed = []
+    with transaction(db):
+        db.execute("""CREATE TABLE IF NOT EXISTS physical_inventory_confirmations (
+            inventory_id TEXT PRIMARY KEY REFERENCES physical_inventory(inventory_id),
+            authorized_by TEXT NOT NULL, confirmed_at TEXT NOT NULL)""")
+        for identity in ids:
+            row = db.execute('SELECT * FROM physical_inventory WHERE inventory_id=?', (identity,)).fetchone()
+            require(row is not None, 'Inventário não encontrado', 404)
+            if db.execute('SELECT 1 FROM physical_inventory_confirmations WHERE inventory_id=?',(identity,)).fetchone():
+                continue
+            db.execute('INSERT INTO physical_inventory_confirmations VALUES(?,?,?)',(identity,authorization,now()))
+            data = json.loads(row['payload'])
+            audit(db, None, 'physical_inventory.confirmed_available', authorization,
+                  {'inventory_id':identity,'available_units':data['quantity_units'],
+                   'available_net_weight_g':data['net_weight_g'],'before':'pending_review','after':'available_physical'},
+                  approver=authorization, executor='physical-inventory-confirmation:v1')
+            changed.append(identity)
+    return changed
