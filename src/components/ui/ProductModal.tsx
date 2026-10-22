@@ -1,5 +1,5 @@
 import type { Product } from '../../types'
-import { STATUS_LABELS, IMAGE_TYPE_LABELS } from '../../types'
+import { STATUS_LABELS } from '../../types'
 import {
   generateAvailabilityWhatsAppLink,
   generateNotifyWhatsAppLink,
@@ -63,22 +63,29 @@ export function ProductModal({
               aspectRatio={product.category === 'HUEFORGE' ? '1043/1536' : '4/3'}
               className="product-modal__img"
             />
+            {product.image.type !== 'REAL_PRODUCT' && (
+              <p className="product-modal__image-caption">Imagem ilustrativa do modelo.</p>
+            )}
             <div className="product-modal__badges">
               {isReal ? (
                 <span className="badge-pill badge-pill--real" aria-label="Fotografia do produto físico real">
                   ● FOTO REAL IL 3D
                 </span>
-              ) : (
-                <span className="badge-pill badge-pill--concept" aria-label={IMAGE_TYPE_LABELS[product.image.type] || 'Conceito'}>
-                  ◐ {IMAGE_TYPE_LABELS[product.image.type] || 'Conceito'}
-                </span>
-              )}
+              ) : null}
               {product.customizable && (
                 <span className="badge-pill badge-pill--custom">
                   ✏️ Personalizável
                 </span>
               )}
             </div>
+            {product.gallery && product.gallery.length > 0 && (
+              <div className="product-modal__gallery">
+                {product.gallery.map((image) => (
+                  <OptimizedImage key={image.src} src={image.src} alt={image.alt}
+                    width={image.width} height={image.height} type={image.type} aspectRatio="1/1" />
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Coluna de Informações */}
@@ -136,16 +143,6 @@ export function ProductModal({
               </div>
             </div>
 
-            {/* Alerta de desenvolvimento se aplicável */}
-            {isDevelopment && product.developmentNote && (
-              <div className="dev-alert">
-                <span className="dev-alert__icon" aria-hidden="true">🔧</span>
-                <p>
-                  <strong>Fase de Laboratório:</strong> {product.developmentNote}
-                </p>
-              </div>
-            )}
-
             {/* Ações */}
             <div className="product-modal__actions">
               {(isAvailable || isQuoteOnly) && (
@@ -178,7 +175,7 @@ export function ProductModal({
                   rel="noopener noreferrer"
                   className="btn btn-outline btn-lg modal-action-btn"
                 >
-                  🔔 QUERO SER AVISADO NO LANÇAMENTO
+                  CONSULTAR DISPONIBILIDADE
                 </a>
               )}
             </div>

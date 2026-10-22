@@ -200,3 +200,7 @@
   background: #1A7A3A;
   border-color: #1A1A1A;
 }
+
+.product-modal__image-caption { margin: .75rem 0; font-size: .8rem; color: var(--color-text-muted); }
+.product-modal__gallery { margin-top: 1rem; display: grid; gap: 1rem; }
+.product-modal__gallery .optimized-image { object-fit: contain; }

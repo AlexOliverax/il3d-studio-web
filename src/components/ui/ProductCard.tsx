@@ -26,7 +26,6 @@ export function ProductCard({
     customizable,
     availableColors,
     approximateDimensions,
-    developmentNote,
   } = product
 
   const isReal = image.type === 'REAL_PRODUCT'
@@ -70,11 +69,7 @@ export function ProductCard({
             <span className="card-badge card-badge--real" title="Fotografia real da peça física produzida no estúdio">
               ● FOTO REAL
             </span>
-          ) : (
-            <span className="card-badge card-badge--concept">
-              ◐ CONCEITO
-            </span>
-          )}
+          ) : null}
 
           {customizable && (
             <span className="card-badge card-badge--custom">
@@ -111,13 +106,6 @@ export function ProductCard({
           </div>
         )}
 
-        {/* Nota de desenvolvimento se aplicável */}
-        {isDevelopment && developmentNote && (
-          <p className="product-card__dev-note">
-            <span aria-hidden="true">🔧</span> {developmentNote}
-          </p>
-        )}
-
         {/* Ações */}
         <div className="product-card__actions" onClick={(e) => e.stopPropagation()}>
           {isOrderable && (
@@ -136,15 +124,15 @@ export function ProductCard({
               target="_blank"
               rel="noopener noreferrer"
               className="btn btn-outline btn-sm product-card__btn-notify"
-              aria-label={`Ser avisado no WhatsApp quando ${name} estiver disponível`}
+              aria-label={`Consultar disponibilidade de ${name} no WhatsApp`}
               onClick={() =>
                 trackEvent({
                   name: 'whatsapp_click',
-                  payload: { origin: 'Desenvolvimento - Notificar', target: name },
+                  payload: { origin: 'Catálogo - Disponibilidade', target: name },
                 })
               }
             >
-              🔔 QUERO SER AVISADO
+              CONSULTAR DISPONIBILIDADE
             </a>
           )}
 
