@@ -85,7 +85,7 @@ def test_host_owns_idempotency_key(monkeypatch):
         dispatch('lucy','request_operation',{**args,'idempotency_key':'model-key'},intent_id='host-record-1')
     for fmt in ('responses','chat_completions'):
         schemas = model_tools(fmt)
-        assert len(schemas) == 8
+        assert len(schemas) == 13
         assert 'idempotency_key' not in json.dumps(schemas)
 
 

@@ -26,10 +26,10 @@ AGENT_SCOPES = {'inventory:read', 'products:read', 'operations:read',
 
 def agent_scope(method, path):
     if method == 'GET':
-        return {'/api/me': 'identity:self', '/api/filaments': 'inventory:read', '/api/physical-inventory': 'inventory:read',
+        return {'/api/me': 'identity:self', '/api/filaments': 'inventory:read', '/api/physical-inventory': 'inventory:read', '/api/production-parameters': 'pricing:calculate',
                 '/api/products': 'products:read', '/api/product-drafts': 'products:read', '/api/operations': 'operations:read'}.get(path)
     if method == 'POST':
-        return {'/api/marketplaces/ml/preview': 'pricing:calculate', '/api/calculate': 'pricing:calculate', '/api/operations': 'operations:request'}.get(path)
+        return {'/api/pricing/simulate': 'pricing:calculate', '/api/energy/lookup': 'pricing:calculate', '/api/energy/bill': 'pricing:calculate', '/api/energy/manual': 'pricing:calculate', '/api/marketplaces/ml/preview': 'pricing:calculate', '/api/calculate': 'pricing:calculate', '/api/operations': 'operations:request'}.get(path)
     return None
 
 
@@ -415,6 +415,22 @@ def create_app(config=None):
         agents = [{'actor': 'agent:' + row['id'], 'name': row['name']}
                   for row in db().execute('SELECT id,name FROM agents')]
         return jsonify(items=people + agents, next_offset=None)
+
+    @app.get('/api/production-parameters')
+    def production_parameters():
+        from management.production_pricing import parameters
+        return jsonify(parameters(app.config['DATABASE']))
+
+    @app.post('/api/pricing/simulate')
+    def pricing_simulate():
+        from management.production_pricing import simulate, parameters
+        return jsonify(simulate(request.json, db(), parameters(app.config['DATABASE'])))
+
+    @app.post('/api/energy/<action>')
+    def energy_tools(action):
+        from management.energy import reference, bill, manual
+        require(action in ('lookup', 'bill', 'manual'), 'Não encontrado', 404)
+        return jsonify({'lookup':reference,'bill':bill,'manual':manual}[action](request.json))
 
     @app.get('/api/physical-inventory')
     def physical_inventory():

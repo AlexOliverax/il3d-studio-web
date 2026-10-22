@@ -12,7 +12,7 @@ from urllib.parse import urlparse
 from urllib.request import HTTPRedirectHandler, Request, build_opener
 
 PROFILES = {'marico', 'hermes', 'lucy', 'chatgpt', 'codex'}
-READ_TOOLS = {'list_physical_inventory':'physical-inventory', 'list_filaments':'filaments', 'list_products':'products', 'list_product_drafts':'product-drafts', 'list_requests':'operations'}
+READ_TOOLS = {'get_production_parameters':'production-parameters', 'list_physical_inventory':'physical-inventory', 'list_filaments':'filaments', 'list_products':'products', 'list_product_drafts':'product-drafts', 'list_requests':'operations'}
 
 
 class AdapterError(Exception):
@@ -77,6 +77,9 @@ class AgentAdapter:
             if type(offset) is not int or not 0 <= offset <= 1_000_000:
                 raise ValueError('Offset inválido')
             return self._transport('GET', '/' + READ_TOOLS[tool] + '?offset=' + str(offset), None, headers)
+        routes = {'simulate_kit':'/pricing/simulate', 'lookup_energy':'/energy/lookup', 'simulate_energy_bill':'/energy/bill', 'manual_energy_rate':'/energy/manual'}
+        if tool in routes:
+            return self._transport('POST', routes[tool], arguments, headers)
         if tool == 'preview_ml_listing':
             return self._transport('POST', '/marketplaces/ml/preview', arguments, headers)
         if tool == 'estimate_cost':
@@ -110,6 +113,8 @@ def tools_manifest():
             'hours':{'type':'string'}, **{key:{'type':'integer','minimum':0} for key in ('power_w','energy_cents_kwh','maintenance_cents_hour','packaging_cents','sale_cents','labor_cents_hour','tax_bps','sales_fee_bps','fixed_fee_cents','shipping_cents','loss_bps','target_margin_bps')},
             'labor_hours':{'type':'string'},'basis':{'type':'string','enum':['estimate','actual_inputs']},'basis_note':{'type':'string'}},
         'required':['materials','hours','power_w','energy_cents_kwh','maintenance_cents_hour','packaging_cents','sale_cents'],'additionalProperties':False}}})
+    for tool, description in [('simulate_kit','Simula kit por reposição; consulte parâmetros e pendências.'), ('lookup_energy','Consulta referência oficial, sem assumir tarifa residencial.'), ('simulate_energy_bill','Calcula custo variável de fatura estruturada JSON, sem salvar.'), ('manual_energy_rate','Valida tarifa manual identificada, sem salvar.')]:
+        result.append({'type':'function','function':{'name':tool,'description':description,'parameters':{'type':'object','properties':{},'additionalProperties':True}}})
     cost_schema = next(x['function']['parameters'] for x in result if x['function']['name'] == 'estimate_cost')
     result.append({'type':'function','function':{'name':'preview_ml_listing',
         'description':'Simula preço e rascunho interno do Mercado Livre; taxas informadas, não verificadas. Não publica.',
