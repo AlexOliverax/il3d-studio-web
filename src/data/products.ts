@@ -3,6 +3,98 @@ import { hueforgeProducts } from './hueforge'
 
 export const products: Product[] = [
 ...hueforgeProducts,
+{
+  "id": "natal-kit-6",
+  "slug": "kit-6-enfeites-natal-petg",
+  "name": "Kit 6 Enfeites de Natal + 6 Ganchos",
+  "category": "PRESENTES_LEMBRANCINHAS",
+  "shortDescription": "Decore sua árvore com 6 enfeites autorais em PETG e 6 ganchos de brinde.",
+  "description": "Kit com 6 enfeites de Natal: casinha, floco de neve, árvore, Papai Noel e dois bonequinhos. Produzidos pelo IL 3D Studio em impressão 3D com PETG amarelo e branco. Acompanha 6 ganchos de brinde, um para cada enfeite. Não acompanha fio. As imagens mostram detalhes de peças da coleção. Consulte o valor e o prazo para o seu pedido.",
+  "image": {
+    "src": "/images/natal-biscoitos/casinha.png",
+    "alt": "Detalhe da casinha que integra o kit de 6 enfeites; imagem não representa o conteúdo completo",
+    "type": "DIGITAL_RENDER",
+    "width": 1200,
+    "height": 1200
+  },
+  "gallery": [
+    {
+      "src": "/images/natal-biscoitos/floco-de-neve.png",
+      "alt": "Detalhe do floco de neve incluído no kit",
+      "type": "DIGITAL_RENDER",
+      "width": 1200,
+      "height": 1200
+    },
+    {
+      "src": "/images/natal-biscoitos/arvore.png",
+      "alt": "Detalhe da árvore incluída no kit",
+      "type": "DIGITAL_RENDER",
+      "width": 1200,
+      "height": 1200
+    }
+  ],
+  "status": "QUOTE_ONLY",
+  "customizable": false,
+  "material": "PETG",
+  "availableColors": [
+    "Amarelo + Branco"
+  ],
+  "tags": [
+    "natal",
+    "kit",
+    "6 enfeites",
+    "ganchos",
+    "autoral"
+  ],
+  "licenseStatus": "ORIGINAL",
+  "creator": "IL 3D Studio"
+},
+{
+  "id": "natal-kit-8",
+  "slug": "kit-8-enfeites-natal-petg",
+  "name": "Kit 8 Enfeites de Natal + 8 Ganchos",
+  "category": "PRESENTES_LEMBRANCINHAS",
+  "shortDescription": "Decore sua árvore com 8 enfeites autorais em PETG e 8 ganchos de brinde.",
+  "description": "Kit com 8 enfeites de Natal: casinha, floco de neve, árvore, Papai Noel, dois bonequinhos, meia e luva. Produzidos pelo IL 3D Studio em impressão 3D com PETG amarelo e branco. Acompanha 8 ganchos de brinde, um para cada enfeite. Não acompanha fio. As imagens mostram detalhes de peças da coleção. Consulte o valor e o prazo para o seu pedido.",
+  "image": {
+    "src": "/images/natal-biscoitos/casinha.png",
+    "alt": "Detalhe da casinha que integra o kit de 8 enfeites; imagem não representa o conteúdo completo",
+    "type": "DIGITAL_RENDER",
+    "width": 1200,
+    "height": 1200
+  },
+  "gallery": [
+    {
+      "src": "/images/natal-biscoitos/floco-de-neve.png",
+      "alt": "Detalhe do floco de neve incluído no kit",
+      "type": "DIGITAL_RENDER",
+      "width": 1200,
+      "height": 1200
+    },
+    {
+      "src": "/images/natal-biscoitos/arvore.png",
+      "alt": "Detalhe da árvore incluída no kit",
+      "type": "DIGITAL_RENDER",
+      "width": 1200,
+      "height": 1200
+    }
+  ],
+  "status": "QUOTE_ONLY",
+  "customizable": false,
+  "material": "PETG",
+  "availableColors": [
+    "Amarelo + Branco"
+  ],
+  "tags": [
+    "natal",
+    "kit",
+    "8 enfeites",
+    "ganchos",
+    "autoral"
+  ],
+  "licenseStatus": "ORIGINAL",
+  "creator": "IL 3D Studio"
+},
   {
     "id": "natal-biscoito-casinha",
     "slug": "enfeite-natal-casinha",
@@ -621,3 +713,4 @@ export const products: Product[] = [
 ]
 
 export default products
+
