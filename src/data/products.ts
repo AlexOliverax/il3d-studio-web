@@ -1,8 +1,10 @@
 import type { Product } from '../types'
 import { hueforgeProducts } from './hueforge'
+import { portaFotosProducts } from './natalPortaFotos'
 
 export const products: Product[] = [
 ...hueforgeProducts,
+...portaFotosProducts,
 {
   "id": "natal-kit-6",
   "slug": "kit-6-enfeites-natal-petg",
