@@ -14,7 +14,7 @@ export const portaFotosProducts: Product[] = modelos.map(([id, nome, cor, medida
   name: `Porta-foto de Natal — ${nome}`,
   category: 'PRESENTES_LEMBRANCINHAS',
   shortDescription: 'Um lugar especial na árvore para suas melhores lembranças.',
-  description: `Moldura natalina em formato de ${nome.toLowerCase()}, com frente e tampa traseira para colocar uma fotografia recortada no formato da peça. Produção IL 3D Studio em impressão 3D. Disponível na cor ${cor.toLowerCase()}. A imagem principal mostra um exemplo de personalização com uma família fictícia; a galeria apresenta a foto real das peças produzidas. Este produto corresponde a uma unidade do modelo ${nome.toLowerCase()}. Fotografia e fita para pendurar não incluídas. Consulte o valor pelo WhatsApp.`,
+  description: `Moldura natalina em formato de ${nome.toLowerCase()}, com frente e tampa traseira para colocar uma fotografia recortada no formato da peça. Produção IL 3D Studio em impressão 3D. Disponível na cor ${cor.toLowerCase()}. A imagem principal mostra um exemplo de personalização com uma família fictícia; a galeria apresenta uma visão tratada da coleção. Este produto corresponde a uma unidade do modelo ${nome.toLowerCase()}. Fotografia e fita para pendurar não incluídas. Consulte o valor pelo WhatsApp.`,
   image: {
     src: `/images/natal-porta-fotos/${id}-familia-v1.png`,
     alt: `${nome} porta-foto de Natal com exemplo de fotografia de família no centro`,
@@ -28,12 +28,6 @@ export const portaFotosProducts: Product[] = modelos.map(([id, nome, cor, medida
     type: 'DIGITAL_RENDER',
     width: 1254,
     height: 1254,
-  }, {
-    src: '/images/natal-porta-fotos/colecao-real.jpg',
-    alt: `Coleção real com bola, estrela, presente, árvore e sino; modelo deste produto: ${nome.toLowerCase()}`,
-    type: 'REAL_PRODUCT',
-    width: 1280,
-    height: 576,
   }],
   status: 'AVAILABLE',
   customizable: false,
