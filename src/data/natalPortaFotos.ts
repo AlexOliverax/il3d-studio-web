@@ -23,6 +23,12 @@ export const portaFotosProducts: Product[] = modelos.map(([id, nome, cor, medida
     height: 1254,
   },
   gallery: [{
+    src: '/images/natal-porta-fotos/colecao-tratada-v2.png',
+    alt: 'Apresentação tratada da coleção de cinco porta-fotos, com fundo claro e enquadramento próximo',
+    type: 'DIGITAL_RENDER',
+    width: 1254,
+    height: 1254,
+  }, {
     src: '/images/natal-porta-fotos/colecao-real.jpg',
     alt: `Coleção real com bola, estrela, presente, árvore e sino; modelo deste produto: ${nome.toLowerCase()}`,
     type: 'REAL_PRODUCT',

@@ -11,3 +11,7 @@ Especificação comum dos prompts: compositing/product-mockup; uma imagem quadra
 - Sino: vermelho, cúpula arredondada e base alargada, badalo arredondado central abaixo e argola no topo; sem laço. Retrato recortado na abertura do sino. 65,9 × 74,3 × 4 mm.
 
 Arquivos finais: public/images/natal-porta-fotos/{bola,estrela,presente,arvore,sino}-familia-v1.png. A foto real original permanece como colecao-real.jpg.
+
+## Tratamento da foto de coleção — v2
+
+Ferramenta: imagegen integrado; alvo: fotografia original do lote. Prompt: remover as paredes prateadas e emendas pretas da caixa de luz pelo enquadramento, aproximar os cinco enfeites com margem confortável, corrigir exposição e balanço de branco, melhorar suavemente clareza e contraste, fundo branco neutro e sombras naturais. Preservar os cinco objetos, suas formas, cores, posições e rotações, sem retratos, texto ou detalhes adicionais. Saída: public/images/natal-porta-fotos/colecao-tratada-v2.png. Tratamento generativo identificado como DIGITAL_RENDER; fotografia original preservada como REAL_PRODUCT na galeria.
