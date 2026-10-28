@@ -176,3 +176,8 @@
 .product-card__btn-details {
   flex-shrink: 0;
 }
+
+@media (max-width: 480px) {
+  .product-card__actions { flex-wrap: wrap; }
+  .product-card__btn-notify { flex-basis: 100%; white-space: normal; text-align: center; }
+}
