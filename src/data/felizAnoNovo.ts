@@ -21,7 +21,7 @@ export const felizAnoNovoProducts: Product[] = [{
     src: '/videos/feliz-ano-novo-troca-numeros.mp4',
     poster: '/images/ano-novo-modular/ambientacao.webp',
     captions: '/videos/feliz-ano-novo-troca-numeros.vtt',
-    caption: 'Veja como trocar os números: 2027 → 2028 → 2029 → 2030. Demonstração ilustrativa em 3D.',
+    caption: 'Veja como trocar os números: 2027 → 2028 → 2029 → 2030. Demonstração ilustrativa em 3D. Piano: Gymnopédie nº 1, de Erik Satie, por Kevin MacLeod (incompetech.com), CC BY 3.0.',
   },
   status: 'QUOTE_ONLY', customizable: false,
   material: 'PETG', availableColors: ['Dourado'],

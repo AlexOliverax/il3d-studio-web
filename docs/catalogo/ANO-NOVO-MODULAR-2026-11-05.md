@@ -14,6 +14,8 @@ O runner original de testes apresentou EISDIR no symlink no Windows. A mesma su�
 
 ## Publicação pela Lucy
 
+Revisão de áudio: a trilha anterior foi substituída a pedido do proprietário por piano suave — Gymnopédie nº 1, Erik Satie, gravação de Kevin MacLeod. Fonte e licença CC BY 3.0 em `public/videos/feliz-ano-novo-creditos.txt`. Normalização para -28 LUFS antes dos fades, entrada de 1,2 segundo e saída de 2,6 segundos; sem mixar o áudio anterior. Créditos discretos nos últimos três segundos, na legenda do player e nos metadados. A animação, duração e assinatura permanecem; a versão original foi preservada fora dos arquivos públicos. O vídeo final foi decodificado e o nível de áudio medido, sem afirmar avaliação por escuta.
+
 Alteração adicionada à branch existente `codex/catalogo-natal-comercial` e ao PR #3, preservando os produtos e imagens já presentes nessa branch. Usar a revisão completa dessa branch; não substituir o catálogo por `main` antigo.
 
 O usuário definiu o fluxo: preparar no GitHub; Lucy publica depois. Este trabalho não altera o servidor, DNS, TLS, variáveis de ambiente ou WhatsApp, nem faz merge em main. Na publicação, manter as coleções já existentes no servidor e incorporar a nova coleção Ano Novo. Verificar o vídeo e o arquivo VTT no domínio após o build.
