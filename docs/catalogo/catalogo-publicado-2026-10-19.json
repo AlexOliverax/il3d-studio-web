@@ -1,0 +1,402 @@
+[
+  {
+    "id": "natal-mundo-01",
+    "slug": "bola-de-natal-japao-ondas",
+    "name": "Bola de Natal — Japão — Ondas",
+    "category": "PRESENTES_LEMBRANCINHAS",
+    "shortDescription": "Ondas sinuosas e faixas curvas para uma decoração de Natal com movimento.",
+    "description": "Ondas sinuosas e faixas curvas para uma decoração de Natal com movimento. Integra a coleção Bolas do Mundo da IL 3D Studio, com seis interpretações artísticas de diferentes países. Corpo de aproximadamente 7 cm e altura total de 7,8 cm com argola. O projeto prevê duas metades coladas. A imagem é um render do modelo 3D; cor e acabamento da peça impressa podem variar. Consulte o estúdio sobre o lançamento, as cores e a produção.",
+    "image": {
+      "src": "/images/bolas-do-mundo/japao-ondas.webp",
+      "alt": "Render digital da bola de Natal Japão — Ondas, com estrutura vazada e argola superior",
+      "type": "DIGITAL_RENDER",
+      "width": 1200,
+      "height": 900
+    },
+    "status": "DEVELOPMENT",
+    "customizable": false,
+    "availableColors": [],
+    "approximateDimensions": "Ø 7 cm · altura 7,8 cm",
+    "tags": [
+      "natal",
+      "bolas do mundo",
+      "ornamento",
+      "decoração",
+      "japao-ondas"
+    ],
+    "developmentNote": "Em preparação para lançamento. Produção disponível após os testes de impressão e montagem.",
+    "licenseStatus": "ORIGINAL",
+    "creator": "IL 3D Studio",
+    "accentColor": "#4FADAE"
+  },
+  {
+    "id": "natal-mundo-02",
+    "slug": "bola-de-natal-marrocos-losangos",
+    "name": "Bola de Natal — Marrocos — Losangos",
+    "category": "PRESENTES_LEMBRANCINHAS",
+    "shortDescription": "Linhas cruzadas e aberturas em losango em uma bola de Natal vazada.",
+    "description": "Linhas cruzadas e aberturas em losango em uma bola de Natal vazada. Integra a coleção Bolas do Mundo da IL 3D Studio, com seis interpretações artísticas de diferentes países. Corpo de aproximadamente 7 cm e altura total de 7,8 cm com argola. O projeto prevê duas metades coladas. A imagem é um render do modelo 3D; cor e acabamento da peça impressa podem variar. Consulte o estúdio sobre o lançamento, as cores e a produção.",
+    "image": {
+      "src": "/images/bolas-do-mundo/marrocos-losangos.webp",
+      "alt": "Render digital da bola de Natal Marrocos — Losangos, com estrutura vazada e argola superior",
+      "type": "DIGITAL_RENDER",
+      "width": 1200,
+      "height": 900
+    },
+    "status": "DEVELOPMENT",
+    "customizable": false,
+    "availableColors": [],
+    "approximateDimensions": "Ø 7 cm · altura 7,8 cm",
+    "tags": [
+      "natal",
+      "bolas do mundo",
+      "ornamento",
+      "decoração",
+      "marrocos-losangos"
+    ],
+    "developmentNote": "Em preparação para lançamento. Produção disponível após os testes de impressão e montagem.",
+    "licenseStatus": "ORIGINAL",
+    "creator": "IL 3D Studio",
+    "accentColor": "#DA9A52"
+  },
+  {
+    "id": "natal-mundo-03",
+    "slug": "bola-de-natal-portugal-renda",
+    "name": "Bola de Natal — Portugal — Renda",
+    "category": "PRESENTES_LEMBRANCINHAS",
+    "shortDescription": "Volutas e bordas festonadas em um desenho delicado inspirado na renda.",
+    "description": "Volutas e bordas festonadas em um desenho delicado inspirado na renda. Integra a coleção Bolas do Mundo da IL 3D Studio, com seis interpretações artísticas de diferentes países. Corpo de aproximadamente 7 cm e altura total de 7,8 cm com argola. O projeto prevê duas metades coladas. A imagem é um render do modelo 3D; cor e acabamento da peça impressa podem variar. Consulte o estúdio sobre o lançamento, as cores e a produção.",
+    "image": {
+      "src": "/images/bolas-do-mundo/portugal-renda.webp",
+      "alt": "Render digital da bola de Natal Portugal — Renda, com estrutura vazada e argola superior",
+      "type": "DIGITAL_RENDER",
+      "width": 1200,
+      "height": 900
+    },
+    "status": "DEVELOPMENT",
+    "customizable": false,
+    "availableColors": [],
+    "approximateDimensions": "Ø 7 cm · altura 7,8 cm",
+    "tags": [
+      "natal",
+      "bolas do mundo",
+      "ornamento",
+      "decoração",
+      "portugal-renda"
+    ],
+    "developmentNote": "Em preparação para lançamento. Produção disponível após os testes de impressão e montagem.",
+    "licenseStatus": "ORIGINAL",
+    "creator": "IL 3D Studio",
+    "accentColor": "#609BD3"
+  },
+  {
+    "id": "natal-mundo-04",
+    "slug": "bola-de-natal-india-lotus",
+    "name": "Bola de Natal — Índia — Lótus",
+    "category": "PRESENTES_LEMBRANCINHAS",
+    "shortDescription": "Pétalas alongadas formam uma composição aberta inspirada na flor de lótus.",
+    "description": "Pétalas alongadas formam uma composição aberta inspirada na flor de lótus. Integra a coleção Bolas do Mundo da IL 3D Studio, com seis interpretações artísticas de diferentes países. Corpo de aproximadamente 7 cm e altura total de 7,8 cm com argola. O projeto prevê duas metades coladas. A imagem é um render do modelo 3D; cor e acabamento da peça impressa podem variar. Consulte o estúdio sobre o lançamento, as cores e a produção.",
+    "image": {
+      "src": "/images/bolas-do-mundo/india-lotus.webp",
+      "alt": "Render digital da bola de Natal Índia — Lótus, com estrutura vazada e argola superior",
+      "type": "DIGITAL_RENDER",
+      "width": 1200,
+      "height": 900
+    },
+    "status": "DEVELOPMENT",
+    "customizable": false,
+    "availableColors": [],
+    "approximateDimensions": "Ø 7 cm · altura 7,8 cm",
+    "tags": [
+      "natal",
+      "bolas do mundo",
+      "ornamento",
+      "decoração",
+      "india-lotus"
+    ],
+    "developmentNote": "Em preparação para lançamento. Produção disponível após os testes de impressão e montagem.",
+    "licenseStatus": "ORIGINAL",
+    "creator": "IL 3D Studio",
+    "accentColor": "#D65373"
+  },
+  {
+    "id": "natal-mundo-05",
+    "slug": "bola-de-natal-mexico-festa",
+    "name": "Bola de Natal — México — Festa",
+    "category": "PRESENTES_LEMBRANCINHAS",
+    "shortDescription": "Curvas em movimento e faixas de recortes para celebrar um Natal cheio de personalidade.",
+    "description": "Curvas em movimento e faixas de recortes para celebrar um Natal cheio de personalidade. Integra a coleção Bolas do Mundo da IL 3D Studio, com seis interpretações artísticas de diferentes países. Corpo de aproximadamente 7 cm e altura total de 7,8 cm com argola. O projeto prevê duas metades coladas. A imagem é um render do modelo 3D; cor e acabamento da peça impressa podem variar. Consulte o estúdio sobre o lançamento, as cores e a produção.",
+    "image": {
+      "src": "/images/bolas-do-mundo/mexico-festa.webp",
+      "alt": "Render digital da bola de Natal México — Festa, com estrutura vazada e argola superior",
+      "type": "DIGITAL_RENDER",
+      "width": 1200,
+      "height": 900
+    },
+    "status": "DEVELOPMENT",
+    "customizable": false,
+    "availableColors": [],
+    "approximateDimensions": "Ø 7 cm · altura 7,8 cm",
+    "tags": [
+      "natal",
+      "bolas do mundo",
+      "ornamento",
+      "decoração",
+      "mexico-festa"
+    ],
+    "developmentNote": "Em preparação para lançamento. Produção disponível após os testes de impressão e montagem.",
+    "licenseStatus": "ORIGINAL",
+    "creator": "IL 3D Studio",
+    "accentColor": "#4FAD80"
+  },
+  {
+    "id": "natal-mundo-06",
+    "slug": "bola-de-natal-suecia-neve",
+    "name": "Bola de Natal — Suécia — Neve",
+    "category": "PRESENTES_LEMBRANCINHAS",
+    "shortDescription": "Flocos de seis pontas e linhas leves inspirados no inverno sueco.",
+    "description": "Flocos de seis pontas e linhas leves inspirados no inverno sueco. Integra a coleção Bolas do Mundo da IL 3D Studio, com seis interpretações artísticas de diferentes países. Corpo de aproximadamente 7 cm e altura total de 7,8 cm com argola. O projeto prevê duas metades coladas. A imagem é um render do modelo 3D; cor e acabamento da peça impressa podem variar. Consulte o estúdio sobre o lançamento, as cores e a produção.",
+    "image": {
+      "src": "/images/bolas-do-mundo/suecia-neve.webp",
+      "alt": "Render digital da bola de Natal Suécia — Neve, com estrutura vazada e argola superior",
+      "type": "DIGITAL_RENDER",
+      "width": 1200,
+      "height": 900
+    },
+    "status": "DEVELOPMENT",
+    "customizable": false,
+    "availableColors": [],
+    "approximateDimensions": "Ø 7 cm · altura 7,8 cm",
+    "tags": [
+      "natal",
+      "bolas do mundo",
+      "ornamento",
+      "decoração",
+      "suecia-neve"
+    ],
+    "developmentNote": "Em preparação para lançamento. Produção disponível após os testes de impressão e montagem.",
+    "licenseStatus": "ORIGINAL",
+    "creator": "IL 3D Studio",
+    "accentColor": "#E1D9BF"
+  },
+  {
+    "id": "natal-advento",
+    "slug": "calendario-advento-menino-jesus",
+    "name": "Calendário do Advento — Menino Jesus",
+    "category": "PRESENTES_LEMBRANCINHAS",
+    "shortDescription": "Um projeto para acompanhar os 24 dias de espera pelo Natal em família.",
+    "description": "Calendário do Advento já impresso pelo estúdio, para acompanhar os 24 dias de espera pelo Natal com a chegada do Menino Jesus à manjedoura. A imagem ilustrativa mostra o calendário completo, com estrela, marcação dos dias e presépio. Consulte as cores, a configuração, o funcionamento demonstrado pelo estúdio e o prazo do seu conjunto.",
+    "image": {
+      "src": "/images/catalogo/advento-completo-v02.webp",
+      "alt": "Imagem ilustrativa do calendário do Advento completo com estrela, 24 dias e presépio",
+      "type": "CONCEPT",
+      "width": 1200,
+      "height": 900
+    },
+    "developmentNote": "Impressão confirmada pelo estúdio em 11/10/2026; o funcionamento físico não foi verificado nesta análise.",
+    "tags": [
+      "natal",
+      "advento",
+      "presépio",
+      "fé"
+    ],
+    "licenseStatus": "ORIGINAL",
+    "customizable": false,
+    "status": "QUOTE_ONLY",
+    "availableColors": [],
+    "creator": "IL 3D Studio"
+  },
+  {
+    "id": "natal-arvore",
+    "slug": "arvore-de-natal-giratoria",
+    "name": "Árvore de Natal Giratória",
+    "category": "PRESENTES_LEMBRANCINHAS",
+    "shortDescription": "Uma árvore de mesa com oito camadas que giram individualmente.",
+    "description": "Árvore de Natal de mesa com oito camadas de copa, estrela e base com eixo central. O projeto prevê movimento manual de cada camada e montagem das peças após a impressão. Tem cerca de 10 cm de altura e base de 6,8 cm. As cores da imagem são sugestões; consulte as opções e a previsão de lançamento.",
+    "image": {
+      "src": "/images/catalogo/arvore-giratoria.webp",
+      "alt": "Render da árvore de Natal verde com estrela amarela e oito camadas",
+      "type": "DIGITAL_RENDER",
+      "width": 1200,
+      "height": 900
+    },
+    "approximateDimensions": "Ø 6,8 cm · altura 10 cm",
+    "developmentNote": "Em preparação. Giro e encaixes precisam de teste da peça impressa.",
+    "tags": [
+      "natal",
+      "árvore",
+      "mesa",
+      "giratório"
+    ],
+    "licenseStatus": "ORIGINAL",
+    "customizable": false,
+    "status": "DEVELOPMENT",
+    "availableColors": [],
+    "creator": "IL 3D Studio"
+  },
+  {
+    "id": "presente-lousa",
+    "slug": "lousa-porta-lapis-professora",
+    "name": "Lousa Personalizada com Porta-lápis",
+    "category": "PERSONALIZADOS",
+    "shortDescription": "Uma homenagem para a professora, com nome em relevo e espaço para lápis.",
+    "description": "Miniatura decorativa de mesa com lousa, nome em relevo, livros e compartimento traseiro para organizar lápis. A imagem usa Professora Ana como exemplo; o nome pode ser adaptado mediante consulta. Dimensões aproximadas de 13 × 8 × 11 cm. Lápis ilustrativos, não incluídos. A peça é impressa em partes e montada com cola.",
+    "image": {
+      "src": "/images/catalogo/lousa-frente.webp",
+      "alt": "Render da lousa Professora Ana com livros e compartimento porta-lápis",
+      "type": "DIGITAL_RENDER",
+      "width": 1200,
+      "height": 900
+    },
+    "gallery": [
+      {
+        "src": "/images/catalogo/lousa-verso.webp",
+        "alt": "Render da vista traseira do porta-lápis da lousa personalizada",
+        "type": "DIGITAL_RENDER",
+        "width": 1200,
+        "height": 900
+      }
+    ],
+    "approximateDimensions": "13 × 8 × 11 cm",
+    "developmentNote": "Em preparação para lançamento. Acabamento e estabilidade serão conferidos na amostra.",
+    "tags": [
+      "professora",
+      "nome",
+      "porta-lápis",
+      "presente"
+    ],
+    "licenseStatus": "ORIGINAL",
+    "customizable": true,
+    "status": "DEVELOPMENT",
+    "availableColors": [],
+    "creator": "IL 3D Studio"
+  },
+  {
+    "id": "presente-placa",
+    "slug": "placa-personalizada-professora",
+    "name": "Placa Personalizada — Você Inspira",
+    "category": "PERSONALIZADOS",
+    "shortDescription": "Nome em destaque, detalhe de lápis e uma mensagem para quem ensina.",
+    "description": "Placa de mesa com desenho assimétrico, nome em relevo e a frase Você Inspira. O modelo inclui detalhes de lápis e estrela e uma base separada. A imagem mostra o exemplo Professora Ana, com cores ilustrativas. Consulte a personalização do nome e as opções de cor.",
+    "image": {
+      "src": "/images/catalogo/placa-professora.webp",
+      "alt": "Render da placa Professora Ana Você Inspira com suporte e detalhes amarelos",
+      "type": "DIGITAL_RENDER",
+      "width": 1200,
+      "height": 900
+    },
+    "approximateDimensions": "Placa 17 × 7,5 cm",
+    "developmentNote": "Em preparação. A amostra ainda precisa confirmar o encaixe e a leitura do nome.",
+    "tags": [
+      "professora",
+      "placa",
+      "nome",
+      "homenagem"
+    ],
+    "licenseStatus": "ORIGINAL",
+    "customizable": true,
+    "status": "DEVELOPMENT",
+    "availableColors": [],
+    "creator": "IL 3D Studio"
+  },
+  {
+    "id": "presente-medalha",
+    "slug": "medalha-comemorativa-futsal",
+    "name": "Medalha Comemorativa de Futsal",
+    "category": "PERSONALIZADOS",
+    "shortDescription": "Uma medalha em relevo para celebrar uma história no esporte.",
+    "description": "Medalha comemorativa já produzida pelo estúdio, com disco de 7 cm, argola e inscrições em relevo. O exemplo homenageia os 70 anos da LJFS. A imagem ilustrativa apresenta a pintura colorida, com letras azuis, folhas verdes e uvas roxas. Consulte quantidades, acabamento, personalização e prazo. Cordão não representado nem incluído neste projeto.",
+    "image": {
+      "src": "/images/catalogo/medalha-futsal-colorida-v02.webp",
+      "alt": "Imagem ilustrativa da medalha LJFS 70 anos com letras azuis, folhas verdes e uvas roxas",
+      "type": "CONCEPT",
+      "width": 1200,
+      "height": 900
+    },
+    "approximateDimensions": "Ø 7 cm · altura 8,05 cm",
+    "developmentNote": "Impressão confirmada pelo estúdio em 11/10/2026. Personalização da arte mediante consulta.",
+    "tags": [
+      "medalha",
+      "futsal",
+      "homenagem",
+      "esporte"
+    ],
+    "licenseStatus": "ORIGINAL",
+    "customizable": true,
+    "status": "QUOTE_ONLY",
+    "availableColors": [],
+    "creator": "IL 3D Studio"
+  },
+  {
+    "id": "presente-flor",
+    "slug": "flor-das-amigas",
+    "name": "Flor das Amigas — Chaveiros Personalizados",
+    "category": "PERSONALIZADOS",
+    "shortDescription": "Cada amiga leva uma pétala. Juntas, vocês completam a flor.",
+    "description": "Conjunto de cinco chaveiros que formam uma flor quando reunidos. Cada pétala traz uma inicial na frente e um nome no verso. O projeto possui alojamentos para ímãs nas laterais. Consulte nomes, cores e composição do conjunto. A imagem mostra a versão digital; o encaixe das argolas, os ímãs e o acabamento da revisão atual ainda serão confirmados.",
+    "image": {
+      "src": "/images/catalogo/flor-das-amigas.webp",
+      "alt": "Render da Flor das Amigas formada por cinco chaveiros com iniciais personalizadas",
+      "type": "DIGITAL_RENDER",
+      "width": 1200,
+      "height": 900
+    },
+    "gallery": [
+      {
+        "src": "/images/catalogo/flor-das-amigas-verso.webp",
+        "alt": "Render do verso da Flor das Amigas com os cinco nomes gravados",
+        "type": "DIGITAL_RENDER",
+        "width": 1200,
+        "height": 900
+      }
+    ],
+    "developmentNote": "Revisão em teste. Consulte o estúdio sobre a disponibilidade do conjunto.",
+    "tags": [
+      "amizade",
+      "chaveiro",
+      "flor",
+      "nome"
+    ],
+    "licenseStatus": "ORIGINAL",
+    "customizable": true,
+    "status": "DEVELOPMENT",
+    "availableColors": [],
+    "creator": "IL 3D Studio"
+  },
+  {
+    "id": "projeto-dose",
+    "slug": "chaveiro-giratorio-dose-dupla",
+    "name": "Chaveiro Giratório — Dose Dupla",
+    "category": "PRESENTES_LEMBRANCINHAS",
+    "shortDescription": "Um chaveiro com disco central e duas faces em relevo.",
+    "description": "Projeto de chaveiro com aro externo e disco central giratório, montado em partes. A frente traz Dose Dupla e a versão de referência tem um coração com SPFC no verso. Mede aproximadamente 5,2 × 5,9 cm. As imagens representam o modelo 3D e sugestões de pintura. Esta versão está em revisão e não está disponível para pedidos.",
+    "image": {
+      "src": "/images/catalogo/dose-dupla-frente.webp",
+      "alt": "Render da frente do chaveiro giratório com texto Dose Dupla",
+      "type": "DIGITAL_RENDER",
+      "width": 1200,
+      "height": 900
+    },
+    "gallery": [
+      {
+        "src": "/images/catalogo/dose-dupla-verso.webp",
+        "alt": "Render do verso de referência com coração e letras SPFC",
+        "type": "DIGITAL_RENDER",
+        "width": 1200,
+        "height": 900
+      }
+    ],
+    "approximateDimensions": "5,2 × 5,9 × 0,7 cm",
+    "developmentNote": "Versão em revisão. Produção comercial ainda não liberada.",
+    "tags": [
+      "chaveiro",
+      "giratório",
+      "duas faces"
+    ],
+    "licenseStatus": "PENDING_LICENSE",
+    "customizable": false,
+    "status": "DEVELOPMENT",
+    "availableColors": [],
+    "creator": "IL 3D Studio"
+  }
+]

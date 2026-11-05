@@ -12,7 +12,7 @@ export type ProductCategory =
   | 'FIDGETS'
   | 'UTILIDADES'
 
-export type ImageType = 'CONCEPT' | 'PROTOTYPE' | 'REAL_PRODUCT'
+export type ImageType = 'CONCEPT' | 'PROTOTYPE' | 'REAL_PRODUCT' | 'DIGITAL_RENDER'
 
 export type LicenseStatus =
   | 'ORIGINAL' // criação original/modelagem própria IL 3D Studio
@@ -36,6 +36,12 @@ export interface Product {
   description: string
   image: ProductImage
   gallery?: ProductImage[]
+  video?: {
+    src: string
+    poster: string
+    caption: string
+    captions?: string
+  }
   status: ProductStatus
   customizable: boolean
   availableColors: string[]
@@ -102,11 +108,12 @@ export const CATEGORY_LABELS: Record<FilterCategory, string> = {
 export const STATUS_LABELS: Record<ProductStatus, string> = {
   AVAILABLE: 'DISPONÍVEL',
   QUOTE_ONLY: 'SOB ORÇAMENTO',
-  DEVELOPMENT: 'EM DESENVOLVIMENTO',
+  DEVELOPMENT: 'CONSULTE DISPONIBILIDADE',
 }
 
 export const IMAGE_TYPE_LABELS: Record<ImageType, string | null> = {
   REAL_PRODUCT: 'FOTO REAL',
   PROTOTYPE: 'Protótipo físico',
-  CONCEPT: 'Ilustração conceitual',
+  CONCEPT: 'Imagem ilustrativa',
+  DIGITAL_RENDER: 'Imagem ilustrativa',
 }
