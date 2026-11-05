@@ -204,3 +204,6 @@
 .product-modal__image-caption { margin: .75rem 0; font-size: .8rem; color: var(--color-text-muted); }
 .product-modal__gallery { margin-top: 1rem; display: grid; gap: 1rem; }
 .product-modal__gallery .optimized-image { object-fit: contain; }
+.product-modal__video { margin: 1rem 0; }
+.product-modal__video video { display: block; width: 100%; max-height: 70vh; background: #faf7f2; border-radius: var(--border-radius-sm); }
+.product-modal__video figcaption { margin-top: .5rem; font-size: .85rem; line-height: 1.5; color: var(--color-text-muted); }

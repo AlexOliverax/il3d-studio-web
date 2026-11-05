@@ -78,6 +78,19 @@ export function ProductModal({
                 </span>
               )}
             </div>
+            {product.video && (
+              <figure className="product-modal__video">
+                <video controls playsInline preload="none" poster={product.video.poster}
+                  aria-label={`Demonstração de ${product.name}`}>
+                  <source src={product.video.src} type="video/mp4" />
+                  {product.video.captions && (
+                    <track kind="captions" src={product.video.captions} srcLang="pt-BR" label="Português" />
+                  )}
+                  Seu navegador não reproduz este vídeo. <a href={product.video.src}>Baixar demonstração</a>.
+                </video>
+                <figcaption>{product.video.caption}</figcaption>
+              </figure>
+            )}
             {product.gallery && product.gallery.length > 0 && (
               <div className="product-modal__gallery">
                 {product.gallery.map((image) => (

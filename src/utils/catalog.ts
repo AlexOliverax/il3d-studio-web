@@ -1,6 +1,7 @@
 import type { Product } from '../types'
 
 export const catalogCollections = [
+  { id: 'ano-novo', name: 'Ano Novo', subtitle: 'Uma peça para muitos anos', image: '/images/ano-novo-modular/produto.webp' },
   { id: 'natal', name: 'Natal', subtitle: 'Enfeites e decoração', image: '/images/natal-biscoitos/colecao.png' },
   { id: 'personalizados', name: 'Personalizados', subtitle: 'Presentes com a sua identidade', image: '/images/catalogo/lousa-frente.webp' },
   { id: 'hueforge', name: 'Arte em HueForge', subtitle: 'Imagens que ganham textura', image: '/images/hueforge-cristao.jpg' },
@@ -14,6 +15,7 @@ export function filterCatalog(products: Product[], collection: CatalogCollection
   const words = normalize(search).trim().split(/\s+/).filter(Boolean)
   return products.filter(product => {
     const belongs = collection === 'todos'
+      || (collection === 'ano-novo' && product.tags.includes('ano novo'))
       || (collection === 'natal' && product.tags.includes('natal'))
       || (collection === 'personalizados' && product.category === 'PERSONALIZADOS')
       || (collection === 'hueforge' && product.category === 'HUEFORGE')

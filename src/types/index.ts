@@ -36,6 +36,12 @@ export interface Product {
   description: string
   image: ProductImage
   gallery?: ProductImage[]
+  video?: {
+    src: string
+    poster: string
+    caption: string
+    captions?: string
+  }
   status: ProductStatus
   customizable: boolean
   availableColors: string[]

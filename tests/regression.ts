@@ -79,3 +79,18 @@ for (const markup of [
   assert(markup.includes('CONSULTAR DISPONIBILIDADE'))
 }
 console.log('Passed: catalog collections, accent-insensitive search, pagination, six ornaments, gallery assets and commercial presentation.')
+
+const newYear = filterCatalog(products, 'ano-novo', 'números trocáveis')
+assert.equal(newYear.length, 1)
+assert(!filterCatalog(products, 'natal').some(p => p.id === newYear[0].id))
+assert(newYear[0].video)
+for (const asset of [newYear[0].video.src, newYear[0].video.poster, newYear[0].video.captions]) {
+  assert(asset && existsSync(`public${asset}`), `Missing video asset: ${asset}`)
+}
+const newYearModal = renderToStaticMarkup(React.createElement(ProductModal, {
+  product: newYear[0], isOpen: true, onClose: noop, onAddToCart: noop, isInCart: false,
+}))
+assert(newYearModal.includes('<video controls="" playsinline="" preload="none"'))
+assert(newYearModal.includes('kind="captions"') && newYearModal.includes('Demonstração ilustrativa em 3D'))
+assert(!newYearModal.includes('autoPlay') && !newYearModal.includes('autoplay'))
+console.log('Passed: New Year discovery, video assets, captions and user-controlled playback.')
