@@ -223,3 +223,10 @@
   max-width: none;
   text-align: center;
 }
+
+.custom-inner > * { min-width: 0; }
+.party-cta { max-width: 100%; white-space: normal; text-align: center; }
+@media (max-width: 600px) {
+  .party-card, .custom-form-card { padding: 1.25rem; }
+  .custom-form .btn { white-space: normal; }
+}

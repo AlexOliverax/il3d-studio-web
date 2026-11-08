@@ -99,11 +99,11 @@ export function generateNotifyWhatsAppLink(productName: string): string {
   const number = getWhatsAppNumber()
 
   const message = `Olá, IL 3D Studio! 👋
-Vi que o modelo *${productName}* está em desenvolvimento no catálogo.
-Gostaria de ser avisado(a) assim que o protótipo for validado e estiver disponível para encomenda! 🙌
+Gostei do modelo *${productName}* no catálogo.
+Podem me informar a disponibilidade, as opções e o prazo?
 
 ---
-[Origem: Desenvolvimento — ${productName}]`
+[Origem: Catálogo — ${productName}]`
 
   return `https://wa.me/${number}?text=${encodeMessage(message)}`
 }

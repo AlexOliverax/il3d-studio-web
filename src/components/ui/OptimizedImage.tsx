@@ -49,7 +49,7 @@ export function OptimizedImage({
           </span>
         </div>
         <div className="optimized-image-fallback__label">
-          <span>{type === 'REAL_PRODUCT' ? 'Fotografia indisponível' : 'Conceito em teste'}</span>
+          <span>{type === 'REAL_PRODUCT' ? 'Fotografia indisponível' : 'Imagem indisponível'}</span>
         </div>
       </div>
     )

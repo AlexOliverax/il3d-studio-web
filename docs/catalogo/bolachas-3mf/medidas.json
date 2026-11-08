@@ -1,0 +1,196 @@
+{
+  "source_name": "Bolachas_de_Natal_PETG_acabamento.3mf",
+  "material": [
+    "PETG",
+    "PETG"
+  ],
+  "colors": [
+    "#F6DA5A",
+    "#FFFFFF"
+  ],
+  "layer_height": "0.2",
+  "ironing_type": "top",
+  "sliced_consumption_available": false,
+  "objects": [
+    {
+      "object_id": 2,
+      "source": "Bolachas_de_Natal_PETG_acabamento.3mf",
+      "assembly_xyz_mm": [
+        51.739,
+        80.004,
+        5
+      ],
+      "dimensions_sorted_mm": [
+        80.004,
+        51.739,
+        5
+      ],
+      "vertices": 843864
+    },
+    {
+      "object_id": 4,
+      "source": null,
+      "assembly_xyz_mm": [
+        72.588,
+        80,
+        5
+      ],
+      "dimensions_sorted_mm": [
+        80,
+        72.588,
+        5
+      ],
+      "vertices": 527547
+    },
+    {
+      "object_id": 6,
+      "source": "Enfeite Meia de Natal Biscoito de Gengibre.3mf",
+      "assembly_xyz_mm": [
+        56.725,
+        4.995,
+        80.001
+      ],
+      "dimensions_sorted_mm": [
+        80.001,
+        56.725,
+        4.995
+      ],
+      "vertices": 1000000
+    },
+    {
+      "object_id": 8,
+      "source": "Bolachas_de_Natal_PETG_acabamento.3mf",
+      "assembly_xyz_mm": [
+        56.71,
+        80,
+        5
+      ],
+      "dimensions_sorted_mm": [
+        80,
+        56.71,
+        5
+      ],
+      "vertices": 639582
+    },
+    {
+      "object_id": 10,
+      "source": "Bolachas_de_Natal_PETG_acabamento.3mf",
+      "assembly_xyz_mm": [
+        56.71,
+        80,
+        5
+      ],
+      "dimensions_sorted_mm": [
+        80,
+        56.71,
+        5
+      ],
+      "vertices": 743326
+    },
+    {
+      "object_id": 12,
+      "source": "Menina_vs1.3mf",
+      "assembly_xyz_mm": [
+        56.713,
+        79.956,
+        5
+      ],
+      "dimensions_sorted_mm": [
+        79.956,
+        56.713,
+        5
+      ],
+      "vertices": 517297
+    },
+    {
+      "object_id": 14,
+      "source": "Bolachas_de_Natal_PETG_acabamento.3mf",
+      "assembly_xyz_mm": [
+        56.71,
+        80,
+        5
+      ],
+      "dimensions_sorted_mm": [
+        80,
+        56.71,
+        5
+      ],
+      "vertices": 852105
+    },
+    {
+      "object_id": 16,
+      "source": "Bolachas_de_Natal_PETG_acabamento.3mf",
+      "assembly_xyz_mm": [
+        56.71,
+        80,
+        5
+      ],
+      "dimensions_sorted_mm": [
+        80,
+        56.71,
+        5
+      ],
+      "vertices": 591405
+    },
+    {
+      "object_id": 18,
+      "source": "Biscoito de Gengibre Luva Natalina.3mf",
+      "assembly_xyz_mm": [
+        56.743,
+        4.972,
+        79.977
+      ],
+      "dimensions_sorted_mm": [
+        79.977,
+        56.743,
+        4.972
+      ],
+      "vertices": 1000000
+    }
+  ],
+  "method": "Extensão dos vértices após escala da montagem salva (assemble_item); medidas nominais do modelo, incluindo argola. Não usar bbox da placa, que depende da rotação de impressão.",
+  "catalog_mapping": [
+    {
+      "slug": "casinha",
+      "object_id": 8,
+      "width_mm": 56.71,
+      "height_mm": 80,
+      "nominal_thickness_mm": 5
+    },
+    {
+      "slug": "floco-de-neve",
+      "object_id": 4,
+      "width_mm": 72.588,
+      "height_mm": 80,
+      "nominal_thickness_mm": 5
+    },
+    {
+      "slug": "papai-noel",
+      "object_id": 14,
+      "width_mm": 56.71,
+      "height_mm": 80,
+      "nominal_thickness_mm": 5
+    },
+    {
+      "slug": "biscoitinha",
+      "object_id": 12,
+      "width_mm": 56.713,
+      "height_mm": 79.956,
+      "nominal_thickness_mm": 5
+    },
+    {
+      "slug": "meia",
+      "object_id": 6,
+      "width_mm": 56.725,
+      "height_mm": 80.001,
+      "nominal_thickness_mm": 5
+    },
+    {
+      "slug": "arvore",
+      "object_id": 16,
+      "width_mm": 56.71,
+      "height_mm": 80,
+      "nominal_thickness_mm": 5
+    }
+  ]
+}
