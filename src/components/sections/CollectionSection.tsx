@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react'
+import { flushSync } from 'react-dom'
 import { ProductCard } from '../ui/ProductCard'
 import products from '../../data/products'
 import type { Product } from '../../types'
@@ -24,13 +25,20 @@ export function CollectionSection({ onAddToCart, onOpenDetails, isInCart }: Coll
   const title = catalogCollections.find(item => item.id === collection)?.name ?? 'Todas as criações'
 
   function selectCollection(id: CatalogCollection) {
-    setCollection(id)
-    setSearch('')
-    setPage(1)
+    flushSync(() => {
+      setCollection(id)
+      setSearch('')
+      setPage(1)
+    })
+    scrollToResults()
   }
 
   function changePage(next: number) {
     setPage(next)
+    scrollToResults()
+  }
+
+  function scrollToResults() {
     resultsRef.current?.scrollIntoView({ block: 'start' })
     resultsRef.current?.focus({ preventScroll: true })
   }
