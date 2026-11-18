@@ -37,6 +37,7 @@ export interface Product {
   image: ProductImage
   gallery?: ProductImage[]
   status: ProductStatus
+  estimatedUnitPrice?: number
   customizable: boolean
   availableColors: string[]
   approximateDimensions?: string

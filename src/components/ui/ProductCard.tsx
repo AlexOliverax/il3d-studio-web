@@ -61,7 +61,7 @@ export function ProductCard({
           width={image.width || 800}
           height={image.height || 600}
           type={image.type}
-          aspectRatio={product.category === 'HUEFORGE' ? '1043/1536' : '4/3'}
+          aspectRatio={product.image.width && product.image.height ? `${product.image.width}/${product.image.height}` : '4/3'}
         />
 
         {/* Badges superiores */}
@@ -102,6 +102,10 @@ export function ProductCard({
         <p className="product-card__description">
           {shortDescription || product.description}
         </p>
+
+        {product.estimatedUnitPrice !== undefined && (
+          <p><strong>{product.estimatedUnitPrice.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</strong> por unidade (estimativa)</p>
+        )}
 
         {/* Cores disponíveis prévias */}
         {availableColors && availableColors.length > 0 && (

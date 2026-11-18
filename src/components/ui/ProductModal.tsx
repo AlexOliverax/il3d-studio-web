@@ -60,7 +60,7 @@ export function ProductModal({
               height={product.image.height || 600}
               type={product.image.type}
               priority={true}
-              aspectRatio={product.category === 'HUEFORGE' ? '1043/1536' : '4/3'}
+              aspectRatio={product.image.width && product.image.height ? `${product.image.width}/${product.image.height}` : '4/3'}
               className="product-modal__img"
             />
             <div className="product-modal__badges">
@@ -94,6 +94,9 @@ export function ProductModal({
             </h2>
 
             <p className="product-modal__desc">{product.description}</p>
+            {product.estimatedUnitPrice !== undefined && (
+              <p><strong>{product.estimatedUnitPrice.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</strong> por unidade (estimativa)</p>
+            )}
 
             <div className="product-modal__specs">
               {product.approximateDimensions && (
