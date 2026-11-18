@@ -1,7 +1,5 @@
 import type { Product } from '../types'
 
-// Only the collection confirmed by the studio is listed here.
-// Dimensions, prices and lead times are confirmed during the quote.
 export const products: Product[] = [{
   id: 'hue-001',
   slug: 'colecao-crista-hueforge',
@@ -23,6 +21,27 @@ export const products: Product[] = [{
   licenseStatus: 'ORIGINAL',
   creator: 'IL 3D Studio',
   accentColor: '#FF2D78',
+}, {
+  id: 'nat-001',
+  slug: 'arvore-de-natal-articulada',
+  name: 'Árvore de Natal Articulada',
+  category: 'ARTICULADOS',
+  shortDescription: 'Enfeite natalino impresso em 3D com gorro de Papai Noel, luvas brancas e sapatos amarelos.',
+  description: 'Árvore decorativa com pernas articuladas e pose sentada para apoiar na borda de uma prateleira. O banner ilustra a combinação de cores proposta para a peça.',
+  image: {
+    src: '/images/arvore-natal-articulada.webp',
+    alt: 'Banner ilustrativo da árvore de Natal articulada com pernas pretas e sapatos amarelos',
+    type: 'CONCEPT',
+    width: 900,
+    height: 1125,
+  },
+  status: 'DEVELOPMENT',
+  estimatedUnitPrice: 49.90,
+  customizable: false,
+  availableColors: [],
+  tags: ['natal', 'decoração', 'articulados'],
+  licenseStatus: 'PENDING_LICENSE',
+  accentColor: '#CE292C',
 }]
 
 export default products

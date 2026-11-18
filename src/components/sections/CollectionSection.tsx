@@ -14,16 +14,15 @@ export function CollectionSection({ onAddToCart, onOpenDetails, isInCart }: Coll
     <section className="collection-section" id="produtos" aria-labelledby="collection-title">
       <div className="container">
         <div className="section-header">
-          <span className="pill-tag">COLEÇÃO PRÓPRIA</span>
+          <span className="pill-tag">CATÁLOGO</span>
           <h2 className="section-title" id="collection-title">
             UM PRESENTE COM<br /><span className="section-title__accent">SIGNIFICADO.</span>
           </h2>
           <p className="section-subtitle">
-            Conheça a coleção cristã em HueForge. Consulte as opções de obras, medidas,
-            valores e prazos diretamente com o estúdio.
+            Conheça as peças da vitrine. Consulte medidas e prazos diretamente com o estúdio.
           </p>
         </div>
-        <div className="collection-featured" role="list" aria-label="Coleção do estúdio">
+        <div className="collection-featured" role="list" aria-label="Produtos do estúdio">
           {products.map((product) => (
             <div key={product.id} role="listitem">
               <ProductCard product={product} onAddToCart={onAddToCart}
