@@ -16,7 +16,15 @@ export function AboutSection() {
             O material, as cores, o acabamento e o prazo são definidos de acordo com cada projeto.</p>
         </div>
         <div className="about-brand-card" aria-label="IL: Isadora e Luísa">
-          <span className="about-brand-monogram" aria-hidden="true">IL</span>
+          <img
+            className="about-family-image"
+            src="/images/historia-il3d-familia.jpg"
+            alt="Ilustração de duas meninas abraçando uma schnauzer, representando a inspiração familiar da IL 3D Studio"
+            width={691}
+            height={1536}
+            loading="lazy"
+            decoding="async"
+          />
           <strong>3D STUDIO</strong>
           <p>Ideias de família.<br />Peças feitas para você.</p>
           <span className="pill-tag">SÃO PAULO • PRODUÇÃO SOB DEMANDA</span>
