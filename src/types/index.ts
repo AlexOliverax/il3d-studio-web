@@ -12,7 +12,7 @@ export type ProductCategory =
   | 'FIDGETS'
   | 'UTILIDADES'
 
-export type ImageType = 'CONCEPT' | 'PROTOTYPE' | 'REAL_PRODUCT'
+export type ImageType = 'CONCEPT' | 'PROTOTYPE' | 'REAL_PRODUCT' | 'PROMOTIONAL'
 
 export type LicenseStatus =
   | 'ORIGINAL' // criação original/modelagem própria IL 3D Studio
@@ -32,6 +32,7 @@ export interface Product {
   slug: string
   name: string
   category: ProductCategory
+  price?: number
   shortDescription: string
   description: string
   image: ProductImage
@@ -106,6 +107,7 @@ export const STATUS_LABELS: Record<ProductStatus, string> = {
 }
 
 export const IMAGE_TYPE_LABELS: Record<ImageType, string | null> = {
+  PROMOTIONAL: 'Imagem ilustrativa',
   REAL_PRODUCT: 'FOTO REAL',
   PROTOTYPE: 'Protótipo físico',
   CONCEPT: 'Ilustração conceitual',

@@ -61,7 +61,7 @@ export function ProductCard({
           width={image.width || 800}
           height={image.height || 600}
           type={image.type}
-          aspectRatio={product.category === 'HUEFORGE' ? '1043/1536' : '4/3'}
+          aspectRatio={product.image.type === 'PROMOTIONAL' ? '1229/1536' : product.category === 'HUEFORGE' ? '1043/1536' : '4/3'}
         />
 
         {/* Badges superiores */}
@@ -72,7 +72,7 @@ export function ProductCard({
             </span>
           ) : (
             <span className="card-badge card-badge--concept">
-              ◐ CONCEITO
+              ◐ {image.type === 'PROMOTIONAL' ? 'IMAGEM ILUSTRATIVA' : 'CONCEITO'}
             </span>
           )}
 
@@ -102,6 +102,10 @@ export function ProductCard({
         <p className="product-card__description">
           {shortDescription || product.description}
         </p>
+
+        {product.price !== undefined && (
+          <p className="product-card__price"><strong>{product.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</strong> por unidade</p>
+        )}
 
         {/* Cores disponíveis prévias */}
         {availableColors && availableColors.length > 0 && (
