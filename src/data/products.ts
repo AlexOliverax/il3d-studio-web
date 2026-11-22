@@ -3,6 +3,28 @@ import type { Product } from '../types'
 // Only the collection confirmed by the studio is listed here.
 // Only confirmed prices and dimensions are listed; lead times are agreed by WhatsApp.
 export const products: Product[] = [{
+  id: 'natal-pote-biscoito',
+  slug: 'pote-natalino-biscoito',
+  name: 'Pote natalino com tampa — Biscoito',
+  category: 'PRESENTES_LEMBRANCINHAS',
+  price: 39.90,
+  shortDescription: 'Pote decorativo natalino com tampa de rostinho e laço rosa. Doces não incluídos.',
+  description: 'Um encanto de Natal para presentear e organizar pequenos objetos. Pote redondo impresso em 3D, com tampa decorada com rostinho sorridente, detalhes brancos e laço rosa. Preço por unidade, referente ao pote com tampa. Os doces da imagem são ilustrativos e não estão incluídos. Para compor presentes com doces, utilize embalagens individuais; o pote não é indicado para contato direto com alimentos. Produção sob encomenda. Consulte pelo WhatsApp o prazo e o frete.',
+  image: {
+    src: '/images/pote-natalino-doces.jpg',
+    alt: 'Pote natalino amarelo com tampa de rostinho e laço rosa, acompanhado de doces embalados ilustrativos não incluídos',
+    type: 'PROMOTIONAL',
+    width: 1000,
+    height: 1250,
+  },
+  status: 'QUOTE_ONLY',
+  customizable: false,
+  availableColors: [],
+  material: 'PLA',
+  tags: ['natal', 'pote', 'organização', 'decoração', 'presente'],
+  licenseStatus: 'PENDING_LICENSE',
+  accentColor: '#147D43',
+}, {
   id: 'hue-001',
   slug: 'colecao-crista-hueforge',
   name: 'Coleção Cristã em HueForge',
