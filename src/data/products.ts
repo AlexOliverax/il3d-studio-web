@@ -3,6 +3,36 @@ import type { Product } from '../types'
 // Only the collection confirmed by the studio is listed here.
 // Only confirmed prices and dimensions are listed; lead times are agreed by WhatsApp.
 export const products: Product[] = [{
+  id: 'sunset-arcade',
+  slug: 'suporte-dualsense-sunset-arcade',
+  name: 'Sunset Arcade — Suporte para DualSense',
+  category: 'UTILIDADES',
+  price: 59.90,
+  shortDescription: 'Suporte de mesa com painel tropical em pink e amarelo. Consulte a disponibilidade.',
+  description: 'Dê um lugar ao seu controle no setup com um painel retrô de pôr do sol e coqueiro. Preço de referência por suporte. Imagem ilustrativa. Controle vendido separadamente. Consulte pelo WhatsApp a disponibilidade, o prazo e o frete.',
+  image: {
+    src: '/images/sunset-arcade.jpg',
+    alt: 'Prévia do suporte Sunset Arcade com painel tropical e controle DualSense apoiado',
+    type: 'PROMOTIONAL',
+    width: 849,
+    height: 887,
+  },
+  gallery: [{
+    src: '/images/banner-sunset-arcade.jpg',
+    alt: 'Banner Sunset Arcade da IL 3D Studio',
+    type: 'PROMOTIONAL',
+    width: 1774,
+    height: 887,
+  }],
+  status: 'QUOTE_ONLY',
+  customizable: false,
+  availableColors: [],
+  material: 'PLA',
+  tags: ['gamer', 'dualsense', 'setup', 'suporte'],
+  licenseStatus: 'ORIGINAL',
+  creator: 'IL 3D Studio',
+  accentColor: '#FF007D',
+}, {
   id: 'natal-pote-biscoito',
   slug: 'pote-natalino-biscoito',
   name: 'Pote natalino com tampa — Biscoito',
