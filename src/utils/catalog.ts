@@ -5,6 +5,7 @@ export const catalogCollections = [
   { id: 'natal', name: 'Natal', subtitle: 'Enfeites e decoração', image: '/images/natal-biscoitos/colecao.png' },
   { id: 'personalizados', name: 'Personalizados', subtitle: 'Presentes com a sua identidade', image: '/images/catalogo/lousa-frente.webp' },
   { id: 'hueforge', name: 'Arte em HueForge', subtitle: 'Imagens que ganham textura', image: '/images/hueforge-cristao.jpg' },
+  { id: 'gamer', name: 'Gamer', subtitle: 'Acessórios para o seu setup', image: '/images/sunset-arcade.jpg' },
 ] as const
 
 export type CatalogCollection = 'todos' | typeof catalogCollections[number]['id']
@@ -19,6 +20,7 @@ export function filterCatalog(products: Product[], collection: CatalogCollection
       || (collection === 'natal' && product.tags.includes('natal'))
       || (collection === 'personalizados' && product.category === 'PERSONALIZADOS')
       || (collection === 'hueforge' && product.category === 'HUEFORGE')
+      || (collection === 'gamer' && product.tags.includes('gamer'))
     const text = normalize([product.name, product.shortDescription, ...product.tags].join(' '))
     return belongs && words.every(word => text.includes(word))
   })

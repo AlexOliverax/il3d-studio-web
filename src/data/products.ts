@@ -5,6 +5,36 @@ import { felizAnoNovoProducts } from './felizAnoNovo'
 
 export const products: Product[] = [
 ...felizAnoNovoProducts,
+{
+  id: 'sunset-arcade',
+  slug: 'suporte-dualsense-sunset-arcade',
+  name: 'Sunset Arcade — Suporte para DualSense',
+  category: 'UTILIDADES',
+  shortDescription: 'Suporte de mesa com painel tropical em pink e amarelo. R$ 59,90 por unidade. Consulte a disponibilidade.',
+  description: 'Dê um lugar ao seu controle no setup com um painel retrô de pôr do sol e coqueiro. Preço de referência de R$ 59,90 por suporte. Imagem ilustrativa. Controle vendido separadamente. Consulte pelo WhatsApp a disponibilidade, o prazo e o frete.',
+  image: {
+    src: '/images/sunset-arcade.jpg',
+    alt: 'Prévia do suporte Sunset Arcade com painel tropical e controle DualSense apoiado',
+    type: 'DIGITAL_RENDER',
+    width: 849,
+    height: 887,
+  },
+  gallery: [{
+    src: '/images/banner-sunset-arcade.jpg',
+    alt: 'Banner Sunset Arcade da IL 3D Studio',
+    type: 'DIGITAL_RENDER',
+    width: 1774,
+    height: 887,
+  }],
+  status: 'QUOTE_ONLY',
+  customizable: false,
+  availableColors: [],
+  material: 'PLA',
+  tags: ['gamer', 'dualsense', 'setup', 'suporte'],
+  licenseStatus: 'ORIGINAL',
+  creator: 'IL 3D Studio',
+  accentColor: '#FF007D',
+},
 ...hueforgeProducts,
 ...portaFotosProducts,
 {
