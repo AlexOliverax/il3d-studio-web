@@ -94,3 +94,6 @@ assert(newYearModal.includes('<video controls="" playsinline="" preload="none"')
 assert(newYearModal.includes('kind="captions"') && newYearModal.includes('Demonstração ilustrativa em 3D'))
 assert(!newYearModal.includes('autoPlay') && !newYearModal.includes('autoplay'))
 console.log('Passed: New Year discovery, video assets, captions and user-controlled playback.')
+
+assert.deepEqual(filterCatalog(products, 'gamer', 'DualSense').map(product => product.id), ['sunset-arcade'])
+assert(!filterCatalog(products, 'gamer').some(product => product.tags.includes('natal')))
