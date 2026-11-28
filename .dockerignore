@@ -1,0 +1,13 @@
+**
+!management/
+!management/**
+management/instance/
+management/**/__pycache__/
+management/**/*.sqlite3*
+management/tests/
+management/evidence/
+management/**/.env*
+management/**/demo-credentials.json
+management/**/*token*
+management/**/*.pem
+management/**/*.key

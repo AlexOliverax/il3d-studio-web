@@ -1,0 +1,17 @@
+PRAGMA foreign_keys=ON;
+CREATE TABLE IF NOT EXISTS users (id TEXT PRIMARY KEY, name TEXT NOT NULL UNIQUE, password_hash TEXT NOT NULL, active INTEGER NOT NULL DEFAULT 1);
+CREATE TABLE IF NOT EXISTS sessions (token_hash TEXT PRIMARY KEY, user_id TEXT NOT NULL REFERENCES users(id), csrf TEXT NOT NULL, expires INTEGER NOT NULL);
+CREATE TABLE IF NOT EXISTS agents (id TEXT PRIMARY KEY, name TEXT NOT NULL UNIQUE, token_hash TEXT NOT NULL UNIQUE, active INTEGER NOT NULL DEFAULT 1, expires INTEGER NOT NULL, scopes TEXT NOT NULL DEFAULT '[]');
+CREATE TABLE IF NOT EXISTS attempts (bucket TEXT NOT NULL, at INTEGER NOT NULL);
+CREATE INDEX IF NOT EXISTS attempts_lookup ON attempts(bucket, at);
+CREATE TABLE IF NOT EXISTS filaments (id TEXT PRIMARY KEY, name TEXT NOT NULL, material TEXT NOT NULL, color TEXT NOT NULL, spool_weight_g INTEGER NOT NULL CHECK(spool_weight_g>0), price_cents INTEGER NOT NULL CHECK(price_cents>=0), quantity_g INTEGER NOT NULL DEFAULT 0 CHECK(quantity_g>=0), version INTEGER NOT NULL DEFAULT 1);
+CREATE TABLE IF NOT EXISTS products (id TEXT PRIMARY KEY, name TEXT NOT NULL, description TEXT NOT NULL, images TEXT NOT NULL, materials TEXT NOT NULL, cost_cents INTEGER NOT NULL, sale_cents INTEGER NOT NULL, status TEXT NOT NULL CHECK(status IN ('draft','ready','archived')), version INTEGER NOT NULL DEFAULT 1);
+CREATE TABLE IF NOT EXISTS operations (id TEXT PRIMARY KEY, requester TEXT NOT NULL, idempotency_key TEXT NOT NULL, kind TEXT NOT NULL, payload TEXT NOT NULL, digest TEXT NOT NULL, status TEXT NOT NULL DEFAULT 'pending' CHECK(status IN ('pending','executed','rejected')), created_at TEXT NOT NULL, expires INTEGER NOT NULL, approver TEXT, executor TEXT, executed_at TEXT, UNIQUE(requester,idempotency_key));
+CREATE TABLE IF NOT EXISTS movements (id INTEGER PRIMARY KEY, operation_id TEXT NOT NULL UNIQUE REFERENCES operations(id), filament_id TEXT NOT NULL REFERENCES filaments(id), delta_g INTEGER NOT NULL, balance_g INTEGER NOT NULL, reason TEXT NOT NULL, created_at TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS audit (id INTEGER PRIMARY KEY, operation_id TEXT, event TEXT NOT NULL, requester TEXT NOT NULL, approver TEXT, executor TEXT, created_at TEXT NOT NULL, changes TEXT NOT NULL);
+CREATE TRIGGER IF NOT EXISTS audit_no_update BEFORE UPDATE ON audit BEGIN SELECT RAISE(ABORT,'audit is append only'); END;
+CREATE TRIGGER IF NOT EXISTS audit_no_delete BEFORE DELETE ON audit BEGIN SELECT RAISE(ABORT,'audit is append only'); END;
+CREATE TRIGGER IF NOT EXISTS movement_no_update BEFORE UPDATE ON movements BEGIN SELECT RAISE(ABORT,'movements are append only'); END;
+CREATE TRIGGER IF NOT EXISTS movement_no_delete BEFORE DELETE ON movements BEGIN SELECT RAISE(ABORT,'movements are append only'); END;
+CREATE TRIGGER IF NOT EXISTS operation_immutable BEFORE UPDATE OF requester,idempotency_key,kind,payload,digest,created_at,expires ON operations BEGIN SELECT RAISE(ABORT,'immutable operation'); END;
+PRAGMA user_version=2;
